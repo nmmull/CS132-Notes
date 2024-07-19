@@ -1,0 +1,65 @@
+module ExampleIntersection exposing (..)
+
+import Utils exposing (Point3D, Plane3D, Color(..))
+import Space exposing (basic3D, Element(..))
+import Browser
+import Time
+import Html exposing (Html)
+
+type alias Model =
+    { distance : Int
+    , tilt : Float
+    , rotation : Float
+    , viewBoxWidth : Int
+    , quadrantWidth : Int
+    , sceneWidth : Int
+    , sceneOrigin : { x : Int, y : Int }
+    , strokeWidth : Float
+    }
+
+type Msg = Tick Time.Posix
+
+init : () -> ( Model, Cmd Msg )
+init _ =
+    ( { distance = 50
+      , tilt = 0.2
+      , rotation = 0
+      , viewBoxWidth = 500
+      , quadrantWidth = 10
+      , sceneWidth = 30
+      , sceneOrigin = { x = 8, y = 8 }
+      , strokeWidth = 1
+      }
+    , Cmd.none
+    )
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    let newRot = if model.rotation < 100 then model.rotation + 0.01 else 0 in
+    case msg of
+        Tick _ -> ( { model | rotation = newRot}, Cmd.none )
+
+subscriptions : Model -> Sub Msg
+subscriptions _ = Time.every 30 Tick
+
+view : Model -> Html Msg
+view model =
+    let
+        pln1 = Plane3D 2 3 4 2
+        pln2 = Plane3D 1 1 3 2
+        pln3 = Plane3D 1 3 2 -2
+        pnt1 = Point3D 4 -2 0
+    in
+    basic3D model
+        [ Point pnt1 Red
+        , Plane pln1 False Red
+        , Plane pln2 False Blue
+        , Plane pln3 False Green
+        ]
+
+main = Browser.element
+    { init = init
+    , update = update
+    , subscriptions = subscriptions
+    , view = view
+    }

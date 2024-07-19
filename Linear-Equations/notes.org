@@ -1,0 +1,703 @@
+#+title: Linear Equations
+#+HTML_MATHJAX: align: left indent: 2em
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../myStyle.css" />
+#+HTML_HEAD: <script src="../Elm-LA/example.js"></script>
+#+HTML_HEAD: <script src="../Elm-LA/example-plane.js"></script>
+#+OPTIONS: html-style:nil H:2 toc:1 num:nil tasks:nil
+#+HTML_LINK_HOME: ../toc.html
+We begin by looking at systems of linear equations.  This will form
+the basis of what we will consider in the first part of the course.
+* Keywords
++ [[solution set][Solution set]]
++ [[consistent][Consistency]]
+* Basics
+Linear algebra is, at its core, the study of /linear equations/.
+
+#+begin_quote
+*Definition.* A *linear equation* in the variables $x_1, x_2, \dots,
+x_n$ is an equation that can expressed in the form
+
+\[
+a_1 x_1 + a_2 x_2 + \dots + a_n x_n = b
+\]
+
+where $a_1, a_2, \dots, a_n$ and $b$ are real numbers.[fn::It's also
+possible to consider the case in which these are complex numbers, but
+we will only consider real numbers in this course.]
+#+end_quote
+
+The numbers $a_1, \dots, a_n$ in the definition above are called
+*coefficients*.  Variables are also sometimes called *unknowns*.
+
+#+begin_quote
+*Example.* The equation
+
+\[
+  1.2x + \sqrt{3}y + 10z = \pi
+\]
+
+is a linear equation[fn::When it comes to unknowns in algebraic
+equations, it doesn't matter what symbols we use. Sometimes we'll use
+$x$, $y$ and $z$, other times we'll use $x_1$, $x_2$, and $x_3$.  It
+will always be clear from context which symbols are variables.]
+whereas
+
+\[
+xy + 3z = 0
+\]
+
+is not.  Also keep in mind that
+
+\[
+3(x - 4) = z
+\]
+
+is a linear equation because it can be expressed as
+
+\[
+3x + (-1)z = 12
+\]
+#+end_quote
+
+In your first course on algebra, you should have been introduced to a
+simple kind of linear equation: lines in the plane.  You likely first
+learned the /slope-intercept form/ of a line
+
+\[
+y = mx + b
+\]
+
+where $m$ and $b$ are real numbers.  You then also likely learned the
+/general form/
+
+\[
+ax + by = c
+\]
+
+where $a$, $b$, and $c$ are real numbers and $x$ and $y$ are
+variables.
+
+*An equation for a line in the plane is the same as a linear equation
+in two variables.*
+
+#+begin_quote
+*Example.* The equation $2x + 3y = -6$ is the general form
+of the line
+
+\[
+  y = \left(-\frac{2}{3}\right)x - 2
+\]
+
+in slope-intercept form.
+#+end_quote
+
+A linear equation in $n$ variables defines a set of points in
+$\mathbb R^n$.  We write a point in $\mathbb R^n$ as we would write a
+tuple in Python, e.g., $(3.3, 12.03, \sqrt{3}, 4)$ is a point in
+$\mathbb R^4$.  In set notation, a linear equation
+
+\[
+a_1x_1 + \dots + a_n x_n = b
+\]
+
+defines the set of points
+
+\[
+\{ (c_1, \dots, c_n) : a_1 c_1 + \dots + a_n c_n = b \}
+\]
+
+which is a subset of $\mathbb R^n$.  This notation expresses the basic
+fact that linear equation defines the set of points that satisfy it.
+
+If we plot the entire set of points defined by a linear equation in two
+variables, we get a line in the plane.
+
+#+begin_quote
+*Example.* This is the graph of the line $y =
+\left(-\frac{2}{3}\right)x - 2$.  The line is made up of all points
+$(a, b)$ such that $2a + 3b = -6$, e.g., the points $(-9, 4)$, $(6,
+-6)$, and $(12, -10)$.
+#+begin_export html
+  <div id="testing"></div>
+  <script>
+  var app = Elm.ExampleLine.init({
+    node: document.getElementById('testing')
+    });
+  </script>
+#+end_export
+#+end_quote
+
+If we plot the set of points defined  by a linear equation in /three/
+variables, we get a plane in $\mathbb R^3$.  We can imagine this is an
+infinite sheet of paper floating in space.
+
+#+begin_quote
+*Example.* This is the graph of the plane defined by the equation $x +
+y + z = 1$.  The plane includes, for example, the points $(4, 3,
+-6)$, $(-3, -5, 9)$, and $(-8, 8, 1)$.
+#+begin_export html
+  <div id="example-plane"></div>
+  <script>
+  var app = Elm.ExamplePlane.init({
+    node: document.getElementById('example-plane')
+    });
+  </script>
+#+end_export
+#+end_quote
+
+We call the set of points described by a linear equation in more than
+three variables a *hyperplane*.  We can't visualize hyperplanes, but
+we can often take advantage of our intuitions about planes in $\mathbb
+R^3$.[fn::For example (and this will be more clear as we get further
+into the material) just like a plane in $\mathbb R^3$ separates
+$\mathbb R^3$ into two disjoint regions, a plane in $\mathbb R^{1934}$
+also separates $\mathbb R^{1934}$ into two disjoint regions.]
+
+As helpful as our geometric intuitions may be, linear equations are
+perhaps more useful when we think about them algebraically.  They
+naturally describe relations that come up in tons of application
+domains.
+
+#+begin_quote
+*Example.* Suppose you have $5$ dollars and you're at a candy store
+which sells candies by the pound.  You're interested in buying the
+following four candies in unknown amounts.
+
+| swedish fish              | $10.50/lb |
+| chocolate covered peanuts | $7.25/lb |
+| peach rings               | $14.65/lb |
+| gummy bears               | $6.00/lb  |
+
+If you want to spend all $5$ dollars, then the amounts of each candy
+you can buy are related by the following linear equation in the
+variables $s$, $c$, $p$, and $g$.
+
+\[
+10.50s + 7.25c + 14.65p + 6g = 5
+\]
+#+end_quote
+
+I will leave it to you to map this example onto a more "useful"
+domain.
+
+#+begin_quote
+*Exercise.* Find two distinct points in the point-set define by the
+equation in the candy store example.  What do these two points
+represent intuitively?
+#+end_quote
+
+* Systems of Linear Equations
+The situation is made more interesting by considering multiple linear
+equations /simultaneously/.
+
+#+begin_quote
+*Definition.* A *system of linear equations (linear system)* in the
+ variables $x_1, \dots, x_n$ is a collection of linear equations in
+ the same variables.
+#+end_quote
+
+When we consider a system of linear equations, we are usually
+interested in the points which the sets defined by /every/ equation in
+the system.
+
+#+begin_quote
+*Definition.* A *solution* to a system of linear equations in $n$
+ variables is a point in $\mathbb R^n$ which satisfies /every/
+ equation in the system.
+#+end_quote
+
+#+begin_quote
+*Example.* The point $(4, -2, 0)$ is a solution to the system
+
+\begin{align*}
+2x + 3y + 2z &= 2 \\
+x + y + z &= 2 \\
+x + 3y + 2z &= -2
+\end{align*}
+
+because if we set $x = 4$ and $y = -2$ and $z = 0$ in each equation,
+every equation is satisfied:
+
+\begin{align*}
+2(4) + 3(-2) + 2(0) = 8 + (-6) &= 2 \\
+4 + (-2) + 0 &= 2 \\
+4 + 3(-2) + 2(0) = 4 + (-6) &= -2
+\end{align*}
+#+end_quote
+
+We call the set of all solutions to a linear system its *solution set*
+<<solution set>> (naturally).  Geometrically, the solution set of a
+linear system corresponds to the /intersection/ of the point-sets that
+each linear equation defines.  So the problem of solving a system of
+linear equations is analogous to the 2-dimensional line-intersection
+problem.
+
+#+begin_quote
+*Example* TODO PICTURE (two lines intersecting at a point, two planes
+ intersecting at a line).
+#+end_quote
+
+#+begin_quote
+*Exercise.* Verify that $(7, 1, 1)$ is a point is the solution set of
+\begin{align*}
+x + 2y &= 9 \\
+3y + z &= 4 \\
+-x + z &= -6
+\end{align*}
+#+end_quote
+
+Our primary question moving forward will be: *what does the solution
+set of a given linear system look like?* It turns out there are only
+three options.
+
+#+begin_quote
+*Theorem.* A system of linear equations either has zero, one, or
+ infinitely many solutions.
+#+end_quote
+
+As we progress, we will be able to exactly describe the "shape" of a
+solution set, but for now we will be interested in two questions.
+
++ /(Existence)/ Does the system have a solution?
++ /(Uniqueness)/ If it does have a solution, is it the /only/
+  solution?
+
+And, as is characteristic in linear algebra, we will introduce a fair
+amount of terminology for saying the same things in different ways
+(for better or for worse).
+
+#+begin_quote
+*Terminology.* A system of linear equations is called *consistent*
+ <<consistent>> if it has a solution. Otherwise it is called
+ *inconsistent*.
+#+end_quote
+
+#+begin_quote
+*Exercise.* /(Challenge)/ Suppose that $(c_1, \dots, c_n)$ and $(d_1,
+\dots d_n)$ are distinct solutions to a given linear system.  Show
+that
+
+\[
+\left(
+\frac{c_1 + d_1}{2},
+\dots,
+\frac{c_n + d_n}{2}
+\right)
+\]
+
+is also a solution.
+#+end_quote
+
+* Solving Linear Systems
+
+Solving a system of linear equations means finding a solution[fn::As
+we will see, it can also mean describing the set of all possible
+solutions.] or showing that no such solution exists.
+
+As a warm-up, let's first consider a system of linear equations in two
+variables.
+
+Since linear equations in two variables define lines in
+the plane, and solutions represent /intersections/, finding a solution
+to this system means determining the point of intersection two lines
+in the plane.
+
+It's likely we were taught to solve the line-intersection problem using
+the *substitution method*:
++ solve for $x$ in terms of $y$ in first equation
++ substitute $x$ in the second equation
++ solve for $y$
++ substitute $y$ in the first equation
++ solve for $x$
+
+#+begin_quote
+*Example.* Consider the following system of linear equations
+
+\begin{align*}
+-x -2y &= 1 \\
+x + y &= 2
+\end{align*}
+
+Solving for $x$ in the first equation gives us
+
+\[
+x = -2y - 1
+\]
+
+Substituting the right-hand side for $x$ in the second equation gives
+us
+
+\[
+(-2y - 1) + y = 2
+\]
+
+Solving for $y$ in this new equation gives us $y = -3$, and
+substituting this for $y$ in first equation gives us
+
+\[
+-x - 2(-3) = 1
+\]
+
+Solving for $x$ finally gives us $x = 5$, so $(5, -3)$ is a solution.
+#+end_quote
+
+#+begin_quote
+*Exercise.* Find a solution to the system
+
+\begin{align*}
+-x + y &= 2 \\
+-3x + 2y &= 2
+\end{align*}
+
+using the substitution method.
+#+end_quote
+
+The substitution method work perfectly well, but it doesn't scale well if we
+want to solve systems with more variables.
+
+The method (which we hopefully were also taught) that will be useful
+for this is the *elimination method*:
++ eliminate the appearance of $x$ in the second equation by adding to
+  the second equation a multiple of the first (this solves for $y$)
++ substitute the value for $y$ into the first equation (this solves
+  for $x$)
+
+#+begin_quote
+*Example.* Consider again the system
+
+\begin{align*}
+-x -2y &= 1 \\
+x + y &= 2
+\end{align*}
+
+we can eliminate the appearance of $x$ in the second equation by
+adding the first equation to the second equation:
+
+\begin{align*}
+-x - 2y &= 1 \\
+x + y &= 2 &+ \\
+\hline
+- y &= 3
+\end{align*}
+So $y = 3$ and we can substitute this value for $y$ into the first equation:
+\[
+-x -2(-3) = 1
+\]
+So $x = 5$ and $(5, 3)$ is a solution.
+#+end_quote
+
+#+begin_quote
+*Exercise.* Find a solution to the system
+
+\begin{align*}
+-x + y &= 2 \\
+-3x + 2y &= 2
+\end{align*}
+
+using the elimination method.
+#+end_quote
+
+The elimination method is the basis of /Gaussian elimination/, our
+next topic.  In its simplest form, the elimination method has two
+phases: *forward elimination* and *back substitution*.  Rather than
+dwelling on how this works in general (we will get to that), here is
+an outline for using the elimination method for a linear system in
+three variables:
+
++ /(Forward elimination)/
+  + eliminate $x$ from all but the first equation
+  + eliminate $y$ from all but the first and second equation
+  + solve for the value of $z$ in the third equation
++ /(Back substitution)/
+  + substitute the value of $z$ into the first and second equation
+  + solve for $y$ in the second equation
+  + substitute the value of $y$ into the first equation
+  + solve for $x$ in the first equation.
+
+#+begin_quote
+*Example.* Suppose we're interested in ... (chemistry example)
+#+end_quote
+
+Hopefully this is enough to get you thinking about how to apply this
+in the case of four variables.
+
+* Matrices and Row Operations
+
+Matrices are very simple mathematical objects: A matrix is just a grid
+of things.  It doesn't matter terribly what those things are, but in
+this course we will be exclusively interested in the case that those
+things are real numbers.
+
+A matrix is like a list of lists in Python (and we will, in essence,
+represent them that way) with the restriction that
++ every element is the same kind of thing
++ the list is non-empty (there is at least one row)
++ every list in the list is the same length (each row has the same
+  length)
+
+Thus, a matrix is characterized by what sort of things it contains,
+how many *rows* it has, and how many *columns* it has.  We will use
+the notation $\mathbb R^{m \times n}$ to refer to the collection of
+all possible matrices with real numbers, $m$ rows and $n$ columns.
+
+#+begin_quote
+*Example.*
+
+$\begin{bmatrix}
+3 & -2 & \pi \\
+0.1 & 4 & 1000
+\end{bmatrix}$
+
+is a $2 \times 3$ matrix, i.e., it is a matrix in $\mathbb R^{2 \times
+3}$.
+#+end_quote
+
+I want to emphasize that *a matrix has no inherent meaning*.  They are
+just a convenient way to store data.  The "meaning" of a matrix comes
+from how we work with it, how we interpret it.
+
+#+begin_quote
+*Example.* We can think of a piece of 2-bit pixel art as a matrix
+containing values between 0 and 3.
+
+#+end_quote
+
+#+begin_quote
+*Definition.* The *augmented matrix* of a linear system
+
+\begin{align*}
+a_{11}x_1 + \dots + a_{1n} x_n &= b_1 \\
+a_{21}x_1 + \dots + a_{2n} x_n &= b_2 \\
+&\vdots \\
+a_{m1}x_1 + \dots + a_{mn} x_n &= b_m
+\end{align*}
+
+with $m$ equations and $n$ unknowns is the $m \times (n + 1)$ matrix
+
+\begin{bmatrix}
+a_{11} & \dots & a_{1n} & b_1 \\
+a_{21} & \dots & a_{2n} & b_2 \\
+\vdots & \ddots & \vdots & \vdots \\
+a_{m1} & \dots & a_{mn} & b_m
+\end{bmatrix}
+
+the *coefficient matrix* of the same system is the $m \times n$ matrix
+
+\begin{bmatrix}
+a_{11} & \dots & a_{1n}\\
+a_{21} & \dots & a_{2n} \\
+\vdots & \ddots & \vdots \\
+a_{m1} & \dots & a_{mn}
+\end{bmatrix}
+#+end_quote
+
+#+begin_quote
+*Example.* (TAKE FROM THE CHEMISTRY EXAMPLE)
+#+end_quote
+
+#+begin_quote
+*Definition.* Two systems of linear equations are *equivalent* if they
+ have the same solution set.
+#+end_quote
+
+#+begin_quote
+*Definition.* The *elementary row operations* are
+| replace(A, i, c, j) | add row j scaled by c to row j      |
+| scale(A, c, i)      | multiply every entry in the row i c |
+| swap(A, i, j)       | swap row i and row j                |
+Two matrices $A$ and $B$ are *row equivalent* (written $A \sim B$) if
+there is a sequence of row operations which transforms $A$ to $B$.
+#+end_quote
+
+#+begin_quote
+*Example.* (TRANFORMATION)
+
+#+end_quote
+
+#+begin_quote
+*Theorem.* Two linear systems are equivalent if and only if their augmented matrices are row equivalent.
+#+end_quote
+
+* SymPy and Row Operations
+
+It will be useful (particularly for exams) to practice performing row
+operations by hand.  From the CS perspective, we want a better way to
+do it.
+
+In the following chapter we will look at /Gaussian elimination/ and
+algorithm for performing the "right" row operations to solve a given
+linear system (expressed as an augmented matrix).  For now, it would
+be nice if we could use a computer to do some tedious calculations for
+us.
+
+For the first part of this course, we will be using ~sympy~, a Python
+library for symbolic computation.  It has module for working with
+matrices, which we can use to perform row operations.
+
+We can create a matrix using the ~Matrix~ constructor, which takes a
+list of lists of numbers.  It will only construct a matrix object if
+this list of lists satisfies the requirement mentioned above.
+
+#+begin_src python :results output :exports both
+  from sympy import pprint
+  from sympy.matrices import Matrix
+
+  try:
+      A = Matrix([
+	  [1, 0],
+	  [0]
+      ])
+  except:
+      print("rows aren't the same length")
+
+  A = Matrix([
+      [1, 0],
+      [0, 1 / 4]
+  ])
+
+  print()
+  print("A:")
+  pprint(A)
+#+end_src
+
+#+RESULTS:
+: rows aren't the same length
+:
+: A:
+: ⎡1   0  ⎤
+: ⎢       ⎥
+: ⎣0  0.25⎦
+
+We can use array slicing to access and update rows of a given matrix,
+which means we can perform elementary row operations as simple
+assignments.
+
+#+begin_src python :results output :exports both
+  from sympy import pprint
+  from sympy.matrices import Matrix
+
+  A = Matrix([
+      [-1, -2, 1],
+      [1, 1, 2]
+  ])
+
+  print("A:")
+  pprint(A)
+
+  print()
+  print("first row of A:")
+  pprint(A[0,:])
+
+  print()
+  print("swap first and second row:")
+  A[0,:], A[1,:] = A[1,:], A[0,:]
+  pprint(A)
+
+  print()
+  print("replace first row with 3 times second row:")
+  A[0,:] += 3 * A[1,:]
+  pprint(A)
+
+  print()
+  print("scale second row by 1/5:")
+  A[0,:] /= 5
+  pprint(A)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+A:
+⎡-1  -2  1⎤
+⎢         ⎥
+⎣1   1   2⎦
+
+first row of A:
+[-1  -2  1]
+
+swap first and second row:
+⎡1   1   2⎤
+⎢         ⎥
+⎣-1  -2  1⎦
+
+replace first row with 3 times second row:
+⎡-2  -5  5⎤
+⎢         ⎥
+⎣-1  -2  1⎦
+
+scale second row by 1/5:
+⎡-2/5  -1  1⎤
+⎢           ⎥
+⎣ -1   -2  1⎦
+#+end_example
+
+So, for example, we can determine a solution to the systems of
+equations from the previous section.
+
+#+begin_src python :results output :exports both
+  from sympy import pprint
+  from sympy.matrices import Matrix
+
+  A = Matrix([
+      [-1, -2, 1],
+      [1, 1, 2]
+  ])
+
+			# forward elimination:
+  A[1,:] += A[0,:]      # add row 0 to row 1
+  A[1,:] *= -1          # scale row 1 by -1
+
+			# back substitution:
+  A[0,:] += 2 * A[1,:]  # add 2 times row 1 to row 0
+  A[0,:] *= -1          # scale row 0 by -1
+
+  pprint(A)
+#+end_src
+
+#+RESULTS:
+: ⎡1  0  5 ⎤
+: ⎢        ⎥
+: ⎣0  1  -3⎦
+
+I need to know how this works before I can work out the details of the
+section.
+
++ Basic outline of LAA
+  + linear equations
+  + systems of linear equations
+  + solutions
+  + equivalent systems
+  + number of solutions
+  + consistency
+  + matrices
+  + solving systems of linear equations
+    + elimination and back substitution
+  + elementary row operations
+  + existence and uniqueness
+
++ Basic outline of LAGC
+  + Same, ends with more geometric interpretation
+
+I want to include more about using NumPy as a solver.
+
+Questions we can ask about systems of linear equations
++ How many solutions does it have (0, 1, or infinitely many)?
++ Is it consistent?
+  + Does it have a solution?
++ Does it have a unique solution?
+
+Exercises
++ Solve this system of linear equations
++ Solve this system of linear equations
++ How many solutions? 0, 1, or infinitely many?
++ Find a value which makes this a consistent system.
++ Write down the shortest sequence of row operations which converts this matrix to this matrix.
++ Thing that doesn't look like system becomes system
++ Write down all the reduced echelon forms of this matrix.
++ Write down the augmented matrix for this system.
++ Word problem.
+
+
+Programming
++ Write a program that checks if a matrix is in echelon form
+  + is a valid matrix
+  + also in reduced echelon

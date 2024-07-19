@@ -3,14 +3,14 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-07-19 Fri 13:21 -->
+<!-- 2024-07-19 Fri 13:40 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Linear Equations</title>
 <meta name="author" content="Nathan  Mull" />
 <meta name="generator" content="Org Mode" />
 <link rel="stylesheet" type="text/css" href="../myStyle.css" />
-<script src="../Elm-LA/example.js"></script>
+<script src="example-line.js"></script>
 <script src="../Elm-LA/example-plane.js"></script>
 <script>
   window.MathJax = {
@@ -52,12 +52,12 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgf17c19b">Keywords</a></li>
-<li><a href="#org306e394">Basics</a></li>
-<li><a href="#org0f4f446">Systems of Linear Equations</a></li>
-<li><a href="#org59d59a8">Solving Linear Systems</a></li>
-<li><a href="#orgaed9371">Matrices and Row Operations</a></li>
-<li><a href="#org0393f27">SymPy and Row Operations</a></li>
+<li><a href="#org4b2c9a2">Keywords</a></li>
+<li><a href="#org5845a73">Basics</a></li>
+<li><a href="#org4e76a92">Systems of Linear Equations</a></li>
+<li><a href="#org4cb7acb">Solving Linear Systems</a></li>
+<li><a href="#orga1a8396">Matrices and Row Operations</a></li>
+<li><a href="#org275c25f">SymPy and Row Operations</a></li>
 </ul>
 </div>
 </div>
@@ -65,18 +65,18 @@
 We begin by looking at systems of linear equations.  This will form
 the basis of what we will consider in the first part of the course.
 </p>
-<div id="outline-container-orgf17c19b" class="outline-2">
-<h2 id="orgf17c19b">Keywords</h2>
-<div class="outline-text-2" id="text-orgf17c19b">
+<div id="outline-container-org4b2c9a2" class="outline-2">
+<h2 id="org4b2c9a2">Keywords</h2>
+<div class="outline-text-2" id="text-org4b2c9a2">
 <ul class="org-ul">
-<li><a href="#org26c9364">Solution set</a></li>
-<li><a href="#org5776951">Consistency</a></li>
+<li><a href="#orgd893110">Solution set</a></li>
+<li><a href="#orge1771ec">Consistency</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org306e394" class="outline-2">
-<h2 id="org306e394">Basics</h2>
-<div class="outline-text-2" id="text-org306e394">
+<div id="outline-container-org5845a73" class="outline-2">
+<h2 id="org5845a73">Basics</h2>
+<div class="outline-text-2" id="text-org5845a73">
 <p>
 Linear algebra is, at its core, the study of <i>linear equations</i>.
 </p>
@@ -344,9 +344,9 @@ represent intuitively?
 </div>
 </div>
 
-<div id="outline-container-org0f4f446" class="outline-2">
-<h2 id="org0f4f446">Systems of Linear Equations</h2>
-<div class="outline-text-2" id="text-org0f4f446">
+<div id="outline-container-org4e76a92" class="outline-2">
+<h2 id="org4e76a92">Systems of Linear Equations</h2>
+<div class="outline-text-2" id="text-org4e76a92">
 <p>
 The situation is made more interesting by considering multiple linear
 equations <i>simultaneously</i>.
@@ -399,7 +399,7 @@ every equation is satisfied:
 
 <p>
 We call the set of all solutions to a linear system its <b>solution set</b>
-<a id="org26c9364"></a> (naturally).  Geometrically, the solution set of a
+<a id="orgd893110"></a> (naturally).  Geometrically, the solution set of a
 linear system corresponds to the <i>intersection</i> of the point-sets that
 each linear equation defines.  So the problem of solving a system of
 linear equations is analogous to the 2-dimensional line-intersection
@@ -457,7 +457,7 @@ amount of terminology for saying the same things in different ways
 <blockquote>
 <p>
 <b>Terminology.</b> A system of linear equations is called <b>consistent</b>
- <a id="org5776951"></a> if it has a solution. Otherwise it is called
+ <a id="orge1771ec"></a> if it has a solution. Otherwise it is called
  <b>inconsistent</b>.
 </p>
 </blockquote>
@@ -486,9 +486,9 @@ is also a solution.
 </div>
 </div>
 
-<div id="outline-container-org59d59a8" class="outline-2">
-<h2 id="org59d59a8">Solving Linear Systems</h2>
-<div class="outline-text-2" id="text-org59d59a8">
+<div id="outline-container-org4cb7acb" class="outline-2">
+<h2 id="org4cb7acb">Solving Linear Systems</h2>
+<div class="outline-text-2" id="text-org4cb7acb">
 <p>
 Solving a system of linear equations means finding a solution<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup> or showing that no such solution exists.
 </p>
@@ -678,9 +678,9 @@ in the case of four variables.
 </div>
 </div>
 
-<div id="outline-container-orgaed9371" class="outline-2">
-<h2 id="orgaed9371">Matrices and Row Operations</h2>
-<div class="outline-text-2" id="text-orgaed9371">
+<div id="outline-container-orga1a8396" class="outline-2">
+<h2 id="orga1a8396">Matrices and Row Operations</h2>
+<div class="outline-text-2" id="text-orga1a8396">
 <p>
 Matrices are very simple mathematical objects: A matrix is just a grid
 of things.  It doesn't matter terribly what those things are, but in
@@ -834,9 +834,9 @@ there is a sequence of row operations which transforms \(A\) to \(B\).
 </div>
 </div>
 
-<div id="outline-container-org0393f27" class="outline-2">
-<h2 id="org0393f27">SymPy and Row Operations</h2>
-<div class="outline-text-2" id="text-org0393f27">
+<div id="outline-container-org275c25f" class="outline-2">
+<h2 id="org275c25f">SymPy and Row Operations</h2>
+<div class="outline-text-2" id="text-org275c25f">
 <p>
 It will be useful (particularly for exams) to practice performing row
 operations by hand.  From the CS perspective, we want a better way to

@@ -1,7 +1,7 @@
 #+title: Linear Equations
 #+HTML_MATHJAX: align: left indent: 2em
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../myStyle.css" />
-#+HTML_HEAD: <script src="../Elm-LA/example.js"></script>
+#+HTML_HEAD: <script src="example-line.js"></script>
 #+HTML_HEAD: <script src="../Elm-LA/example-plane.js"></script>
 #+OPTIONS: html-style:nil H:2 toc:1 num:nil tasks:nil
 #+HTML_LINK_HOME: ../toc.html

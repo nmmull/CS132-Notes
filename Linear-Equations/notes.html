@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-07-19 Fri 13:40 -->
+<!-- 2024-07-19 Fri 13:42 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Linear Equations</title>
@@ -11,7 +11,7 @@
 <meta name="generator" content="Org Mode" />
 <link rel="stylesheet" type="text/css" href="../myStyle.css" />
 <script src="example-line.js"></script>
-<script src="../Elm-LA/example-plane.js"></script>
+<script src="example-plane.js"></script>
 <script>
   window.MathJax = {
     tex: {
@@ -52,12 +52,12 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org4b2c9a2">Keywords</a></li>
-<li><a href="#org5845a73">Basics</a></li>
-<li><a href="#org4e76a92">Systems of Linear Equations</a></li>
-<li><a href="#org4cb7acb">Solving Linear Systems</a></li>
-<li><a href="#orga1a8396">Matrices and Row Operations</a></li>
-<li><a href="#org275c25f">SymPy and Row Operations</a></li>
+<li><a href="#org133154a">Keywords</a></li>
+<li><a href="#org6af77cd">Basics</a></li>
+<li><a href="#orgd7427fa">Systems of Linear Equations</a></li>
+<li><a href="#org901650f">Solving Linear Systems</a></li>
+<li><a href="#orgc63fea7">Matrices and Row Operations</a></li>
+<li><a href="#orga54696b">SymPy and Row Operations</a></li>
 </ul>
 </div>
 </div>
@@ -65,18 +65,18 @@
 We begin by looking at systems of linear equations.  This will form
 the basis of what we will consider in the first part of the course.
 </p>
-<div id="outline-container-org4b2c9a2" class="outline-2">
-<h2 id="org4b2c9a2">Keywords</h2>
-<div class="outline-text-2" id="text-org4b2c9a2">
+<div id="outline-container-org133154a" class="outline-2">
+<h2 id="org133154a">Keywords</h2>
+<div class="outline-text-2" id="text-org133154a">
 <ul class="org-ul">
-<li><a href="#orgd893110">Solution set</a></li>
-<li><a href="#orge1771ec">Consistency</a></li>
+<li><a href="#orgb0b6506">Solution set</a></li>
+<li><a href="#orgf52b3dd">Consistency</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org5845a73" class="outline-2">
-<h2 id="org5845a73">Basics</h2>
-<div class="outline-text-2" id="text-org5845a73">
+<div id="outline-container-org6af77cd" class="outline-2">
+<h2 id="org6af77cd">Basics</h2>
+<div class="outline-text-2" id="text-org6af77cd">
 <p>
 Linear algebra is, at its core, the study of <i>linear equations</i>.
 </p>
@@ -344,9 +344,9 @@ represent intuitively?
 </div>
 </div>
 
-<div id="outline-container-org4e76a92" class="outline-2">
-<h2 id="org4e76a92">Systems of Linear Equations</h2>
-<div class="outline-text-2" id="text-org4e76a92">
+<div id="outline-container-orgd7427fa" class="outline-2">
+<h2 id="orgd7427fa">Systems of Linear Equations</h2>
+<div class="outline-text-2" id="text-orgd7427fa">
 <p>
 The situation is made more interesting by considering multiple linear
 equations <i>simultaneously</i>.
@@ -399,7 +399,7 @@ every equation is satisfied:
 
 <p>
 We call the set of all solutions to a linear system its <b>solution set</b>
-<a id="orgd893110"></a> (naturally).  Geometrically, the solution set of a
+<a id="orgb0b6506"></a> (naturally).  Geometrically, the solution set of a
 linear system corresponds to the <i>intersection</i> of the point-sets that
 each linear equation defines.  So the problem of solving a system of
 linear equations is analogous to the 2-dimensional line-intersection
@@ -457,7 +457,7 @@ amount of terminology for saying the same things in different ways
 <blockquote>
 <p>
 <b>Terminology.</b> A system of linear equations is called <b>consistent</b>
- <a id="orge1771ec"></a> if it has a solution. Otherwise it is called
+ <a id="orgf52b3dd"></a> if it has a solution. Otherwise it is called
  <b>inconsistent</b>.
 </p>
 </blockquote>
@@ -486,9 +486,9 @@ is also a solution.
 </div>
 </div>
 
-<div id="outline-container-org4cb7acb" class="outline-2">
-<h2 id="org4cb7acb">Solving Linear Systems</h2>
-<div class="outline-text-2" id="text-org4cb7acb">
+<div id="outline-container-org901650f" class="outline-2">
+<h2 id="org901650f">Solving Linear Systems</h2>
+<div class="outline-text-2" id="text-org901650f">
 <p>
 Solving a system of linear equations means finding a solution<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup> or showing that no such solution exists.
 </p>
@@ -678,9 +678,9 @@ in the case of four variables.
 </div>
 </div>
 
-<div id="outline-container-orga1a8396" class="outline-2">
-<h2 id="orga1a8396">Matrices and Row Operations</h2>
-<div class="outline-text-2" id="text-orga1a8396">
+<div id="outline-container-orgc63fea7" class="outline-2">
+<h2 id="orgc63fea7">Matrices and Row Operations</h2>
+<div class="outline-text-2" id="text-orgc63fea7">
 <p>
 Matrices are very simple mathematical objects: A matrix is just a grid
 of things.  It doesn't matter terribly what those things are, but in
@@ -834,9 +834,9 @@ there is a sequence of row operations which transforms \(A\) to \(B\).
 </div>
 </div>
 
-<div id="outline-container-org275c25f" class="outline-2">
-<h2 id="org275c25f">SymPy and Row Operations</h2>
-<div class="outline-text-2" id="text-org275c25f">
+<div id="outline-container-orga54696b" class="outline-2">
+<h2 id="orga54696b">SymPy and Row Operations</h2>
+<div class="outline-text-2" id="text-orga54696b">
 <p>
 It will be useful (particularly for exams) to practice performing row
 operations by hand.  From the CS perspective, we want a better way to
@@ -886,6 +886,16 @@ pprint(A)
 </pre>
 </div>
 
+<pre class="example">
+rows aren't the same length
+
+A:
+⎡1   0  ⎤
+⎢       ⎥
+⎣0  0.25⎦
+</pre>
+
+
 <p>
 We can use array slicing to access and update rows of a given matrix,
 which means we can perform elementary row operations as simple
@@ -925,6 +935,31 @@ pprint(A)
 </pre>
 </div>
 
+<pre class="example" id="org3b1316b">
+A:
+⎡-1  -2  1⎤
+⎢         ⎥
+⎣1   1   2⎦
+
+first row of A:
+[-1  -2  1]
+
+swap first and second row:
+⎡1   1   2⎤
+⎢         ⎥
+⎣-1  -2  1⎦
+
+replace first row with 3 times second row:
+⎡-2  -5  5⎤
+⎢         ⎥
+⎣-1  -2  1⎦
+
+scale second row by 1/5:
+⎡-2/5  -1  1⎤
+⎢           ⎥
+⎣ -1   -2  1⎦
+</pre>
+
 <p>
 So, for example, we can determine a solution to the systems of
 equations from the previous section.
@@ -950,6 +985,13 @@ equations from the previous section.
 pprint(A)
 </pre>
 </div>
+
+<pre class="example">
+⎡1  0  5 ⎤
+⎢        ⎥
+⎣0  1  -3⎦
+</pre>
+
 
 <p>
 I need to know how this works before I can work out the details of the

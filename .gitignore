@@ -2,5 +2,4 @@
 .direnv
 .envrc
 elm-stuff
-elm.
-elm.*
+elm.js

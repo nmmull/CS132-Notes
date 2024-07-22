@@ -13,7 +13,6 @@ type alias Params a =
     , quadrantWidth : Int
     , viewBoxWidth : Int
     , sceneWidth : Int
-    , sceneOrigin : { x : Int , y : Int }
     , strokeWidth : Float
     }
 
@@ -51,12 +50,11 @@ shift params pt =
     let
         w = toFloat params.viewBoxWidth
         space = w / toFloat params.sceneWidth
-        offsetX = space * toFloat (params.sceneOrigin.x)
-        offsetY = space * toFloat (params.sceneOrigin.y)
+        offset = space * toFloat params.sceneWidth / 2
         drawPt = perspective params (rotY params (rotZ params pt))
     in Point2D
-        (drawPt.x * space + offsetX)
-        (-drawPt.y * space + offsetY)
+        (drawPt.x * space + offset)
+        (-drawPt.y * space + offset)
 
 myline : Params a -> Point3D -> Point3D -> List (Attribute msg) -> Svg msg
 myline params p1 p2 baseAttrs =
@@ -114,8 +112,8 @@ mypolygon params pts baseAttrs =
     in
     polygon (points strPts :: baseAttrs) []
 
-drawPoint : Params a -> Point3D -> Color -> List (Svg msg)
-drawPoint params pt color =
+drawPoint : Params a -> Point3D -> Point3DStyle -> List (Svg msg)
+drawPoint params pt sty =
     let
         rStr = String.fromFloat (params.strokeWidth * 2)
         guide p1 p2 = myline params p1 p2
@@ -133,11 +131,11 @@ drawPoint params pt color =
     , guide (Point3D 0 0 pt.z) (Point3D pt.x 0 pt.z)
     , guide (Point3D pt.x 0 0) (Point3D pt.x 0 pt.z)
     , guide (Point3D 0 pt.y 0) (Point3D 0 pt.y pt.z)
-    , mycircle params pt [ fill (stringFromColor color) , r rStr ]
+    , mycircle params pt [ fill (stringFromColor sty.color) , r rStr ]
     ]
 
-drawPlane : Params a -> Plane3D -> Bool -> Color -> List (Svg msg)
-drawPlane params pln hasHatch color =
+drawPlane : Params a -> Plane3D -> Plane3DStyle -> List (Svg msg)
+drawPlane params pln sty =
     let
         zVal x y = (pln.rhs - pln.xCof * x - pln.yCof * y) / pln.zCof
         mnC = minC params / 2
@@ -151,8 +149,8 @@ drawPlane params pln hasHatch color =
         poly = mypolygon
             params
             pts
-            [ fill (stringFromColor color)
-            , opacity "0.3"
+            [ fill (stringFromColor sty.color)
+            , opacity "0.27"
             , stroke "black"
             ]
         xline x = myline
@@ -179,17 +177,71 @@ drawPlane params pln hasHatch color =
             List.map
                 (\y -> yline (toFloat y))
                 (List.range (ceiling mnC + 1) (floor mxC - 1))
-    in [ poly ] ++ (if hasHatch then xlines ++ ylines else [])
+    in [ poly ] ++ (if sty.hasHatch then xlines ++ ylines else [])
+
+getInterByX : Params a -> Plane3D -> Plane3D -> Float -> Maybe Point3D
+getInterByX params pln1 pln2 x =
+    let
+        a = ( pln1.xCof, pln2.xCof )
+        b = ( pln1.yCof, pln2.yCof )
+        c = ( pln1.zCof, pln2.zCof )
+        d = ( pln1.rhs, pln2.rhs )
+        det ( e1, e2 ) ( f1, f2 ) = e1 * f2 - f1 * e2
+        mxC = maxC params / 2
+        y = -(det c d + (det a c) * x)
+        z = (det b d + (det a b) * x)
+    in
+        if abs (det b c) > 0.000001 && abs (y / det b c) <= mxC + 0.000001
+        then Just (Point3D x (y / det b c) (z / det b c))
+        else Nothing
+
+getInterByY : Params a -> Plane3D -> Plane3D -> Float -> Maybe Point3D
+getInterByY params pln1 pln2 yVal =
+    let
+        pln11 = Plane3D pln1.yCof pln1.xCof pln1.zCof pln1.rhs
+        pln22 = Plane3D pln2.yCof pln2.xCof pln2.zCof pln2.rhs
+        swap { x, y, z } = Point3D y x z
+   in Maybe.map swap (getInterByX params pln11 pln22 yVal)
+
+intersections : Params a -> Plane3D -> Plane3D -> List Point3D
+intersections params pln1 pln2 =
+    let
+        toList m =
+            case m of
+                Nothing -> []
+                Just a -> [a]
+        mxC = maxC params / 2
+        mnC = minC params / 2
+    in
+    List.concatMap toList
+        [ getInterByX params pln1 pln2 mnC
+        , getInterByX params pln1 pln2 mxC
+        , getInterByY params pln1 pln2 mnC
+        , getInterByY params pln1 pln2 mxC
+        ]
+
+drawIntersection : Params a -> Plane3D -> Plane3D -> List (Svg msg)
+drawIntersection params pln1 pln2 =
+    case intersections params pln1 pln2 of
+        x :: y :: [] ->
+            [ myline params x y
+                [ stroke "grey"
+                , strokeWidth (String.fromFloat params.strokeWidth)
+                ]
+            ]
+        _ -> []
 
 type Element
-    = Plane Plane3D Bool Color
-    | Point Point3D Color
+    = Plane Plane3D Plane3DStyle
+    | Point Point3D Point3DStyle
+    | Intersection Plane3D Plane3D
 
 drawElement : Params a -> Element -> List (Svg msg)
 drawElement params e =
     case e of
-        Plane pln hasHatch color -> drawPlane params pln hasHatch color
-        Point pt color -> drawPoint params pt color
+        Plane pln sty -> drawPlane params pln sty
+        Point pt sty -> drawPoint params pt sty
+        Intersection pln1 pln2 -> drawIntersection params pln1 pln2
 
 drawScene : Params a -> List Element -> List (Svg msg)
 drawScene params scene = List.concatMap (drawElement params) scene

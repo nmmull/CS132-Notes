@@ -1,0 +1,294 @@
+#+title: Matrices and Row Operations
+#+HTML_MATHJAX: align: left indent: 2em
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../myStyle.css" />
+#+OPTIONS: html-style:nil H:2 toc:1 num:nil tasks:nil
+#+HTML_LINK_HOME: ../toc.html
+* Keywords
++ [[augmented matrix][Augmented matrix]]
++ [[coefficient matrix][Coefficient matrix]]
++ [[elementary row operations][Elementary row operations]]
++ [[row equivalence][Row Equivalence]]
+* Matrices and Row Operations
+
+Matrices are very simple mathematical objects: A matrix is just a grid
+of things.  It doesn't matter terribly what those things are, but in
+this course we will be exclusively interested in the case that those
+things are real numbers.
+
+A matrix is like a list of lists in Python (and we will, in essence,
+represent them that way) with the restriction that
++ every element is the same kind of thing
++ the list is non-empty (there is at least one row)
++ every list in the list is the same length (each row has the same
+  length)
+
+Thus, a matrix is characterized by what sort of things it contains,
+how many *rows* it has, and how many *columns* it has.  We will use
+the notation $\mathbb R^{m \times n}$ to refer to the collection of
+all possible matrices with real numbers, $m$ rows and $n$ columns.
+
+#+begin_quote
+*Example.*
+
+$\begin{bmatrix}
+3 & -2 & \pi \\
+0.1 & 4 & 1000
+\end{bmatrix}$
+
+is a $2 \times 3$ matrix, i.e., it is a matrix in $\mathbb R^{2 \times
+3}$.
+#+end_quote
+
+I want to emphasize that *a matrix has no inherent meaning*.  They are
+just a convenient way to store data.  The "meaning" of a matrix comes
+from how we work with it, how we interpret it.
+
+#+begin_quote
+*Example.* We can think of a piece of 2-bit pixel art as a matrix
+containing values between 0 and 3.
+
+#+end_quote
+
+#+begin_quote
+<<augmented matrix>>
+*Definition.* The *augmented matrix* of a linear system
+
+\begin{align*}
+a_{11}x_1 + \dots + a_{1n} x_n &= b_1 \\
+a_{21}x_1 + \dots + a_{2n} x_n &= b_2 \\
+&\vdots \\
+a_{m1}x_1 + \dots + a_{mn} x_n &= b_m
+\end{align*}
+
+with $m$ equations and $n$ unknowns is the $m \times (n + 1)$ matrix
+
+\begin{bmatrix}
+a_{11} & \dots & a_{1n} & b_1 \\
+a_{21} & \dots & a_{2n} & b_2 \\
+\vdots & \ddots & \vdots & \vdots \\
+a_{m1} & \dots & a_{mn} & b_m
+\end{bmatrix}
+
+<<coefficient matrix>>
+the *coefficient matrix* of the same system is the $m \times n$ matrix
+
+\begin{bmatrix}
+a_{11} & \dots & a_{1n}\\
+a_{21} & \dots & a_{2n} \\
+\vdots & \ddots & \vdots \\
+a_{m1} & \dots & a_{mn}
+\end{bmatrix}
+#+end_quote
+
+#+begin_quote
+*Example.* (TAKE FROM THE CHEMISTRY EXAMPLE)
+#+end_quote
+
+#+begin_quote
+*Definition.* Two systems of linear equations are *equivalent* if they
+ have the same solution set.
+#+end_quote
+
+#+begin_quote
+<<elementary row operations>>
+*Definition.* The *elementary row operations* are
+| replace(A, i, c, j) | add row j scaled by c to row j      |
+| scale(A, c, i)      | multiply every entry in the row i c |
+| swap(A, i, j)       | swap row i and row j                |
+<<row equivalence>>
+Two matrices $A$ and $B$ are *row equivalent* (written $A \sim B$) if
+there is a sequence of row operations which transforms $A$ to $B$.
+#+end_quote
+
+#+begin_quote
+*Example.* (TRANFORMATION)
+
+#+end_quote
+
+#+begin_quote
+*Theorem.* Two linear systems are equivalent if and only if their augmented matrices are row equivalent.
+#+end_quote
+
+* SymPy and Row Operations
+
+It will be useful (particularly for exams) to practice performing row
+operations by hand.  From the CS perspective, we want a better way to
+do it.
+
+In the following chapter we will look at /Gaussian elimination/ and
+algorithm for performing the "right" row operations to solve a given
+linear system (expressed as an augmented matrix).  For now, it would
+be nice if we could use a computer to do some tedious calculations for
+us.
+
+For the first part of this course, we will be using ~sympy~, a Python
+library for symbolic computation.  It has module for working with
+matrices, which we can use to perform row operations.
+
+We can create a matrix using the ~Matrix~ constructor, which takes a
+list of lists of numbers.  It will only construct a matrix object if
+this list of lists satisfies the requirement mentioned above.
+
+#+begin_src python :results output :exports both
+  from sympy import pprint
+  from sympy.matrices import Matrix
+
+  try:
+      A = Matrix([
+	  [1, 0],
+	  [0]
+      ])
+  except:
+      print("rows aren't the same length")
+
+  A = Matrix([
+      [1, 0],
+      [0, 1 / 4]
+  ])
+
+  print()
+  print("A:")
+  pprint(A)
+#+end_src
+
+#+RESULTS:
+: rows aren't the same length
+:
+: A:
+: ⎡1   0  ⎤
+: ⎢       ⎥
+: ⎣0  0.25⎦
+
+We can use array slicing to access and update rows of a given matrix,
+which means we can perform elementary row operations as simple
+assignments.
+
+#+begin_src python :results output :exports both
+  from sympy import pprint
+  from sympy.matrices import Matrix
+
+  A = Matrix([
+      [-1, -2, 1],
+      [1, 1, 2]
+  ])
+
+  print("A:")
+  pprint(A)
+
+  print()
+  print("first row of A:")
+  pprint(A[0,:])
+
+  print()
+  print("swap first and second row:")
+  A[0,:], A[1,:] = A[1,:], A[0,:]
+  pprint(A)
+
+  print()
+  print("replace first row with 3 times second row:")
+  A[0,:] += 3 * A[1,:]
+  pprint(A)
+
+  print()
+  print("scale second row by 1/5:")
+  A[0,:] /= 5
+  pprint(A)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+A:
+⎡-1  -2  1⎤
+⎢         ⎥
+⎣1   1   2⎦
+
+first row of A:
+[-1  -2  1]
+
+swap first and second row:
+⎡1   1   2⎤
+⎢         ⎥
+⎣-1  -2  1⎦
+
+replace first row with 3 times second row:
+⎡-2  -5  5⎤
+⎢         ⎥
+⎣-1  -2  1⎦
+
+scale second row by 1/5:
+⎡-2/5  -1  1⎤
+⎢           ⎥
+⎣ -1   -2  1⎦
+#+end_example
+
+So, for example, we can determine a solution to the systems of
+equations from the previous section.
+
+#+begin_src python :results output :exports both
+  from sympy import pprint
+  from sympy.matrices import Matrix
+
+  A = Matrix([
+      [-1, -2, 1],
+      [1, 1, 2]
+  ])
+
+			# forward elimination:
+  A[1,:] += A[0,:]      # add row 0 to row 1
+  A[1,:] *= -1          # scale row 1 by -1
+
+			# back substitution:
+  A[0,:] += 2 * A[1,:]  # add 2 times row 1 to row 0
+  A[0,:] *= -1          # scale row 0 by -1
+
+  pprint(A)
+#+end_src
+
+#+RESULTS:
+: ⎡1  0  5 ⎤
+: ⎢        ⎥
+: ⎣0  1  -3⎦
+
+I need to know how this works before I can work out the details of the
+section.
+
++ Basic outline of LAA
+  + linear equations
+  + systems of linear equations
+  + solutions
+  + equivalent systems
+  + number of solutions
+  + consistency
+  + matrices
+  + solving systems of linear equations
+    + elimination and back substitution
+  + elementary row operations
+  + existence and uniqueness
+
++ Basic outline of LAGC
+  + Same, ends with more geometric interpretation
+
+I want to include more about using NumPy as a solver.
+
+Questions we can ask about systems of linear equations
++ How many solutions does it have (0, 1, or infinitely many)?
++ Is it consistent?
+  + Does it have a solution?
++ Does it have a unique solution?
+
+Exercises
++ Solve this system of linear equations
++ Solve this system of linear equations
++ How many solutions? 0, 1, or infinitely many?
++ Find a value which makes this a consistent system.
++ Write down the shortest sequence of row operations which converts this matrix to this matrix.
++ Thing that doesn't look like system becomes system
++ Write down all the reduced echelon forms of this matrix.
++ Write down the augmented matrix for this system.
++ Word problem.
+
+
+Programming
++ Write a program that checks if a matrix is in echelon form
+  + is a valid matrix
+  + also in reduced echelon

@@ -11,5 +11,6 @@ pkgs.mkShellNoCC {
       matplotlib
       sympy
     ]))
+    elmPackages.elm
   ];
 }

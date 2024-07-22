@@ -23,16 +23,28 @@ type alias Plane3D =
     , rhs : Float
     }
 
+type alias Plane3DStyle =
+    { color : Color
+    , hasHatch : Bool
+    }
+
 type alias Point3D =
     { x : Float
     , y : Float
     , z : Float
     }
 
+type alias Point3DStyle =
+    { color : Color
+    , hasGuides : Bool
+    }
+
 type Color
     = Red
     | Blue
     | Green
+    | Black
+    | Grey
 
 stringFromColor : Color -> String
 stringFromColor c =
@@ -40,6 +52,8 @@ stringFromColor c =
         Red -> "red"
         Blue -> "blue"
         Green -> "green"
+        Black -> "black"
+        Grey -> "grey"
 
 type Element2D
     = Point Point2D Color

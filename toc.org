@@ -10,6 +10,25 @@ needs to be personal, so these are my personal notes, which follow
 my way of thinking about and organizing the material.
 * Table of Contents
 ** [[file:Linear-Equations/notes.org][Linear Equations]]
+** [[file:Matrices-Row-Ops/notes.org][Matrices and Row Operations]]
 ** Gaussian Elimination
+** An Aside: Numerics
 ** Vector Equations
 ** Matrix-Vector Equations
+** Linear Independence
+** Linear Transformations
+** Matrices of Linear Transformations
+** Matrix Algebra
+** Matrix Inverses
+** Invertible Matrix Theorem
+** Algebraic Graph Theory
+** Markov Chains
+** The Decomposition
+** Subspaces
+** Dimension and Rank
+** Eigenvalues and Eigenvectors
+** The Characteristic Equation
+** Diagonalization
+** Orthogonality
+** Least Squares
+** Advanced Topic: Linear Algebra and Machine Learning

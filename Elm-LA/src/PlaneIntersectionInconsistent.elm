@@ -1,4 +1,4 @@
-module ExamplePlane exposing (..)
+module PlaneIntersectionInconsistent exposing (..)
 
 import Utils exposing (Point3D, Plane3D, Color(..))
 import Space exposing (basic3D, Element(..))
@@ -25,9 +25,9 @@ init _ =
       , tilt = 0.2
       , rotation = 0
       , viewBoxWidth = 500
-      , quadrantWidth = 20
-      , sceneWidth = 60
-      , sceneOrigin = { x = 30, y = 30 }
+      , quadrantWidth = 15
+      , sceneWidth = 42
+      , sceneOrigin = { x = 21, y = 21 }
       , strokeWidth = 1
       }
     , Cmd.none
@@ -45,18 +45,17 @@ subscriptions _ = Time.every 30 Tick
 view : Model -> Html Msg
 view model =
     let
-        pln = Plane3D 1 1 1 1
-        plnSty = { color = Red, hasHatch = True }
-        p1 = Point3D 4 3 -6
-        p2 = Point3D -3 -5 9
-        p3 = Point3D -8 8 1
-        pntSty = { color = Red, hasGuides = True }
+        pln1 = Plane3D 1 0 1 2
+        pln2 = Plane3D 1 0 -1 -2
+        pln3 = Plane3D 0 0 1 -2
     in
     basic3D model
-        [ Plane pln plnSty
-        , Point p1 pntSty
-        , Point p2 pntSty
-        , Point p3 pntSty
+        [ Intersection pln1 pln2
+        , Intersection pln1 pln3
+        , Intersection pln2 pln3
+        , Plane pln1 { color = Red, hasHatch = False }
+        , Plane pln2 { color = Blue, hasHatch = False }
+        , Plane pln3 { color = Green, hasHatch = False }
         ]
 
 main = Browser.element

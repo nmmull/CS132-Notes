@@ -4370,6 +4370,52 @@ function _Browser_load(url)
 		}
 	}));
 }
+
+
+
+function _Time_now(millisToPosix)
+{
+	return _Scheduler_binding(function(callback)
+	{
+		callback(_Scheduler_succeed(millisToPosix(Date.now())));
+	});
+}
+
+var _Time_setInterval = F2(function(interval, task)
+{
+	return _Scheduler_binding(function(callback)
+	{
+		var id = setInterval(function() { _Scheduler_rawSpawn(task); }, interval);
+		return function() { clearInterval(id); };
+	});
+});
+
+function _Time_here()
+{
+	return _Scheduler_binding(function(callback)
+	{
+		callback(_Scheduler_succeed(
+			A2($elm$time$Time$customZone, -(new Date().getTimezoneOffset()), _List_Nil)
+		));
+	});
+}
+
+
+function _Time_getZoneName()
+{
+	return _Scheduler_binding(function(callback)
+	{
+		try
+		{
+			var name = $elm$time$Time$Name(Intl.DateTimeFormat().resolvedOptions().timeZone);
+		}
+		catch (e)
+		{
+			var name = $elm$time$Time$Offset(new Date().getTimezoneOffset());
+		}
+		callback(_Scheduler_succeed(name));
+	});
+}
 var $elm$core$Basics$EQ = {$: 'EQ'};
 var $elm$core$Basics$GT = {$: 'GT'};
 var $elm$core$Basics$LT = {$: 'LT'};
@@ -5161,85 +5207,616 @@ var $elm$core$Task$perform = F2(
 var $elm$browser$Browser$element = _Browser_element;
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
-var $author$project$Main$init = function (_v0) {
-	return _Utils_Tuple2(_Utils_Tuple0, $elm$core$Platform$Cmd$none);
+var $author$project$PlaneIntersection$init = function (_v0) {
+	return _Utils_Tuple2(
+		{
+			distance: 50,
+			quadrantWidth: 15,
+			rotation: 0,
+			sceneOrigin: {x: 21, y: 21},
+			sceneWidth: 42,
+			strokeWidth: 1,
+			tilt: 0.2,
+			viewBoxWidth: 500
+		},
+		$elm$core$Platform$Cmd$none);
 };
-var $elm$core$Platform$Sub$batch = _Platform_batch;
-var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
-var $author$project$Main$subscriptions = function (_v0) {
-	return $elm$core$Platform$Sub$none;
+var $author$project$PlaneIntersection$Tick = function (a) {
+	return {$: 'Tick', a: a};
 };
-var $author$project$Main$update = F2(
-	function (_v0, _v1) {
-		return _Utils_Tuple2(_Utils_Tuple0, $elm$core$Platform$Cmd$none);
+var $elm$time$Time$Every = F2(
+	function (a, b) {
+		return {$: 'Every', a: a, b: b};
 	});
-var $author$project$Main$constants = {lineWidth: 1, tickLength: 3, tickSpace: 10, width: 500};
+var $elm$time$Time$State = F2(
+	function (taggers, processes) {
+		return {processes: processes, taggers: taggers};
+	});
+var $elm$core$Dict$RBEmpty_elm_builtin = {$: 'RBEmpty_elm_builtin'};
+var $elm$core$Dict$empty = $elm$core$Dict$RBEmpty_elm_builtin;
+var $elm$time$Time$init = $elm$core$Task$succeed(
+	A2($elm$time$Time$State, $elm$core$Dict$empty, $elm$core$Dict$empty));
+var $elm$core$Basics$compare = _Utils_compare;
+var $elm$core$Dict$get = F2(
+	function (targetKey, dict) {
+		get:
+		while (true) {
+			if (dict.$ === 'RBEmpty_elm_builtin') {
+				return $elm$core$Maybe$Nothing;
+			} else {
+				var key = dict.b;
+				var value = dict.c;
+				var left = dict.d;
+				var right = dict.e;
+				var _v1 = A2($elm$core$Basics$compare, targetKey, key);
+				switch (_v1.$) {
+					case 'LT':
+						var $temp$targetKey = targetKey,
+							$temp$dict = left;
+						targetKey = $temp$targetKey;
+						dict = $temp$dict;
+						continue get;
+					case 'EQ':
+						return $elm$core$Maybe$Just(value);
+					default:
+						var $temp$targetKey = targetKey,
+							$temp$dict = right;
+						targetKey = $temp$targetKey;
+						dict = $temp$dict;
+						continue get;
+				}
+			}
+		}
+	});
+var $elm$core$Dict$Black = {$: 'Black'};
+var $elm$core$Dict$RBNode_elm_builtin = F5(
+	function (a, b, c, d, e) {
+		return {$: 'RBNode_elm_builtin', a: a, b: b, c: c, d: d, e: e};
+	});
+var $elm$core$Dict$Red = {$: 'Red'};
+var $elm$core$Dict$balance = F5(
+	function (color, key, value, left, right) {
+		if ((right.$ === 'RBNode_elm_builtin') && (right.a.$ === 'Red')) {
+			var _v1 = right.a;
+			var rK = right.b;
+			var rV = right.c;
+			var rLeft = right.d;
+			var rRight = right.e;
+			if ((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Red')) {
+				var _v3 = left.a;
+				var lK = left.b;
+				var lV = left.c;
+				var lLeft = left.d;
+				var lRight = left.e;
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Red,
+					key,
+					value,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, lK, lV, lLeft, lRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, rK, rV, rLeft, rRight));
+			} else {
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					color,
+					rK,
+					rV,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, key, value, left, rLeft),
+					rRight);
+			}
+		} else {
+			if ((((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Red')) && (left.d.$ === 'RBNode_elm_builtin')) && (left.d.a.$ === 'Red')) {
+				var _v5 = left.a;
+				var lK = left.b;
+				var lV = left.c;
+				var _v6 = left.d;
+				var _v7 = _v6.a;
+				var llK = _v6.b;
+				var llV = _v6.c;
+				var llLeft = _v6.d;
+				var llRight = _v6.e;
+				var lRight = left.e;
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Red,
+					lK,
+					lV,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, llK, llV, llLeft, llRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, key, value, lRight, right));
+			} else {
+				return A5($elm$core$Dict$RBNode_elm_builtin, color, key, value, left, right);
+			}
+		}
+	});
+var $elm$core$Dict$insertHelp = F3(
+	function (key, value, dict) {
+		if (dict.$ === 'RBEmpty_elm_builtin') {
+			return A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, key, value, $elm$core$Dict$RBEmpty_elm_builtin, $elm$core$Dict$RBEmpty_elm_builtin);
+		} else {
+			var nColor = dict.a;
+			var nKey = dict.b;
+			var nValue = dict.c;
+			var nLeft = dict.d;
+			var nRight = dict.e;
+			var _v1 = A2($elm$core$Basics$compare, key, nKey);
+			switch (_v1.$) {
+				case 'LT':
+					return A5(
+						$elm$core$Dict$balance,
+						nColor,
+						nKey,
+						nValue,
+						A3($elm$core$Dict$insertHelp, key, value, nLeft),
+						nRight);
+				case 'EQ':
+					return A5($elm$core$Dict$RBNode_elm_builtin, nColor, nKey, value, nLeft, nRight);
+				default:
+					return A5(
+						$elm$core$Dict$balance,
+						nColor,
+						nKey,
+						nValue,
+						nLeft,
+						A3($elm$core$Dict$insertHelp, key, value, nRight));
+			}
+		}
+	});
+var $elm$core$Dict$insert = F3(
+	function (key, value, dict) {
+		var _v0 = A3($elm$core$Dict$insertHelp, key, value, dict);
+		if ((_v0.$ === 'RBNode_elm_builtin') && (_v0.a.$ === 'Red')) {
+			var _v1 = _v0.a;
+			var k = _v0.b;
+			var v = _v0.c;
+			var l = _v0.d;
+			var r = _v0.e;
+			return A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, k, v, l, r);
+		} else {
+			var x = _v0;
+			return x;
+		}
+	});
+var $elm$time$Time$addMySub = F2(
+	function (_v0, state) {
+		var interval = _v0.a;
+		var tagger = _v0.b;
+		var _v1 = A2($elm$core$Dict$get, interval, state);
+		if (_v1.$ === 'Nothing') {
+			return A3(
+				$elm$core$Dict$insert,
+				interval,
+				_List_fromArray(
+					[tagger]),
+				state);
+		} else {
+			var taggers = _v1.a;
+			return A3(
+				$elm$core$Dict$insert,
+				interval,
+				A2($elm$core$List$cons, tagger, taggers),
+				state);
+		}
+	});
+var $elm$core$Process$kill = _Scheduler_kill;
+var $elm$core$Dict$foldl = F3(
+	function (func, acc, dict) {
+		foldl:
+		while (true) {
+			if (dict.$ === 'RBEmpty_elm_builtin') {
+				return acc;
+			} else {
+				var key = dict.b;
+				var value = dict.c;
+				var left = dict.d;
+				var right = dict.e;
+				var $temp$func = func,
+					$temp$acc = A3(
+					func,
+					key,
+					value,
+					A3($elm$core$Dict$foldl, func, acc, left)),
+					$temp$dict = right;
+				func = $temp$func;
+				acc = $temp$acc;
+				dict = $temp$dict;
+				continue foldl;
+			}
+		}
+	});
+var $elm$core$Dict$merge = F6(
+	function (leftStep, bothStep, rightStep, leftDict, rightDict, initialResult) {
+		var stepState = F3(
+			function (rKey, rValue, _v0) {
+				stepState:
+				while (true) {
+					var list = _v0.a;
+					var result = _v0.b;
+					if (!list.b) {
+						return _Utils_Tuple2(
+							list,
+							A3(rightStep, rKey, rValue, result));
+					} else {
+						var _v2 = list.a;
+						var lKey = _v2.a;
+						var lValue = _v2.b;
+						var rest = list.b;
+						if (_Utils_cmp(lKey, rKey) < 0) {
+							var $temp$rKey = rKey,
+								$temp$rValue = rValue,
+								$temp$_v0 = _Utils_Tuple2(
+								rest,
+								A3(leftStep, lKey, lValue, result));
+							rKey = $temp$rKey;
+							rValue = $temp$rValue;
+							_v0 = $temp$_v0;
+							continue stepState;
+						} else {
+							if (_Utils_cmp(lKey, rKey) > 0) {
+								return _Utils_Tuple2(
+									list,
+									A3(rightStep, rKey, rValue, result));
+							} else {
+								return _Utils_Tuple2(
+									rest,
+									A4(bothStep, lKey, lValue, rValue, result));
+							}
+						}
+					}
+				}
+			});
+		var _v3 = A3(
+			$elm$core$Dict$foldl,
+			stepState,
+			_Utils_Tuple2(
+				$elm$core$Dict$toList(leftDict),
+				initialResult),
+			rightDict);
+		var leftovers = _v3.a;
+		var intermediateResult = _v3.b;
+		return A3(
+			$elm$core$List$foldl,
+			F2(
+				function (_v4, result) {
+					var k = _v4.a;
+					var v = _v4.b;
+					return A3(leftStep, k, v, result);
+				}),
+			intermediateResult,
+			leftovers);
+	});
+var $elm$core$Platform$sendToSelf = _Platform_sendToSelf;
+var $elm$time$Time$Name = function (a) {
+	return {$: 'Name', a: a};
+};
+var $elm$time$Time$Offset = function (a) {
+	return {$: 'Offset', a: a};
+};
+var $elm$time$Time$Zone = F2(
+	function (a, b) {
+		return {$: 'Zone', a: a, b: b};
+	});
+var $elm$time$Time$customZone = $elm$time$Time$Zone;
+var $elm$time$Time$setInterval = _Time_setInterval;
+var $elm$core$Process$spawn = _Scheduler_spawn;
+var $elm$time$Time$spawnHelp = F3(
+	function (router, intervals, processes) {
+		if (!intervals.b) {
+			return $elm$core$Task$succeed(processes);
+		} else {
+			var interval = intervals.a;
+			var rest = intervals.b;
+			var spawnTimer = $elm$core$Process$spawn(
+				A2(
+					$elm$time$Time$setInterval,
+					interval,
+					A2($elm$core$Platform$sendToSelf, router, interval)));
+			var spawnRest = function (id) {
+				return A3(
+					$elm$time$Time$spawnHelp,
+					router,
+					rest,
+					A3($elm$core$Dict$insert, interval, id, processes));
+			};
+			return A2($elm$core$Task$andThen, spawnRest, spawnTimer);
+		}
+	});
+var $elm$time$Time$onEffects = F3(
+	function (router, subs, _v0) {
+		var processes = _v0.processes;
+		var rightStep = F3(
+			function (_v6, id, _v7) {
+				var spawns = _v7.a;
+				var existing = _v7.b;
+				var kills = _v7.c;
+				return _Utils_Tuple3(
+					spawns,
+					existing,
+					A2(
+						$elm$core$Task$andThen,
+						function (_v5) {
+							return kills;
+						},
+						$elm$core$Process$kill(id)));
+			});
+		var newTaggers = A3($elm$core$List$foldl, $elm$time$Time$addMySub, $elm$core$Dict$empty, subs);
+		var leftStep = F3(
+			function (interval, taggers, _v4) {
+				var spawns = _v4.a;
+				var existing = _v4.b;
+				var kills = _v4.c;
+				return _Utils_Tuple3(
+					A2($elm$core$List$cons, interval, spawns),
+					existing,
+					kills);
+			});
+		var bothStep = F4(
+			function (interval, taggers, id, _v3) {
+				var spawns = _v3.a;
+				var existing = _v3.b;
+				var kills = _v3.c;
+				return _Utils_Tuple3(
+					spawns,
+					A3($elm$core$Dict$insert, interval, id, existing),
+					kills);
+			});
+		var _v1 = A6(
+			$elm$core$Dict$merge,
+			leftStep,
+			bothStep,
+			rightStep,
+			newTaggers,
+			processes,
+			_Utils_Tuple3(
+				_List_Nil,
+				$elm$core$Dict$empty,
+				$elm$core$Task$succeed(_Utils_Tuple0)));
+		var spawnList = _v1.a;
+		var existingDict = _v1.b;
+		var killTask = _v1.c;
+		return A2(
+			$elm$core$Task$andThen,
+			function (newProcesses) {
+				return $elm$core$Task$succeed(
+					A2($elm$time$Time$State, newTaggers, newProcesses));
+			},
+			A2(
+				$elm$core$Task$andThen,
+				function (_v2) {
+					return A3($elm$time$Time$spawnHelp, router, spawnList, existingDict);
+				},
+				killTask));
+	});
+var $elm$time$Time$Posix = function (a) {
+	return {$: 'Posix', a: a};
+};
+var $elm$time$Time$millisToPosix = $elm$time$Time$Posix;
+var $elm$time$Time$now = _Time_now($elm$time$Time$millisToPosix);
+var $elm$time$Time$onSelfMsg = F3(
+	function (router, interval, state) {
+		var _v0 = A2($elm$core$Dict$get, interval, state.taggers);
+		if (_v0.$ === 'Nothing') {
+			return $elm$core$Task$succeed(state);
+		} else {
+			var taggers = _v0.a;
+			var tellTaggers = function (time) {
+				return $elm$core$Task$sequence(
+					A2(
+						$elm$core$List$map,
+						function (tagger) {
+							return A2(
+								$elm$core$Platform$sendToApp,
+								router,
+								tagger(time));
+						},
+						taggers));
+			};
+			return A2(
+				$elm$core$Task$andThen,
+				function (_v1) {
+					return $elm$core$Task$succeed(state);
+				},
+				A2($elm$core$Task$andThen, tellTaggers, $elm$time$Time$now));
+		}
+	});
+var $elm$core$Basics$composeL = F3(
+	function (g, f, x) {
+		return g(
+			f(x));
+	});
+var $elm$time$Time$subMap = F2(
+	function (f, _v0) {
+		var interval = _v0.a;
+		var tagger = _v0.b;
+		return A2(
+			$elm$time$Time$Every,
+			interval,
+			A2($elm$core$Basics$composeL, f, tagger));
+	});
+_Platform_effectManagers['Time'] = _Platform_createManager($elm$time$Time$init, $elm$time$Time$onEffects, $elm$time$Time$onSelfMsg, 0, $elm$time$Time$subMap);
+var $elm$time$Time$subscription = _Platform_leaf('Time');
+var $elm$time$Time$every = F2(
+	function (interval, tagger) {
+		return $elm$time$Time$subscription(
+			A2($elm$time$Time$Every, interval, tagger));
+	});
+var $author$project$PlaneIntersection$subscriptions = function (_v0) {
+	return A2($elm$time$Time$every, 30, $author$project$PlaneIntersection$Tick);
+};
+var $author$project$PlaneIntersection$update = F2(
+	function (msg, model) {
+		var newRot = (model.rotation < 100) ? (model.rotation + 0.01) : 0;
+		return _Utils_Tuple2(
+			_Utils_update(
+				model,
+				{rotation: newRot}),
+			$elm$core$Platform$Cmd$none);
+	});
+var $author$project$Utils$Blue = {$: 'Blue'};
+var $author$project$Utils$Green = {$: 'Green'};
+var $author$project$Space$Intersection = F2(
+	function (a, b) {
+		return {$: 'Intersection', a: a, b: b};
+	});
+var $author$project$Space$Plane = F2(
+	function (a, b) {
+		return {$: 'Plane', a: a, b: b};
+	});
+var $author$project$Utils$Plane3D = F4(
+	function (xCof, yCof, zCof, rhs) {
+		return {rhs: rhs, xCof: xCof, yCof: yCof, zCof: zCof};
+	});
+var $author$project$Space$Point = F2(
+	function (a, b) {
+		return {$: 'Point', a: a, b: b};
+	});
+var $author$project$Utils$Point3D = F3(
+	function (x, y, z) {
+		return {x: x, y: y, z: z};
+	});
+var $author$project$Utils$Red = {$: 'Red'};
 var $elm$html$Html$div = _VirtualDom_node('div');
+var $elm$svg$Svg$Attributes$fill = _VirtualDom_attribute('fill');
+var $elm$core$String$fromFloat = _String_fromNumber;
+var $author$project$Space$maxC = function (params) {
+	return params.quadrantWidth;
+};
+var $elm$core$Basics$negate = function (n) {
+	return -n;
+};
+var $author$project$Space$minC = function (params) {
+	return -params.quadrantWidth;
+};
 var $elm$svg$Svg$trustedNode = _VirtualDom_nodeNS('http://www.w3.org/2000/svg');
+var $elm$svg$Svg$circle = $elm$svg$Svg$trustedNode('circle');
+var $elm$svg$Svg$Attributes$cx = _VirtualDom_attribute('cx');
+var $elm$svg$Svg$Attributes$cy = _VirtualDom_attribute('cy');
+var $author$project$Utils$Point2D = F2(
+	function (x, y) {
+		return {x: x, y: y};
+	});
+var $author$project$Space$perspective = F2(
+	function (params, pt) {
+		var d = params.distance;
+		return A2($author$project$Utils$Point2D, pt.y / (1 - (pt.x / d)), pt.z / (1 - (pt.x / d)));
+	});
+var $elm$core$Basics$cos = _Basics_cos;
+var $elm$core$Basics$sin = _Basics_sin;
+var $author$project$Space$rotY = F2(
+	function (params, pt) {
+		var theta = params.tilt;
+		return A3(
+			$author$project$Utils$Point3D,
+			($elm$core$Basics$cos(theta) * pt.x) + ($elm$core$Basics$sin(theta) * pt.z),
+			pt.y,
+			((-$elm$core$Basics$sin(theta)) * pt.x) + ($elm$core$Basics$cos(theta) * pt.z));
+	});
+var $author$project$Space$rotZ = F2(
+	function (params, pt) {
+		var theta = params.rotation;
+		return A3(
+			$author$project$Utils$Point3D,
+			($elm$core$Basics$cos(theta) * pt.x) - ($elm$core$Basics$sin(theta) * pt.y),
+			($elm$core$Basics$sin(theta) * pt.x) + ($elm$core$Basics$cos(theta) * pt.y),
+			pt.z);
+	});
+var $author$project$Space$shift = F2(
+	function (params, pt) {
+		var w = params.viewBoxWidth;
+		var space = w / params.sceneWidth;
+		var offset = (space * params.sceneWidth) / 2;
+		var drawPt = A2(
+			$author$project$Space$perspective,
+			params,
+			A2(
+				$author$project$Space$rotY,
+				params,
+				A2($author$project$Space$rotZ, params, pt)));
+		return A2($author$project$Utils$Point2D, (drawPt.x * space) + offset, ((-drawPt.y) * space) + offset);
+	});
+var $author$project$Space$mycircle = F3(
+	function (params, pt, baseAttrs) {
+		var str = $elm$core$String$fromFloat;
+		var center = A2($author$project$Space$shift, params, pt);
+		var attr = _List_fromArray(
+			[
+				$elm$svg$Svg$Attributes$cx(
+				str(center.x)),
+				$elm$svg$Svg$Attributes$cy(
+				str(center.y))
+			]);
+		return A2(
+			$elm$svg$Svg$circle,
+			_Utils_ap(attr, baseAttrs),
+			_List_Nil);
+	});
 var $elm$svg$Svg$line = $elm$svg$Svg$trustedNode('line');
-var $elm$svg$Svg$Attributes$stroke = _VirtualDom_attribute('stroke');
-var $elm$svg$Svg$Attributes$transform = _VirtualDom_attribute('transform');
 var $elm$svg$Svg$Attributes$x1 = _VirtualDom_attribute('x1');
 var $elm$svg$Svg$Attributes$x2 = _VirtualDom_attribute('x2');
 var $elm$svg$Svg$Attributes$y1 = _VirtualDom_attribute('y1');
 var $elm$svg$Svg$Attributes$y2 = _VirtualDom_attribute('y2');
-var $author$project$Main$axis = function (isX) {
-	var w = $author$project$Main$constants.width;
-	var tl = $author$project$Main$constants.tickLength;
-	var str = $elm$core$String$fromInt;
-	var oStr = str((w / 2) | 0);
-	var rot = 'rotate(-90 ' + (oStr + (' ' + (oStr + ')')));
-	var rotAttr = isX ? _List_Nil : _List_fromArray(
+var $author$project$Space$myline = F4(
+	function (params, p1, p2, baseAttrs) {
+		var str = $elm$core$String$fromFloat;
+		var start = A2($author$project$Space$shift, params, p1);
+		var end = A2($author$project$Space$shift, params, p2);
+		var endpoints = _List_fromArray(
+			[
+				$elm$svg$Svg$Attributes$x1(
+				str(start.x)),
+				$elm$svg$Svg$Attributes$y1(
+				str(start.y)),
+				$elm$svg$Svg$Attributes$x2(
+				str(end.x)),
+				$elm$svg$Svg$Attributes$y2(
+				str(end.y))
+			]);
+		return A2(
+			$elm$svg$Svg$line,
+			_Utils_ap(endpoints, baseAttrs),
+			_List_Nil);
+	});
+var $elm$svg$Svg$Attributes$r = _VirtualDom_attribute('r');
+var $elm$svg$Svg$Attributes$stroke = _VirtualDom_attribute('stroke');
+var $elm$svg$Svg$Attributes$strokeWidth = _VirtualDom_attribute('stroke-width');
+var $author$project$Space$drawAxis = function (params) {
+	var str = $elm$core$String$fromFloat;
+	var mxC = $author$project$Space$maxC(params);
+	var mnC = $author$project$Space$minC(params);
+	var baseAttrs = _List_fromArray(
 		[
-			$elm$svg$Svg$Attributes$transform(rot + '')
+			$elm$svg$Svg$Attributes$stroke('black'),
+			$elm$svg$Svg$Attributes$strokeWidth(
+			str(params.strokeWidth))
 		]);
-	var tick = function (xPos) {
-		var tickAttr = _Utils_ap(
+	var axis = F2(
+		function (p1, p2) {
+			return A4($author$project$Space$myline, params, p1, p2, baseAttrs);
+		});
+	return _List_fromArray(
+		[
+			A2(
+			axis,
+			A3($author$project$Utils$Point3D, mnC, 0, 0),
+			A3($author$project$Utils$Point3D, mxC, 0, 0)),
+			A2(
+			axis,
+			A3($author$project$Utils$Point3D, 0, mnC, 0),
+			A3($author$project$Utils$Point3D, 0, mxC, 0)),
+			A2(
+			axis,
+			A3($author$project$Utils$Point3D, 0, 0, mnC),
+			A3($author$project$Utils$Point3D, 0, 0, mxC)),
+			A3(
+			$author$project$Space$mycircle,
+			params,
+			A3($author$project$Utils$Point3D, mxC, 0, 0),
 			_List_fromArray(
 				[
-					$elm$svg$Svg$Attributes$x1(
-					str(xPos)),
-					$elm$svg$Svg$Attributes$y1(
-					str((w / 2) | 0)),
-					$elm$svg$Svg$Attributes$x2(
-					str(xPos)),
-					$elm$svg$Svg$Attributes$y2(
-					str(((w / 2) | 0) - tl)),
-					$elm$svg$Svg$Attributes$stroke('black')
-				]),
-			rotAttr);
-		return A2($elm$svg$Svg$line, tickAttr, _List_Nil);
-	};
-	var ticks = function () {
-		var ts = $author$project$Main$constants.tickSpace;
-		var numTicks = ((w / ts) | 0) - 1;
-		return A2(
-			$elm$core$List$map,
-			function (x) {
-				return tick(x * ts);
-			},
-			A2($elm$core$List$range, 1, numTicks));
-	}();
-	var lw = $author$project$Main$constants.lineWidth;
-	var axisAttr = _Utils_ap(
-		_List_fromArray(
-			[
-				$elm$svg$Svg$Attributes$x1('0'),
-				$elm$svg$Svg$Attributes$y1(
-				str((w / 2) | 0)),
-				$elm$svg$Svg$Attributes$x2(
-				str(w)),
-				$elm$svg$Svg$Attributes$y2(
-				str((w / 2) | 0)),
-				$elm$svg$Svg$Attributes$stroke('black')
-			]),
-		rotAttr);
-	return _Utils_ap(
-		_List_fromArray(
-			[
-				A2($elm$svg$Svg$line, axisAttr, _List_Nil)
-			]),
-		ticks);
+					$elm$svg$Svg$Attributes$r(
+					str(params.strokeWidth * 2)),
+					$elm$svg$Svg$Attributes$fill('black')
+				]))
+		]);
 };
 var $elm$core$List$append = F2(
 	function (xs, ys) {
@@ -5252,207 +5829,423 @@ var $elm$core$List$append = F2(
 var $elm$core$List$concat = function (lists) {
 	return A3($elm$core$List$foldr, $elm$core$List$append, _List_Nil, lists);
 };
-var $elm$svg$Svg$circle = $elm$svg$Svg$trustedNode('circle');
 var $elm$core$List$concatMap = F2(
 	function (f, list) {
 		return $elm$core$List$concat(
 			A2($elm$core$List$map, f, list));
 	});
-var $elm$svg$Svg$Attributes$cx = _VirtualDom_attribute('cx');
-var $elm$svg$Svg$Attributes$cy = _VirtualDom_attribute('cy');
-var $elm$svg$Svg$Attributes$fill = _VirtualDom_attribute('fill');
-var $elm$svg$Svg$Attributes$r = _VirtualDom_attribute('r');
-var $author$project$Main$dots = function () {
-	var tsp = $author$project$Main$constants.tickSpace;
-	var str = $elm$core$String$fromInt;
-	var numDots = (((($author$project$Main$constants.width / tsp) | 0) / 2) | 0) - 1;
-	var pos = A2(
-		$elm$core$List$concatMap,
-		function (x) {
-			return A2(
-				$elm$core$List$map,
-				function (y) {
-					return _Utils_Tuple2(
-						str((x * 2) * tsp),
-						str((y * 2) * tsp));
-				},
-				A2($elm$core$List$range, 1, numDots));
-		},
-		A2($elm$core$List$range, 1, numDots));
-	var dot = function (_v0) {
-		var x = _v0.a;
-		var y = _v0.b;
+var $elm$core$Basics$abs = function (n) {
+	return (n < 0) ? (-n) : n;
+};
+var $author$project$Space$getInterByX = F4(
+	function (params, pln1, pln2, x) {
+		var mxC = $author$project$Space$maxC(params) / 2;
+		var det = F2(
+			function (_v0, _v1) {
+				var e1 = _v0.a;
+				var e2 = _v0.b;
+				var f1 = _v1.a;
+				var f2 = _v1.b;
+				return (e1 * f2) - (f1 * e2);
+			});
+		var d = _Utils_Tuple2(pln1.rhs, pln2.rhs);
+		var c = _Utils_Tuple2(pln1.zCof, pln2.zCof);
+		var b = _Utils_Tuple2(pln1.yCof, pln2.yCof);
+		var a = _Utils_Tuple2(pln1.xCof, pln2.xCof);
+		var y = -(A2(det, c, d) + (A2(det, a, c) * x));
+		var z = A2(det, b, d) + (A2(det, a, b) * x);
+		return (($elm$core$Basics$abs(
+			A2(det, b, c)) > 0.000001) && (_Utils_cmp(
+			$elm$core$Basics$abs(
+				y / A2(det, b, c)),
+			mxC + 0.000001) < 1)) ? $elm$core$Maybe$Just(
+			A3(
+				$author$project$Utils$Point3D,
+				x,
+				y / A2(det, b, c),
+				z / A2(det, b, c))) : $elm$core$Maybe$Nothing;
+	});
+var $elm$core$Maybe$map = F2(
+	function (f, maybe) {
+		if (maybe.$ === 'Just') {
+			var value = maybe.a;
+			return $elm$core$Maybe$Just(
+				f(value));
+		} else {
+			return $elm$core$Maybe$Nothing;
+		}
+	});
+var $author$project$Space$getInterByY = F4(
+	function (params, pln1, pln2, yVal) {
+		var swap = function (_v0) {
+			var y = _v0.y;
+			var x = _v0.x;
+			var z = _v0.z;
+			return A3($author$project$Utils$Point3D, x, y, z);
+		};
+		var pln22 = A4($author$project$Utils$Plane3D, pln2.yCof, pln2.xCof, pln2.zCof, pln2.rhs);
+		var pln11 = A4($author$project$Utils$Plane3D, pln1.yCof, pln1.xCof, pln1.zCof, pln1.rhs);
 		return A2(
-			$elm$svg$Svg$circle,
+			$elm$core$Maybe$map,
+			swap,
+			A4($author$project$Space$getInterByX, params, pln11, pln22, yVal));
+	});
+var $author$project$Space$intersections = F3(
+	function (params, pln1, pln2) {
+		var toList = function (m) {
+			if (m.$ === 'Nothing') {
+				return _List_Nil;
+			} else {
+				var a = m.a;
+				return _List_fromArray(
+					[a]);
+			}
+		};
+		var mxC = $author$project$Space$maxC(params) / 2;
+		var mnC = $author$project$Space$minC(params) / 2;
+		return A2(
+			$elm$core$List$concatMap,
+			toList,
 			_List_fromArray(
 				[
-					$elm$svg$Svg$Attributes$r('0.5'),
-					$elm$svg$Svg$Attributes$cx(x),
-					$elm$svg$Svg$Attributes$cy(y),
-					$elm$svg$Svg$Attributes$fill('grey')
-				]),
-			_List_Nil);
-	};
-	return A2($elm$core$List$map, dot, pos);
-}();
-var $elm$core$String$fromFloat = _String_fromNumber;
-var $elm$core$Basics$negate = function (n) {
-	return -n;
-};
-var $author$project$Main$shift = function (_v0) {
-	var x = _v0.a;
-	var y = _v0.b;
-	var ts = $author$project$Main$constants.tickSpace;
-	var offset = ($author$project$Main$constants.width / 2) | 0;
-	return _Utils_Tuple2((x * ts) + offset, ((-y) * ts) + offset);
-};
-var $author$project$Main$genLine = F4(
-	function (a, b, c, color) {
-		var yVal = function (x) {
-			return (c - (a * x)) / b;
-		};
-		var w = ($author$project$Main$constants.width / $author$project$Main$constants.tickSpace) | 0;
+					A4($author$project$Space$getInterByX, params, pln1, pln2, mnC),
+					A4($author$project$Space$getInterByX, params, pln1, pln2, mxC),
+					A4($author$project$Space$getInterByY, params, pln1, pln2, mnC),
+					A4($author$project$Space$getInterByY, params, pln1, pln2, mxC)
+				]));
+	});
+var $author$project$Space$drawIntersection = F3(
+	function (params, pln1, pln2) {
+		var _v0 = A3($author$project$Space$intersections, params, pln1, pln2);
+		if ((_v0.b && _v0.b.b) && (!_v0.b.b.b)) {
+			var x = _v0.a;
+			var _v1 = _v0.b;
+			var y = _v1.a;
+			return _List_fromArray(
+				[
+					A4(
+					$author$project$Space$myline,
+					params,
+					x,
+					y,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$stroke('grey'),
+							$elm$svg$Svg$Attributes$strokeWidth(
+							$elm$core$String$fromFloat(params.strokeWidth))
+						]))
+				]);
+		} else {
+			return _List_Nil;
+		}
+	});
+var $elm$svg$Svg$Attributes$points = _VirtualDom_attribute('points');
+var $elm$svg$Svg$polygon = $elm$svg$Svg$trustedNode('polygon');
+var $author$project$Space$mypolygon = F3(
+	function (params, pts, baseAttrs) {
 		var str = $elm$core$String$fromFloat;
-		var _v0 = $author$project$Main$shift(
-			_Utils_Tuple2(
-				(-w) / 2,
-				yVal((-w) / 2)));
-		var sx = _v0.a;
-		var sy = _v0.b;
-		var _v1 = $author$project$Main$shift(
-			_Utils_Tuple2(
-				w / 2,
-				yVal(w / 2)));
-		var ex = _v1.a;
-		var ey = _v1.b;
-		var attr = _List_fromArray(
+		var drawPts = A2(
+			$elm$core$List$map,
+			$author$project$Space$shift(params),
+			pts);
+		var strPts = A2(
+			$elm$core$String$join,
+			' ',
+			A2(
+				$elm$core$List$map,
+				function (p) {
+					return str(p.x) + (',' + str(p.y));
+				},
+				drawPts));
+		return A2(
+			$elm$svg$Svg$polygon,
+			A2(
+				$elm$core$List$cons,
+				$elm$svg$Svg$Attributes$points(strPts),
+				baseAttrs),
+			_List_Nil);
+	});
+var $elm$svg$Svg$Attributes$opacity = _VirtualDom_attribute('opacity');
+var $author$project$Utils$stringFromColor = function (c) {
+	switch (c.$) {
+		case 'Red':
+			return 'red';
+		case 'Blue':
+			return 'blue';
+		case 'Green':
+			return 'green';
+		case 'Black':
+			return 'black';
+		default:
+			return 'grey';
+	}
+};
+var $author$project$Space$drawPlane = F3(
+	function (params, pln, sty) {
+		var zVal = F2(
+			function (x, y) {
+				return ((pln.rhs - (pln.xCof * x)) - (pln.yCof * y)) / pln.zCof;
+			});
+		var mxC = $author$project$Space$maxC(params) / 2;
+		var mnC = $author$project$Space$minC(params) / 2;
+		var pts = _List_fromArray(
 			[
-				$elm$svg$Svg$Attributes$x1(
-				str(sx)),
-				$elm$svg$Svg$Attributes$y1(
-				str(sy)),
-				$elm$svg$Svg$Attributes$x2(
-				str(ex)),
-				$elm$svg$Svg$Attributes$y2(
-				str(ey)),
-				$elm$svg$Svg$Attributes$stroke(color)
+				A3(
+				$author$project$Utils$Point3D,
+				mnC,
+				mnC,
+				A2(zVal, mnC, mnC)),
+				A3(
+				$author$project$Utils$Point3D,
+				mnC,
+				mxC,
+				A2(zVal, mnC, mxC)),
+				A3(
+				$author$project$Utils$Point3D,
+				mxC,
+				mxC,
+				A2(zVal, mxC, mxC)),
+				A3(
+				$author$project$Utils$Point3D,
+				mxC,
+				mnC,
+				A2(zVal, mxC, mnC))
 			]);
-		return _List_fromArray(
-			[
-				A2($elm$svg$Svg$line, attr, _List_Nil)
-			]);
+		var poly = A3(
+			$author$project$Space$mypolygon,
+			params,
+			pts,
+			_List_fromArray(
+				[
+					$elm$svg$Svg$Attributes$fill(
+					$author$project$Utils$stringFromColor(sty.color)),
+					$elm$svg$Svg$Attributes$opacity('0.27'),
+					$elm$svg$Svg$Attributes$stroke('black')
+				]));
+		var xline = function (x) {
+			return A4(
+				$author$project$Space$myline,
+				params,
+				A3(
+					$author$project$Utils$Point3D,
+					x,
+					mnC,
+					A2(zVal, x, mnC)),
+				A3(
+					$author$project$Utils$Point3D,
+					x,
+					mxC,
+					A2(zVal, x, mxC)),
+				_List_fromArray(
+					[
+						$elm$svg$Svg$Attributes$strokeWidth(
+						$elm$core$String$fromFloat(params.strokeWidth)),
+						$elm$svg$Svg$Attributes$stroke('black'),
+						$elm$svg$Svg$Attributes$opacity('0.1')
+					]));
+		};
+		var xlines = A2(
+			$elm$core$List$map,
+			function (x) {
+				return xline(x);
+			},
+			A2(
+				$elm$core$List$range,
+				$elm$core$Basics$ceiling(mnC) + 1,
+				$elm$core$Basics$floor(mxC) - 1));
+		var yline = function (y) {
+			return A4(
+				$author$project$Space$myline,
+				params,
+				A3(
+					$author$project$Utils$Point3D,
+					mnC,
+					y,
+					A2(zVal, mnC, y)),
+				A3(
+					$author$project$Utils$Point3D,
+					mxC,
+					y,
+					A2(zVal, mxC, y)),
+				_List_fromArray(
+					[
+						$elm$svg$Svg$Attributes$strokeWidth(
+						$elm$core$String$fromFloat(params.strokeWidth)),
+						$elm$svg$Svg$Attributes$stroke('black'),
+						$elm$svg$Svg$Attributes$opacity('0.1')
+					]));
+		};
+		var ylines = A2(
+			$elm$core$List$map,
+			function (y) {
+				return yline(y);
+			},
+			A2(
+				$elm$core$List$range,
+				$elm$core$Basics$ceiling(mnC) + 1,
+				$elm$core$Basics$floor(mxC) - 1));
+		return _Utils_ap(
+			_List_fromArray(
+				[poly]),
+			sty.hasHatch ? _Utils_ap(xlines, ylines) : _List_Nil);
 	});
 var $elm$svg$Svg$Attributes$strokeDasharray = _VirtualDom_attribute('stroke-dasharray');
-var $author$project$Main$genPoint = F3(
-	function (x, y, color) {
-		var str = $elm$core$String$fromFloat;
-		var _v0 = $author$project$Main$shift(
-			_Utils_Tuple2(x, y));
-		var px = _v0.a;
-		var py = _v0.b;
-		var pt = A2(
-			$elm$svg$Svg$circle,
-			_List_fromArray(
-				[
-					$elm$svg$Svg$Attributes$r('2.0'),
-					$elm$svg$Svg$Attributes$cx(
-					str(px)),
-					$elm$svg$Svg$Attributes$cy(
-					str(py)),
-					$elm$svg$Svg$Attributes$fill(color)
-				]),
-			_List_Nil);
-		var _v1 = $author$project$Main$shift(
-			_Utils_Tuple2(0, y));
-		var gysx = _v1.a;
-		var gysy = _v1.b;
-		var _v2 = $author$project$Main$shift(
-			_Utils_Tuple2(x, 0));
-		var gxsx = _v2.a;
-		var gxsy = _v2.b;
-		var _v3 = $author$project$Main$shift(
-			_Utils_Tuple2(x, y));
-		var gex = _v3.a;
-		var gey = _v3.b;
-		var guideX = A2(
-			$elm$svg$Svg$line,
-			_List_fromArray(
-				[
-					$elm$svg$Svg$Attributes$x1(
-					str(gxsx)),
-					$elm$svg$Svg$Attributes$y1(
-					str(gxsy)),
-					$elm$svg$Svg$Attributes$x2(
-					str(gex)),
-					$elm$svg$Svg$Attributes$y2(
-					str(gey)),
-					$elm$svg$Svg$Attributes$strokeDasharray('2'),
-					$elm$svg$Svg$Attributes$stroke('grey')
-				]),
-			_List_Nil);
-		var guideY = A2(
-			$elm$svg$Svg$line,
-			_List_fromArray(
-				[
-					$elm$svg$Svg$Attributes$x1(
-					str(gysx)),
-					$elm$svg$Svg$Attributes$y1(
-					str(gysy)),
-					$elm$svg$Svg$Attributes$x2(
-					str(gex)),
-					$elm$svg$Svg$Attributes$y2(
-					str(gey)),
-					$elm$svg$Svg$Attributes$strokeDasharray('2'),
-					$elm$svg$Svg$Attributes$stroke('grey')
-				]),
-			_List_Nil);
+var $author$project$Space$drawPoint = F3(
+	function (params, pt, sty) {
+		var rStr = $elm$core$String$fromFloat(params.strokeWidth * 2);
+		var guide = F2(
+			function (p1, p2) {
+				return A4(
+					$author$project$Space$myline,
+					params,
+					p1,
+					p2,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$stroke('grey'),
+							$elm$svg$Svg$Attributes$strokeDasharray(rStr),
+							$elm$svg$Svg$Attributes$strokeWidth(
+							$elm$core$String$fromFloat(params.strokeWidth / 2))
+						]));
+			});
 		return _List_fromArray(
-			[guideX, guideY, pt]);
+			[
+				A2(
+				guide,
+				A3($author$project$Utils$Point3D, pt.x, 0, 0),
+				A3($author$project$Utils$Point3D, pt.x, pt.y, 0)),
+				A2(
+				guide,
+				A3($author$project$Utils$Point3D, pt.x, pt.y, 0),
+				pt),
+				A2(
+				guide,
+				A3($author$project$Utils$Point3D, 0, pt.y, 0),
+				A3($author$project$Utils$Point3D, pt.x, pt.y, 0)),
+				A2(
+				guide,
+				A3($author$project$Utils$Point3D, 0, 0, pt.z),
+				A3($author$project$Utils$Point3D, 0, pt.y, pt.z)),
+				A2(
+				guide,
+				A3($author$project$Utils$Point3D, 0, pt.y, pt.z),
+				pt),
+				A2(
+				guide,
+				A3($author$project$Utils$Point3D, pt.x, 0, pt.z),
+				pt),
+				A2(
+				guide,
+				A3($author$project$Utils$Point3D, 0, 0, pt.z),
+				A3($author$project$Utils$Point3D, pt.x, 0, pt.z)),
+				A2(
+				guide,
+				A3($author$project$Utils$Point3D, pt.x, 0, 0),
+				A3($author$project$Utils$Point3D, pt.x, 0, pt.z)),
+				A2(
+				guide,
+				A3($author$project$Utils$Point3D, 0, pt.y, 0),
+				A3($author$project$Utils$Point3D, 0, pt.y, pt.z)),
+				A3(
+				$author$project$Space$mycircle,
+				params,
+				pt,
+				_List_fromArray(
+					[
+						$elm$svg$Svg$Attributes$fill(
+						$author$project$Utils$stringFromColor(sty.color)),
+						$elm$svg$Svg$Attributes$r(rStr)
+					]))
+			]);
+	});
+var $author$project$Space$drawElement = F2(
+	function (params, e) {
+		switch (e.$) {
+			case 'Plane':
+				var pln = e.a;
+				var sty = e.b;
+				return A3($author$project$Space$drawPlane, params, pln, sty);
+			case 'Point':
+				var pt = e.a;
+				var sty = e.b;
+				return A3($author$project$Space$drawPoint, params, pt, sty);
+			default:
+				var pln1 = e.a;
+				var pln2 = e.b;
+				return A3($author$project$Space$drawIntersection, params, pln1, pln2);
+		}
+	});
+var $author$project$Space$drawScene = F2(
+	function (params, scene) {
+		return A2(
+			$elm$core$List$concatMap,
+			$author$project$Space$drawElement(params),
+			scene);
 	});
 var $elm$svg$Svg$Attributes$height = _VirtualDom_attribute('height');
+var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
+var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
 var $elm$svg$Svg$svg = $elm$svg$Svg$trustedNode('svg');
 var $elm$svg$Svg$Attributes$viewBox = _VirtualDom_attribute('viewBox');
 var $elm$svg$Svg$Attributes$width = _VirtualDom_attribute('width');
-var $author$project$Main$graph2D = function () {
-	var scene = $elm$core$List$concat(
-		_List_fromArray(
-			[
-				$author$project$Main$axis(true),
-				$author$project$Main$axis(false),
-				$author$project$Main$dots,
-				A4($author$project$Main$genLine, 2.0, 3.0, -6.0, 'red'),
-				A3($author$project$Main$genPoint, 6.0, -6.0, 'red'),
-				A3($author$project$Main$genPoint, 12.0, -10.0, 'red'),
-				A3($author$project$Main$genPoint, -9.0, 4.0, 'red')
-			]));
+var $author$project$Space$basic3D = F2(
+	function (params, scene) {
+		var w = $elm$core$String$fromInt(params.viewBoxWidth);
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					A2($elm$html$Html$Attributes$style, 'margin-left', 'auto'),
+					A2($elm$html$Html$Attributes$style, 'margin-right', 'auto'),
+					A2($elm$html$Html$Attributes$style, 'width', w + 'px')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$svg$Svg$svg,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$width(w),
+							$elm$svg$Svg$Attributes$height(w),
+							$elm$svg$Svg$Attributes$viewBox('0 0 ' + (w + (' ' + w)))
+						]),
+					_Utils_ap(
+						$author$project$Space$drawAxis(params),
+						A2($author$project$Space$drawScene, params, scene)))
+				]));
+	});
+var $author$project$PlaneIntersection$view = function (model) {
+	var pnt1 = A3($author$project$Utils$Point3D, 4, -2, 0);
+	var pln3 = A4($author$project$Utils$Plane3D, 1, 3, 2, -2);
+	var pln2 = A4($author$project$Utils$Plane3D, 1, 1, 3, 2);
+	var pln1 = A4($author$project$Utils$Plane3D, 2, 3, 4, 2);
 	return A2(
-		$elm$svg$Svg$svg,
+		$author$project$Space$basic3D,
+		model,
 		_List_fromArray(
 			[
-				$elm$svg$Svg$Attributes$width('500'),
-				$elm$svg$Svg$Attributes$height('500'),
-				$elm$svg$Svg$Attributes$viewBox('0 0 500 500')
-			]),
-		scene);
-}();
-var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
-var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
-var $author$project$Main$view = function (_v0) {
-	return A2(
-		$elm$html$Html$div,
-		_List_fromArray(
-			[
-				A2($elm$html$Html$Attributes$style, 'margin-left', 'auto'),
-				A2($elm$html$Html$Attributes$style, 'margin-right', 'auto'),
 				A2(
-				$elm$html$Html$Attributes$style,
-				'width',
-				$elm$core$String$fromInt($author$project$Main$constants.width) + 'px')
-			]),
-		_List_fromArray(
-			[$author$project$Main$graph2D]));
+				$author$project$Space$Point,
+				pnt1,
+				{color: $author$project$Utils$Red, hasGuides: true}),
+				A2($author$project$Space$Intersection, pln1, pln2),
+				A2($author$project$Space$Intersection, pln1, pln3),
+				A2($author$project$Space$Intersection, pln2, pln3),
+				A2(
+				$author$project$Space$Plane,
+				pln1,
+				{color: $author$project$Utils$Red, hasHatch: false}),
+				A2(
+				$author$project$Space$Plane,
+				pln2,
+				{color: $author$project$Utils$Blue, hasHatch: false}),
+				A2(
+				$author$project$Space$Plane,
+				pln3,
+				{color: $author$project$Utils$Green, hasHatch: false})
+			]));
 };
-var $author$project$Main$main = $elm$browser$Browser$element(
-	{init: $author$project$Main$init, subscriptions: $author$project$Main$subscriptions, update: $author$project$Main$update, view: $author$project$Main$view});
-_Platform_export({'Main':{'init':$author$project$Main$main(
+var $author$project$PlaneIntersection$main = $elm$browser$Browser$element(
+	{init: $author$project$PlaneIntersection$init, subscriptions: $author$project$PlaneIntersection$subscriptions, update: $author$project$PlaneIntersection$update, view: $author$project$PlaneIntersection$view});
+_Platform_export({'PlaneIntersection':{'init':$author$project$PlaneIntersection$main(
 	$elm$json$Json$Decode$succeed(_Utils_Tuple0))(0)}});}(this));

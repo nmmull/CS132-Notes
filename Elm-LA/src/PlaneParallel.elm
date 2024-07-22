@@ -1,4 +1,4 @@
-module ExamplePlane exposing (..)
+module PlaneParallel exposing (..)
 
 import Utils exposing (Point3D, Plane3D, Color(..))
 import Space exposing (basic3D, Element(..))
@@ -25,9 +25,9 @@ init _ =
       , tilt = 0.2
       , rotation = 0
       , viewBoxWidth = 500
-      , quadrantWidth = 20
-      , sceneWidth = 60
-      , sceneOrigin = { x = 30, y = 30 }
+      , quadrantWidth = 15
+      , sceneWidth = 42
+      , sceneOrigin = { x = 21, y = 21 }
       , strokeWidth = 1
       }
     , Cmd.none
@@ -45,18 +45,12 @@ subscriptions _ = Time.every 30 Tick
 view : Model -> Html Msg
 view model =
     let
-        pln = Plane3D 1 1 1 1
-        plnSty = { color = Red, hasHatch = True }
-        p1 = Point3D 4 3 -6
-        p2 = Point3D -3 -5 9
-        p3 = Point3D -8 8 1
-        pntSty = { color = Red, hasGuides = True }
+        pln1 = Plane3D 1 1 2 -3
+        pln2 = Plane3D 1 1 2 6
     in
     basic3D model
-        [ Plane pln plnSty
-        , Point p1 pntSty
-        , Point p2 pntSty
-        , Point p3 pntSty
+        [ Plane pln1 { color = Red, hasHatch = True }
+        , Plane pln2 { color = Blue, hasHatch = True }
         ]
 
 main = Browser.element

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-07-19 Fri 13:42 -->
+<!-- 2024-07-22 Mon 18:15 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Linear Equations</title>
@@ -12,6 +12,12 @@
 <link rel="stylesheet" type="text/css" href="../myStyle.css" />
 <script src="example-line.js"></script>
 <script src="example-plane.js"></script>
+<script src="line-intersection.js"></script>
+<script src="line-parallel.js"></script>
+<script src="plane-intersection.js"></script>
+<script src="plane-intersection-inconsistent.js"></script>
+<script src="plane-intersection-two.js"></script>
+<script src="plane-parallel.js"></script>
 <script>
   window.MathJax = {
     tex: {
@@ -52,37 +58,36 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org133154a">Keywords</a></li>
-<li><a href="#org6af77cd">Basics</a></li>
-<li><a href="#orgd7427fa">Systems of Linear Equations</a></li>
-<li><a href="#org901650f">Solving Linear Systems</a></li>
-<li><a href="#orgc63fea7">Matrices and Row Operations</a></li>
-<li><a href="#orga54696b">SymPy and Row Operations</a></li>
+<li><a href="#org977a71f">Keywords</a></li>
+<li><a href="#orgb61351c">Basics</a></li>
+<li><a href="#org1fefa1f">Systems of Linear Equations</a></li>
+<li><a href="#org53cb728">Solving Linear Systems</a></li>
 </ul>
 </div>
 </div>
-<p>
-We begin by looking at systems of linear equations.  This will form
-the basis of what we will consider in the first part of the course.
-</p>
-<div id="outline-container-org133154a" class="outline-2">
-<h2 id="org133154a">Keywords</h2>
-<div class="outline-text-2" id="text-org133154a">
+<div id="outline-container-org977a71f" class="outline-2">
+<h2 id="org977a71f">Keywords</h2>
+<div class="outline-text-2" id="text-org977a71f">
 <ul class="org-ul">
-<li><a href="#orgb0b6506">Solution set</a></li>
-<li><a href="#orgf52b3dd">Consistency</a></li>
+<li><a href="#orge38fe06">Linear equation</a></li>
+<li><a href="#org2b3408b">Hyperplane</a></li>
+<li><a href="#org1afd329">Systems of linear equations</a></li>
+<li><a href="#org411997a">Solution set</a></li>
+<li><a href="#orga7e10f7">Consistency</a></li>
+<li><a href="#org97f47ce">Forward elimination</a></li>
+<li><a href="#org4f91a98">Back substitution</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org6af77cd" class="outline-2">
-<h2 id="org6af77cd">Basics</h2>
-<div class="outline-text-2" id="text-org6af77cd">
+<div id="outline-container-orgb61351c" class="outline-2">
+<h2 id="orgb61351c">Basics</h2>
+<div class="outline-text-2" id="text-orgb61351c">
 <p>
 Linear algebra is, at its core, the study of <i>linear equations</i>.
 </p>
-
 <blockquote>
 <p>
+<a id="orge38fe06"></a>
 <b>Definition.</b> A <b>linear equation</b> in the variables \(x_1, x_2, \dots,
 x_n\) is an equation that can expressed in the form
 </p>
@@ -226,7 +231,7 @@ fact that linear equation defines the set of points that satisfy it.
 
 <p>
 If we plot the entire set of points defined by a linear equation in two
-variables, we get a line in the plane.
+variables in the plane (\(\mathbb R^2\)), we get a line.
 </p>
 
 <blockquote>
@@ -236,10 +241,10 @@ variables, we get a line in the plane.
 \((a, b)\) such that \(2a + 3b = -6\), e.g., the points \((-9, 4)\), \((6,
 -6)\), and \((12, -10)\).
 </p>
-<div id="testing"></div>
+<div id="example-line"></div>
 <script>
 var app = Elm.ExampleLine.init({
-  node: document.getElementById('testing')
+  node: document.getElementById('example-line')
   });
 </script>
 </blockquote>
@@ -266,7 +271,7 @@ var app = Elm.ExamplePlane.init({
 
 <p>
 We call the set of points described by a linear equation in more than
-three variables a <b>hyperplane</b>.  We can't visualize hyperplanes, but
+three variables a <a id="org2b3408b"></a> <b>hyperplane</b>.  We can't visualize hyperplanes, but
 we can often take advantage of our intuitions about planes in \(\mathbb
 R^3\).<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>
 </p>
@@ -336,17 +341,24 @@ domain.
 
 <blockquote>
 <p>
-<b>Exercise.</b> Find two distinct points in the point-set define by the
+<b>Exercise.</b> Find two distinct points in the point-set defined by the
 equation in the candy store example.  What do these two points
 represent intuitively?
 </p>
 </blockquote>
-</div>
-</div>
 
-<div id="outline-container-orgd7427fa" class="outline-2">
-<h2 id="orgd7427fa">Systems of Linear Equations</h2>
-<div class="outline-text-2" id="text-orgd7427fa">
+<blockquote>
+<p>
+<b>Exercise.</b> Find the point at which the plane of the equation in the
+ candy store example intersects the \(s\) axis.  What does this point
+ represent intuitively?
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org1fefa1f" class="outline-2">
+<h2 id="org1fefa1f">Systems of Linear Equations</h2>
+<div class="outline-text-2" id="text-org1fefa1f">
 <p>
 The situation is made more interesting by considering multiple linear
 equations <i>simultaneously</i>.
@@ -354,6 +366,7 @@ equations <i>simultaneously</i>.
 
 <blockquote>
 <p>
+<a id="org1afd329"></a>
 <b>Definition.</b> A <b>system of linear equations (linear system)</b> in the
  variables \(x_1, \dots, x_n\) is a collection of linear equations in
  the same variables.
@@ -361,8 +374,8 @@ equations <i>simultaneously</i>.
 </blockquote>
 
 <p>
-When we consider a system of linear equations, we are usually
-interested in the points which the sets defined by <i>every</i> equation in
+When we consider a system of linear equations, we're usually
+interested in the points which lie in the sets defined by <i>every</i> equation in
 the system.
 </p>
 
@@ -376,41 +389,80 @@ the system.
 
 <blockquote>
 <p>
-<b>Example.</b> The point \((4, -2, 0)\) is a solution to the system
+<b>Example.</b> The point \((5, 3)\) is a solution to the system
 </p>
 
 \begin{align*}
-2x + 3y + 2z &= 2 \\
-x + y + z &= 2 \\
+-x + y = -2
+-2x + y = -7
+\end{align*}
+
+<p>
+because if we set \(x = 5\) and \(y = 3\) in each equation, then every
+equation is satisfied:
+</p>
+
+\begin{align*}
+-5 + 3 &= -2 \\
+-2(5) + 3 = -10 + 3 &= -7
+\end{align*}
+
+<p>
+The point \((4, -2, 0)\) is a solution to the system
+</p>
+
+\begin{align*}
+2x + 3y + 4z &= 2 \\
+x + y + 3z &= 2 \\
 x + 3y + 2z &= -2
 \end{align*}
 
 <p>
 because if we set \(x = 4\) and \(y = -2\) and \(z = 0\) in each equation,
-every equation is satisfied:
+then every equation is satisfied:
 </p>
 
 \begin{align*}
 2(4) + 3(-2) + 2(0) = 8 + (-6) &= 2 \\
-4 + (-2) + 0 &= 2 \\
+4 + (-2) + 3(0) &= 2 \\
 4 + 3(-2) + 2(0) = 4 + (-6) &= -2
 \end{align*}
 </blockquote>
 
 <p>
 We call the set of all solutions to a linear system its <b>solution set</b>
-<a id="orgb0b6506"></a> (naturally).  Geometrically, the solution set of a
-linear system corresponds to the <i>intersection</i> of the point-sets that
-each linear equation defines.  So the problem of solving a system of
-linear equations is analogous to the 2-dimensional line-intersection
-problem.
+<a id="org411997a"></a> (naturally).  Geometrically, the solution set of a
+linear system corresponds to the <i>intersection</i> of the point-sets of
+each linear equation in the system.  So the problem of solving a
+system of linear equations is analogous to the line-intersection
+problem in the plane.
 </p>
 
 <blockquote>
 <p>
-<b>Example</b> TODO PICTURE (two lines intersecting at a point, two planes
- intersecting at a line).
+<b>Example.</b> The point \((5, 3)\) is where the lines defined by \(-x + y =
+-2\) and \(-2x + y = -7\) intersect.
 </p>
+<div id="line-intersection"></div>
+<script>
+var app = Elm.LineIntersection.init({
+  node: document.getElementById('line-intersection')
+  });
+</script>
+</blockquote>
+
+<blockquote>
+<p>
+<b>Example.</b> The point \((4, -2, 0)\) is the point at which the <i>planes</i>
+defined by \(2x + 3y + 2z = 2\) and \(x + y + 3z = 2\) and \(x + 3y + 2z =
+-2\) intersect.
+</p>
+<div id="plane-intersection"></div>
+<script>
+var app = Elm.PlaneIntersection.init({
+  node: document.getElementById('plane-intersection')
+  });
+</script>
 </blockquote>
 
 <blockquote>
@@ -425,21 +477,10 @@ x + 2y &= 9 \\
 </blockquote>
 
 <p>
-Our primary question moving forward will be: <b>what does the solution
-set of a given linear system look like?</b> It turns out there are only
-three options.
-</p>
-
-<blockquote>
-<p>
-<b>Theorem.</b> A system of linear equations either has zero, one, or
- infinitely many solutions.
-</p>
-</blockquote>
-
-<p>
-As we progress, we will be able to exactly describe the "shape" of a
-solution set, but for now we will be interested in two questions.
+Our high-level question moving forward will be: <b>what does the solution
+set of a given linear system look like?</b> We will eventually be able to
+exactly describe the "shape" of a solution set, but for now we will be
+interested in two questions.
 </p>
 
 <ul class="org-ul">
@@ -457,9 +498,114 @@ amount of terminology for saying the same things in different ways
 <blockquote>
 <p>
 <b>Terminology.</b> A system of linear equations is called <b>consistent</b>
- <a id="orgf52b3dd"></a> if it has a solution. Otherwise it is called
+ <a id="orga7e10f7"></a> if it has a solution. Otherwise it is called
  <b>inconsistent</b>.
 </p>
+</blockquote>
+
+<blockquote>
+<p>
+<b>Example.</b> An inconsistent system in two variables with two equations
+represents parallel lines, e.g., the system
+</p>
+
+\begin{align*}
+2x - 3y &= -5 \\
+-4x + 6y &= -14
+\end{align*}
+
+<p>
+is inconsistent, the lines defined by these equations, when graphed in
+the plane, are parallel.
+</p>
+
+<div id="line-parallel"></div>
+<script>
+var app = Elm.LineParallel.init({
+  node: document.getElementById('line-parallel')
+  });
+</script>
+<hr />
+<p>
+It's also possible to build an inconsistent linear system in three
+variables with two equations.  This system would represent two
+parallel planes.
+</p>
+
+<div id="plane-parallel"></div>
+<script>
+var app = Elm.PlaneParallel.init({
+  node: document.getElementById('plane-parallel')
+  });
+</script>
+</blockquote>
+
+<blockquote>
+<p>
+<b>Exercise</b> Give an explicit example of a system of linear equations
+ with three variables and two equations representing parallel planes.
+ Then give a procedure for defining an inconsistent linear system with
+ two equations in <i>any number of variables</i>.
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+<b>Example.</b> Perhaps more interesting, its possible to define a system
+ of linear equations in three variables with three equations such that
+ every pair of equations forms a consistent system.  Geometrically,
+ this would represent three planes which each intersect with the
+ others, but do not all three intersect at a single point.
+</p>
+
+<div id="plane-intersection-inconsistent"></div>
+<script>
+var app = Elm.PlaneIntersectionInconsistent.init({
+  node: document.getElementById('plane-intersection-inconsistent')
+  });
+</script>
+</blockquote>
+
+<blockquote>
+<p>
+<b>Exercise.</b> Give an example of a inconsistent system of linear
+equations in two variables with three equations in which none of the
+lines defined by the equations in the system are parallel.
+</p>
+</blockquote>
+
+<p>
+One nice thing about systems of linear equations (as opposed to say,
+the systems of general polynomials) is that, if we're just interested
+in the <i>number</i> of solutions, it turns out there are only three
+options.
+</p>
+
+<blockquote>
+<p>
+<b>Theorem.</b> A system of linear equations either has zero, one, or
+ infinitely many solutions.
+</p>
+</blockquote>
+
+<p>
+So if a system <b>is</b> consistent and it <b>does not</b> have a unique
+solution, then it must have infinitely many solutions.
+</p>
+
+<blockquote>
+<p>
+<b>Example.</b> If two distinct planes in \(\mathbb R^3\) intersect, then the
+ must intersect at a <i>line</i>.  This means there are infinitely many
+ points at the intersection of two such planes.
+</p>
+
+<div id="plane-intersection-two"></div>
+<script>
+var app = Elm.PlaneIntersectionTwo.init({
+  node: document.getElementById('plane-intersection-two')
+  });
+</script>
 </blockquote>
 
 <blockquote>
@@ -486,9 +632,9 @@ is also a solution.
 </div>
 </div>
 
-<div id="outline-container-org901650f" class="outline-2">
-<h2 id="org901650f">Solving Linear Systems</h2>
-<div class="outline-text-2" id="text-org901650f">
+<div id="outline-container-org53cb728" class="outline-2">
+<h2 id="org53cb728">Solving Linear Systems</h2>
+<div class="outline-text-2" id="text-org53cb728">
 <p>
 Solving a system of linear equations means finding a solution<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup> or showing that no such solution exists.
 </p>
@@ -643,10 +789,10 @@ using the elimination method.
 <p>
 The elimination method is the basis of <i>Gaussian elimination</i>, our
 next topic.  In its simplest form, the elimination method has two
-phases: <b>forward elimination</b> and <b>back substitution</b>.  Rather than
-dwelling on how this works in general (we will get to that), here is
-an outline for using the elimination method for a linear system in
-three variables:
+phases: <a id="org97f47ce"></a> <b>forward elimination</b> and <a id="org4f91a98"></a>
+<b>back substitution</b>.  Rather than dwelling on how this
+works in general (we will get to that), here is an outline for using
+the elimination method for a linear system in three variables:
 </p>
 
 <ul class="org-ul">
@@ -675,395 +821,6 @@ three variables:
 Hopefully this is enough to get you thinking about how to apply this
 in the case of four variables.
 </p>
-</div>
-</div>
-
-<div id="outline-container-orgc63fea7" class="outline-2">
-<h2 id="orgc63fea7">Matrices and Row Operations</h2>
-<div class="outline-text-2" id="text-orgc63fea7">
-<p>
-Matrices are very simple mathematical objects: A matrix is just a grid
-of things.  It doesn't matter terribly what those things are, but in
-this course we will be exclusively interested in the case that those
-things are real numbers.
-</p>
-
-<p>
-A matrix is like a list of lists in Python (and we will, in essence,
-represent them that way) with the restriction that
-</p>
-<ul class="org-ul">
-<li>every element is the same kind of thing</li>
-<li>the list is non-empty (there is at least one row)</li>
-<li>every list in the list is the same length (each row has the same
-length)</li>
-</ul>
-
-<p>
-Thus, a matrix is characterized by what sort of things it contains,
-how many <b>rows</b> it has, and how many <b>columns</b> it has.  We will use
-the notation \(\mathbb R^{m \times n}\) to refer to the collection of
-all possible matrices with real numbers, \(m\) rows and \(n\) columns.
-</p>
-
-<blockquote>
-<p>
-<b>Example.</b>
-</p>
-
-<p>
-\(\begin{bmatrix}
-3 & -2 & \pi \\
-0.1 & 4 & 1000
-\end{bmatrix}\)
-</p>
-
-<p>
-is a \(2 \times 3\) matrix, i.e., it is a matrix in \(\mathbb R^{2 \times
-3}\).
-</p>
-</blockquote>
-
-<p>
-I want to emphasize that <b>a matrix has no inherent meaning</b>.  They are
-just a convenient way to store data.  The "meaning" of a matrix comes
-from how we work with it, how we interpret it.
-</p>
-
-<blockquote>
-<p>
-<b>Example.</b> We can think of a piece of 2-bit pixel art as a matrix
-containing values between 0 and 3.
-</p>
-</blockquote>
-
-<blockquote>
-<p>
-<b>Definition.</b> The <b>augmented matrix</b> of a linear system
-</p>
-
-\begin{align*}
-a_{11}x_1 + \dots + a_{1n} x_n &= b_1 \\
-a_{21}x_1 + \dots + a_{2n} x_n &= b_2 \\
-&\vdots \\
-a_{m1}x_1 + \dots + a_{mn} x_n &= b_m
-\end{align*}
-
-<p>
-with \(m\) equations and \(n\) unknowns is the \(m \times (n + 1)\) matrix
-</p>
-
-\begin{bmatrix}
-a_{11} & \dots & a_{1n} & b_1 \\
-a_{21} & \dots & a_{2n} & b_2 \\
-\vdots & \ddots & \vdots & \vdots \\
-a_{m1} & \dots & a_{mn} & b_m
-\end{bmatrix}
-
-<p>
-the <b>coefficient matrix</b> of the same system is the \(m \times n\) matrix
-</p>
-
-\begin{bmatrix}
-a_{11} & \dots & a_{1n}\\
-a_{21} & \dots & a_{2n} \\
-\vdots & \ddots & \vdots \\
-a_{m1} & \dots & a_{mn}
-\end{bmatrix}
-</blockquote>
-
-<blockquote>
-<p>
-<b>Example.</b> (TAKE FROM THE CHEMISTRY EXAMPLE)
-</p>
-</blockquote>
-
-<blockquote>
-<p>
-<b>Definition.</b> Two systems of linear equations are <b>equivalent</b> if they
- have the same solution set.
-</p>
-</blockquote>
-
-<blockquote>
-<p>
-<b>Definition.</b> The <b>elementary row operations</b> are
-</p>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<tbody>
-<tr>
-<td class="org-left">replace(A, i, c, j)</td>
-<td class="org-left">add row j scaled by c to row j</td>
-</tr>
-
-<tr>
-<td class="org-left">scale(A, c, i)</td>
-<td class="org-left">multiply every entry in the row i c</td>
-</tr>
-
-<tr>
-<td class="org-left">swap(A, i, j)</td>
-<td class="org-left">swap row i and row j</td>
-</tr>
-</tbody>
-</table>
-<p>
-Two matrices \(A\) and \(B\) are <b>row equivalent</b> (written \(A \sim B\)) if
-there is a sequence of row operations which transforms \(A\) to \(B\).
-</p>
-</blockquote>
-
-<blockquote>
-<p>
-<b>Example.</b> (TRANFORMATION)
-</p>
-</blockquote>
-
-<blockquote>
-<p>
-<b>Theorem.</b> Two linear systems are equivalent if and only if their augmented matrices are row equivalent.
-</p>
-</blockquote>
-</div>
-</div>
-
-<div id="outline-container-orga54696b" class="outline-2">
-<h2 id="orga54696b">SymPy and Row Operations</h2>
-<div class="outline-text-2" id="text-orga54696b">
-<p>
-It will be useful (particularly for exams) to practice performing row
-operations by hand.  From the CS perspective, we want a better way to
-do it.
-</p>
-
-<p>
-In the following chapter we will look at <i>Gaussian elimination</i> and
-algorithm for performing the "right" row operations to solve a given
-linear system (expressed as an augmented matrix).  For now, it would
-be nice if we could use a computer to do some tedious calculations for
-us.
-</p>
-
-<p>
-For the first part of this course, we will be using <code>sympy</code>, a Python
-library for symbolic computation.  It has module for working with
-matrices, which we can use to perform row operations.
-</p>
-
-<p>
-We can create a matrix using the <code>Matrix</code> constructor, which takes a
-list of lists of numbers.  It will only construct a matrix object if
-this list of lists satisfies the requirement mentioned above.
-</p>
-
-<div class="org-src-container">
-<pre class="src src-python"><span style="color: #a020f0;">from</span> sympy <span style="color: #a020f0;">import</span> pprint
-<span style="color: #a020f0;">from</span> sympy.matrices <span style="color: #a020f0;">import</span> Matrix
-
-<span style="color: #a020f0;">try</span>:
-    <span style="color: #a0522d;">A</span> = Matrix([
-        [1, 0],
-        [0]
-    ])
-<span style="color: #a020f0;">except</span>:
-    <span style="color: #483d8b;">print</span>(<span style="color: #8b2252;">"rows aren't the same length"</span>)
-
-<span style="color: #a0522d;">A</span> = Matrix([
-    [1, 0],
-    [0, 1 / 4]
-])
-
-<span style="color: #483d8b;">print</span>()
-<span style="color: #483d8b;">print</span>(<span style="color: #8b2252;">"A:"</span>)
-pprint(A)
-</pre>
-</div>
-
-<pre class="example">
-rows aren't the same length
-
-A:
-⎡1   0  ⎤
-⎢       ⎥
-⎣0  0.25⎦
-</pre>
-
-
-<p>
-We can use array slicing to access and update rows of a given matrix,
-which means we can perform elementary row operations as simple
-assignments.
-</p>
-
-<div class="org-src-container">
-<pre class="src src-python"><span style="color: #a020f0;">from</span> sympy <span style="color: #a020f0;">import</span> pprint
-<span style="color: #a020f0;">from</span> sympy.matrices <span style="color: #a020f0;">import</span> Matrix
-
-<span style="color: #a0522d;">A</span> = Matrix([
-    [-1, -2, 1],
-    [1, 1, 2]
-])
-
-<span style="color: #483d8b;">print</span>(<span style="color: #8b2252;">"A:"</span>)
-pprint(A)
-
-<span style="color: #483d8b;">print</span>()
-<span style="color: #483d8b;">print</span>(<span style="color: #8b2252;">"first row of A:"</span>)
-pprint(A[0,:])
-
-<span style="color: #483d8b;">print</span>()
-<span style="color: #483d8b;">print</span>(<span style="color: #8b2252;">"swap first and second row:"</span>)
-<span style="color: #a0522d;">A</span>[0,:], <span style="color: #a0522d;">A</span>[1,:] = A[1,:], A[0,:]
-pprint(A)
-
-<span style="color: #483d8b;">print</span>()
-<span style="color: #483d8b;">print</span>(<span style="color: #8b2252;">"replace first row with 3 times second row:"</span>)
-<span style="color: #a0522d;">A</span>[0,:] += 3 * A[1,:]
-pprint(A)
-
-<span style="color: #483d8b;">print</span>()
-<span style="color: #483d8b;">print</span>(<span style="color: #8b2252;">"scale second row by 1/5:"</span>)
-<span style="color: #a0522d;">A</span>[0,:] /= 5
-pprint(A)
-</pre>
-</div>
-
-<pre class="example" id="org3b1316b">
-A:
-⎡-1  -2  1⎤
-⎢         ⎥
-⎣1   1   2⎦
-
-first row of A:
-[-1  -2  1]
-
-swap first and second row:
-⎡1   1   2⎤
-⎢         ⎥
-⎣-1  -2  1⎦
-
-replace first row with 3 times second row:
-⎡-2  -5  5⎤
-⎢         ⎥
-⎣-1  -2  1⎦
-
-scale second row by 1/5:
-⎡-2/5  -1  1⎤
-⎢           ⎥
-⎣ -1   -2  1⎦
-</pre>
-
-<p>
-So, for example, we can determine a solution to the systems of
-equations from the previous section.
-</p>
-
-<div class="org-src-container">
-<pre class="src src-python"><span style="color: #a020f0;">from</span> sympy <span style="color: #a020f0;">import</span> pprint
-<span style="color: #a020f0;">from</span> sympy.matrices <span style="color: #a020f0;">import</span> Matrix
-
-<span style="color: #a0522d;">A</span> = Matrix([
-    [-1, -2, 1],
-    [1, 1, 2]
-])
-
-                      <span style="color: #b22222;"># </span><span style="color: #b22222;">forward elimination:</span>
-<span style="color: #a0522d;">A</span>[1,:] += A[0,:]      <span style="color: #b22222;"># </span><span style="color: #b22222;">add row 0 to row 1</span>
-<span style="color: #a0522d;">A</span>[1,:] *= -1          <span style="color: #b22222;"># </span><span style="color: #b22222;">scale row 1 by -1</span>
-
-                      <span style="color: #b22222;"># </span><span style="color: #b22222;">back substitution:</span>
-<span style="color: #a0522d;">A</span>[0,:] += 2 * A[1,:]  <span style="color: #b22222;"># </span><span style="color: #b22222;">add 2 times row 1 to row 0</span>
-<span style="color: #a0522d;">A</span>[0,:] *= -1          <span style="color: #b22222;"># </span><span style="color: #b22222;">scale row 0 by -1</span>
-
-pprint(A)
-</pre>
-</div>
-
-<pre class="example">
-⎡1  0  5 ⎤
-⎢        ⎥
-⎣0  1  -3⎦
-</pre>
-
-
-<p>
-I need to know how this works before I can work out the details of the
-section.
-</p>
-
-<ul class="org-ul">
-<li>Basic outline of LAA
-<ul class="org-ul">
-<li>linear equations</li>
-<li>systems of linear equations</li>
-<li>solutions</li>
-<li>equivalent systems</li>
-<li>number of solutions</li>
-<li>consistency</li>
-<li>matrices</li>
-<li>solving systems of linear equations
-<ul class="org-ul">
-<li>elimination and back substitution</li>
-</ul></li>
-<li>elementary row operations</li>
-<li>existence and uniqueness</li>
-</ul></li>
-
-<li>Basic outline of LAGC
-<ul class="org-ul">
-<li>Same, ends with more geometric interpretation</li>
-</ul></li>
-</ul>
-
-<p>
-I want to include more about using NumPy as a solver.
-</p>
-
-<p>
-Questions we can ask about systems of linear equations
-</p>
-<ul class="org-ul">
-<li>How many solutions does it have (0, 1, or infinitely many)?</li>
-<li>Is it consistent?
-<ul class="org-ul">
-<li>Does it have a solution?</li>
-</ul></li>
-<li>Does it have a unique solution?</li>
-</ul>
-
-<p>
-Exercises
-</p>
-<ul class="org-ul">
-<li>Solve this system of linear equations</li>
-<li>Solve this system of linear equations</li>
-<li>How many solutions? 0, 1, or infinitely many?</li>
-<li>Find a value which makes this a consistent system.</li>
-<li>Write down the shortest sequence of row operations which converts this matrix to this matrix.</li>
-<li>Thing that doesn't look like system becomes system</li>
-<li>Write down all the reduced echelon forms of this matrix.</li>
-<li>Write down the augmented matrix for this system.</li>
-<li>Word problem.</li>
-</ul>
-
-
-<p>
-Programming
-</p>
-<ul class="org-ul">
-<li>Write a program that checks if a matrix is in echelon form
-<ul class="org-ul">
-<li>is a valid matrix</li>
-<li>also in reduced echelon</li>
-</ul></li>
-</ul>
 </div>
 </div>
 <div id="footnotes">

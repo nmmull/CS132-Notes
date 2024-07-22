@@ -3,17 +3,26 @@
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../myStyle.css" />
 #+HTML_HEAD: <script src="example-line.js"></script>
 #+HTML_HEAD: <script src="example-plane.js"></script>
+#+HTML_HEAD: <script src="line-intersection.js"></script>
+#+HTML_HEAD: <script src="line-parallel.js"></script>
+#+HTML_HEAD: <script src="plane-intersection.js"></script>
+#+HTML_HEAD: <script src="plane-intersection-inconsistent.js"></script>
+#+HTML_HEAD: <script src="plane-intersection-two.js"></script>
+#+HTML_HEAD: <script src="plane-parallel.js"></script>
 #+OPTIONS: html-style:nil H:2 toc:1 num:nil tasks:nil
 #+HTML_LINK_HOME: ../toc.html
-We begin by looking at systems of linear equations.  This will form
-the basis of what we will consider in the first part of the course.
 * Keywords
++ [[linear equation][Linear equation]]
++ [[hyperplane][Hyperplane]]
++ [[linear systems][Systems of linear equations]]
 + [[solution set][Solution set]]
 + [[consistent][Consistency]]
++ [[forward elimination][Forward elimination]]
++ [[back substitution][Back substitution]]
 * Basics
 Linear algebra is, at its core, the study of /linear equations/.
-
 #+begin_quote
+<<linear equation>>
 *Definition.* A *linear equation* in the variables $x_1, x_2, \dots,
 x_n$ is an equation that can expressed in the form
 
@@ -110,7 +119,7 @@ which is a subset of $\mathbb R^n$.  This notation expresses the basic
 fact that linear equation defines the set of points that satisfy it.
 
 If we plot the entire set of points defined by a linear equation in two
-variables, we get a line in the plane.
+variables in the plane ($\mathbb R^2$), we get a line.
 
 #+begin_quote
 *Example.* This is the graph of the line $y =
@@ -118,10 +127,10 @@ variables, we get a line in the plane.
 $(a, b)$ such that $2a + 3b = -6$, e.g., the points $(-9, 4)$, $(6,
 -6)$, and $(12, -10)$.
 #+begin_export html
-  <div id="testing"></div>
+  <div id="example-line"></div>
   <script>
   var app = Elm.ExampleLine.init({
-    node: document.getElementById('testing')
+    node: document.getElementById('example-line')
     });
   </script>
 #+end_export
@@ -146,7 +155,7 @@ y + z = 1$.  The plane includes, for example, the points $(4, 3,
 #+end_quote
 
 We call the set of points described by a linear equation in more than
-three variables a *hyperplane*.  We can't visualize hyperplanes, but
+three variables a <<hyperplane>> *hyperplane*.  We can't visualize hyperplanes, but
 we can often take advantage of our intuitions about planes in $\mathbb
 R^3$.[fn::For example (and this will be more clear as we get further
 into the material) just like a plane in $\mathbb R^3$ separates
@@ -181,23 +190,29 @@ I will leave it to you to map this example onto a more "useful"
 domain.
 
 #+begin_quote
-*Exercise.* Find two distinct points in the point-set define by the
+*Exercise.* Find two distinct points in the point-set defined by the
 equation in the candy store example.  What do these two points
 represent intuitively?
 #+end_quote
 
+#+begin_quote
+*Exercise.* Find the point at which the plane of the equation in the
+ candy store example intersects the $s$ axis.  What does this point
+ represent intuitively?
+#+end_quote
 * Systems of Linear Equations
 The situation is made more interesting by considering multiple linear
 equations /simultaneously/.
 
 #+begin_quote
+<<linear systems>>
 *Definition.* A *system of linear equations (linear system)* in the
  variables $x_1, \dots, x_n$ is a collection of linear equations in
  the same variables.
 #+end_quote
 
-When we consider a system of linear equations, we are usually
-interested in the points which the sets defined by /every/ equation in
+When we consider a system of linear equations, we're usually
+interested in the points which lie in the sets defined by /every/ equation in
 the system.
 
 #+begin_quote
@@ -207,34 +222,71 @@ the system.
 #+end_quote
 
 #+begin_quote
-*Example.* The point $(4, -2, 0)$ is a solution to the system
+*Example.* The point $(5, 3)$ is a solution to the system
 
 \begin{align*}
-2x + 3y + 2z &= 2 \\
-x + y + z &= 2 \\
+-x + y = -2
+-2x + y = -7
+\end{align*}
+
+because if we set $x = 5$ and $y = 3$ in each equation, then every
+equation is satisfied:
+
+\begin{align*}
+-5 + 3 &= -2 \\
+-2(5) + 3 = -10 + 3 &= -7
+\end{align*}
+
+The point $(4, -2, 0)$ is a solution to the system
+
+\begin{align*}
+2x + 3y + 4z &= 2 \\
+x + y + 3z &= 2 \\
 x + 3y + 2z &= -2
 \end{align*}
 
 because if we set $x = 4$ and $y = -2$ and $z = 0$ in each equation,
-every equation is satisfied:
+then every equation is satisfied:
 
 \begin{align*}
 2(4) + 3(-2) + 2(0) = 8 + (-6) &= 2 \\
-4 + (-2) + 0 &= 2 \\
+4 + (-2) + 3(0) &= 2 \\
 4 + 3(-2) + 2(0) = 4 + (-6) &= -2
 \end{align*}
 #+end_quote
 
 We call the set of all solutions to a linear system its *solution set*
 <<solution set>> (naturally).  Geometrically, the solution set of a
-linear system corresponds to the /intersection/ of the point-sets that
-each linear equation defines.  So the problem of solving a system of
-linear equations is analogous to the 2-dimensional line-intersection
-problem.
+linear system corresponds to the /intersection/ of the point-sets of
+each linear equation in the system.  So the problem of solving a
+system of linear equations is analogous to the line-intersection
+problem in the plane.
 
 #+begin_quote
-*Example* TODO PICTURE (two lines intersecting at a point, two planes
- intersecting at a line).
+*Example.* The point $(5, 3)$ is where the lines defined by $-x + y =
+-2$ and $-2x + y = -7$ intersect.
+#+begin_export html
+  <div id="line-intersection"></div>
+  <script>
+  var app = Elm.LineIntersection.init({
+    node: document.getElementById('line-intersection')
+    });
+  </script>
+#+end_export
+#+end_quote
+
+#+begin_quote
+*Example.* The point $(4, -2, 0)$ is the point at which the /planes/
+defined by $2x + 3y + 2z = 2$ and $x + y + 3z = 2$ and $x + 3y + 2z =
+-2$ intersect.
+#+begin_export html
+  <div id="plane-intersection"></div>
+  <script>
+  var app = Elm.PlaneIntersection.init({
+    node: document.getElementById('plane-intersection')
+    });
+  </script>
+#+end_export
 #+end_quote
 
 #+begin_quote
@@ -246,17 +298,10 @@ x + 2y &= 9 \\
 \end{align*}
 #+end_quote
 
-Our primary question moving forward will be: *what does the solution
-set of a given linear system look like?* It turns out there are only
-three options.
-
-#+begin_quote
-*Theorem.* A system of linear equations either has zero, one, or
- infinitely many solutions.
-#+end_quote
-
-As we progress, we will be able to exactly describe the "shape" of a
-solution set, but for now we will be interested in two questions.
+Our high-level question moving forward will be: *what does the solution
+set of a given linear system look like?* We will eventually be able to
+exactly describe the "shape" of a solution set, but for now we will be
+interested in two questions.
 
 + /(Existence)/ Does the system have a solution?
 + /(Uniqueness)/ If it does have a solution, is it the /only/
@@ -270,6 +315,99 @@ amount of terminology for saying the same things in different ways
 *Terminology.* A system of linear equations is called *consistent*
  <<consistent>> if it has a solution. Otherwise it is called
  *inconsistent*.
+#+end_quote
+
+#+begin_quote
+*Example.* An inconsistent system in two variables with two equations
+represents parallel lines, e.g., the system
+
+\begin{align*}
+2x - 3y &= -5 \\
+-4x + 6y &= -14
+\end{align*}
+
+is inconsistent, the lines defined by these equations, when graphed in
+the plane, are parallel.
+
+#+begin_export html
+  <div id="line-parallel"></div>
+  <script>
+  var app = Elm.LineParallel.init({
+    node: document.getElementById('line-parallel')
+    });
+  </script>
+#+end_export
+-----
+It's also possible to build an inconsistent linear system in three
+variables with two equations.  This system would represent two
+parallel planes.
+
+#+begin_export html
+  <div id="plane-parallel"></div>
+  <script>
+  var app = Elm.PlaneParallel.init({
+    node: document.getElementById('plane-parallel')
+    });
+  </script>
+#+end_export
+#+end_quote
+
+#+begin_quote
+*Exercise* Give an explicit example of a system of linear equations
+ with three variables and two equations representing parallel planes.
+ Then give a procedure for defining an inconsistent linear system with
+ two equations in /any number of variables/.
+#+end_quote
+
+#+begin_quote
+*Example.* Perhaps more interesting, its possible to define a system
+ of linear equations in three variables with three equations such that
+ every pair of equations forms a consistent system.  Geometrically,
+ this would represent three planes which each intersect with the
+ others, but do not all three intersect at a single point.
+
+#+begin_export html
+  <div id="plane-intersection-inconsistent"></div>
+  <script>
+  var app = Elm.PlaneIntersectionInconsistent.init({
+    node: document.getElementById('plane-intersection-inconsistent')
+    });
+  </script>
+#+end_export
+#+end_quote
+
+#+begin_quote
+*Exercise.* Give an example of a inconsistent system of linear
+equations in two variables with three equations in which none of the
+lines defined by the equations in the system are parallel.
+#+end_quote
+
+One nice thing about systems of linear equations (as opposed to say,
+the systems of general polynomials) is that, if we're just interested
+in the /number/ of solutions, it turns out there are only three
+options.
+
+#+begin_quote
+*Theorem.* A system of linear equations either has zero, one, or
+ infinitely many solutions.
+#+end_quote
+
+So if a system *is* consistent and it *does not* have a unique
+solution, then it must have infinitely many solutions.
+
+#+begin_quote
+*Example.* If two distinct planes in $\mathbb R^3$ intersect, then the
+ must intersect at a /line/.  This means there are infinitely many
+ points at the intersection of two such planes.
+
+ #+begin_export html
+  <div id="plane-intersection-two"></div>
+  <script>
+  var app = Elm.PlaneIntersectionTwo.init({
+    node: document.getElementById('plane-intersection-two')
+    });
+  </script>
+#+end_export
 #+end_quote
 
 #+begin_quote
@@ -399,10 +537,10 @@ using the elimination method.
 
 The elimination method is the basis of /Gaussian elimination/, our
 next topic.  In its simplest form, the elimination method has two
-phases: *forward elimination* and *back substitution*.  Rather than
-dwelling on how this works in general (we will get to that), here is
-an outline for using the elimination method for a linear system in
-three variables:
+phases: <<forward elimination>> *forward elimination* and <<back substitution>>
+*back substitution*.  Rather than dwelling on how this
+works in general (we will get to that), here is an outline for using
+the elimination method for a linear system in three variables:
 
 + /(Forward elimination)/
   + eliminate $x$ from all but the first equation
@@ -420,284 +558,3 @@ three variables:
 
 Hopefully this is enough to get you thinking about how to apply this
 in the case of four variables.
-
-* Matrices and Row Operations
-
-Matrices are very simple mathematical objects: A matrix is just a grid
-of things.  It doesn't matter terribly what those things are, but in
-this course we will be exclusively interested in the case that those
-things are real numbers.
-
-A matrix is like a list of lists in Python (and we will, in essence,
-represent them that way) with the restriction that
-+ every element is the same kind of thing
-+ the list is non-empty (there is at least one row)
-+ every list in the list is the same length (each row has the same
-  length)
-
-Thus, a matrix is characterized by what sort of things it contains,
-how many *rows* it has, and how many *columns* it has.  We will use
-the notation $\mathbb R^{m \times n}$ to refer to the collection of
-all possible matrices with real numbers, $m$ rows and $n$ columns.
-
-#+begin_quote
-*Example.*
-
-$\begin{bmatrix}
-3 & -2 & \pi \\
-0.1 & 4 & 1000
-\end{bmatrix}$
-
-is a $2 \times 3$ matrix, i.e., it is a matrix in $\mathbb R^{2 \times
-3}$.
-#+end_quote
-
-I want to emphasize that *a matrix has no inherent meaning*.  They are
-just a convenient way to store data.  The "meaning" of a matrix comes
-from how we work with it, how we interpret it.
-
-#+begin_quote
-*Example.* We can think of a piece of 2-bit pixel art as a matrix
-containing values between 0 and 3.
-
-#+end_quote
-
-#+begin_quote
-*Definition.* The *augmented matrix* of a linear system
-
-\begin{align*}
-a_{11}x_1 + \dots + a_{1n} x_n &= b_1 \\
-a_{21}x_1 + \dots + a_{2n} x_n &= b_2 \\
-&\vdots \\
-a_{m1}x_1 + \dots + a_{mn} x_n &= b_m
-\end{align*}
-
-with $m$ equations and $n$ unknowns is the $m \times (n + 1)$ matrix
-
-\begin{bmatrix}
-a_{11} & \dots & a_{1n} & b_1 \\
-a_{21} & \dots & a_{2n} & b_2 \\
-\vdots & \ddots & \vdots & \vdots \\
-a_{m1} & \dots & a_{mn} & b_m
-\end{bmatrix}
-
-the *coefficient matrix* of the same system is the $m \times n$ matrix
-
-\begin{bmatrix}
-a_{11} & \dots & a_{1n}\\
-a_{21} & \dots & a_{2n} \\
-\vdots & \ddots & \vdots \\
-a_{m1} & \dots & a_{mn}
-\end{bmatrix}
-#+end_quote
-
-#+begin_quote
-*Example.* (TAKE FROM THE CHEMISTRY EXAMPLE)
-#+end_quote
-
-#+begin_quote
-*Definition.* Two systems of linear equations are *equivalent* if they
- have the same solution set.
-#+end_quote
-
-#+begin_quote
-*Definition.* The *elementary row operations* are
-| replace(A, i, c, j) | add row j scaled by c to row j      |
-| scale(A, c, i)      | multiply every entry in the row i c |
-| swap(A, i, j)       | swap row i and row j                |
-Two matrices $A$ and $B$ are *row equivalent* (written $A \sim B$) if
-there is a sequence of row operations which transforms $A$ to $B$.
-#+end_quote
-
-#+begin_quote
-*Example.* (TRANFORMATION)
-
-#+end_quote
-
-#+begin_quote
-*Theorem.* Two linear systems are equivalent if and only if their augmented matrices are row equivalent.
-#+end_quote
-
-* SymPy and Row Operations
-
-It will be useful (particularly for exams) to practice performing row
-operations by hand.  From the CS perspective, we want a better way to
-do it.
-
-In the following chapter we will look at /Gaussian elimination/ and
-algorithm for performing the "right" row operations to solve a given
-linear system (expressed as an augmented matrix).  For now, it would
-be nice if we could use a computer to do some tedious calculations for
-us.
-
-For the first part of this course, we will be using ~sympy~, a Python
-library for symbolic computation.  It has module for working with
-matrices, which we can use to perform row operations.
-
-We can create a matrix using the ~Matrix~ constructor, which takes a
-list of lists of numbers.  It will only construct a matrix object if
-this list of lists satisfies the requirement mentioned above.
-
-#+begin_src python :results output :exports both
-  from sympy import pprint
-  from sympy.matrices import Matrix
-
-  try:
-      A = Matrix([
-	  [1, 0],
-	  [0]
-      ])
-  except:
-      print("rows aren't the same length")
-
-  A = Matrix([
-      [1, 0],
-      [0, 1 / 4]
-  ])
-
-  print()
-  print("A:")
-  pprint(A)
-#+end_src
-
-#+RESULTS:
-: rows aren't the same length
-:
-: A:
-: ⎡1   0  ⎤
-: ⎢       ⎥
-: ⎣0  0.25⎦
-
-We can use array slicing to access and update rows of a given matrix,
-which means we can perform elementary row operations as simple
-assignments.
-
-#+begin_src python :results output :exports both
-  from sympy import pprint
-  from sympy.matrices import Matrix
-
-  A = Matrix([
-      [-1, -2, 1],
-      [1, 1, 2]
-  ])
-
-  print("A:")
-  pprint(A)
-
-  print()
-  print("first row of A:")
-  pprint(A[0,:])
-
-  print()
-  print("swap first and second row:")
-  A[0,:], A[1,:] = A[1,:], A[0,:]
-  pprint(A)
-
-  print()
-  print("replace first row with 3 times second row:")
-  A[0,:] += 3 * A[1,:]
-  pprint(A)
-
-  print()
-  print("scale second row by 1/5:")
-  A[0,:] /= 5
-  pprint(A)
-#+end_src
-
-#+RESULTS:
-#+begin_example
-A:
-⎡-1  -2  1⎤
-⎢         ⎥
-⎣1   1   2⎦
-
-first row of A:
-[-1  -2  1]
-
-swap first and second row:
-⎡1   1   2⎤
-⎢         ⎥
-⎣-1  -2  1⎦
-
-replace first row with 3 times second row:
-⎡-2  -5  5⎤
-⎢         ⎥
-⎣-1  -2  1⎦
-
-scale second row by 1/5:
-⎡-2/5  -1  1⎤
-⎢           ⎥
-⎣ -1   -2  1⎦
-#+end_example
-
-So, for example, we can determine a solution to the systems of
-equations from the previous section.
-
-#+begin_src python :results output :exports both
-  from sympy import pprint
-  from sympy.matrices import Matrix
-
-  A = Matrix([
-      [-1, -2, 1],
-      [1, 1, 2]
-  ])
-
-			# forward elimination:
-  A[1,:] += A[0,:]      # add row 0 to row 1
-  A[1,:] *= -1          # scale row 1 by -1
-
-			# back substitution:
-  A[0,:] += 2 * A[1,:]  # add 2 times row 1 to row 0
-  A[0,:] *= -1          # scale row 0 by -1
-
-  pprint(A)
-#+end_src
-
-#+RESULTS:
-: ⎡1  0  5 ⎤
-: ⎢        ⎥
-: ⎣0  1  -3⎦
-
-I need to know how this works before I can work out the details of the
-section.
-
-+ Basic outline of LAA
-  + linear equations
-  + systems of linear equations
-  + solutions
-  + equivalent systems
-  + number of solutions
-  + consistency
-  + matrices
-  + solving systems of linear equations
-    + elimination and back substitution
-  + elementary row operations
-  + existence and uniqueness
-
-+ Basic outline of LAGC
-  + Same, ends with more geometric interpretation
-
-I want to include more about using NumPy as a solver.
-
-Questions we can ask about systems of linear equations
-+ How many solutions does it have (0, 1, or infinitely many)?
-+ Is it consistent?
-  + Does it have a solution?
-+ Does it have a unique solution?
-
-Exercises
-+ Solve this system of linear equations
-+ Solve this system of linear equations
-+ How many solutions? 0, 1, or infinitely many?
-+ Find a value which makes this a consistent system.
-+ Write down the shortest sequence of row operations which converts this matrix to this matrix.
-+ Thing that doesn't look like system becomes system
-+ Write down all the reduced echelon forms of this matrix.
-+ Write down the augmented matrix for this system.
-+ Word problem.
-
-
-Programming
-+ Write a program that checks if a matrix is in echelon form
-  + is a valid matrix
-  + also in reduced echelon

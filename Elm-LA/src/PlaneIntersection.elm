@@ -1,4 +1,4 @@
-module ExampleIntersection exposing (..)
+module PlaneIntersection exposing (..)
 
 import Utils exposing (Point3D, Plane3D, Color(..))
 import Space exposing (basic3D, Element(..))
@@ -25,9 +25,9 @@ init _ =
       , tilt = 0.2
       , rotation = 0
       , viewBoxWidth = 500
-      , quadrantWidth = 10
-      , sceneWidth = 30
-      , sceneOrigin = { x = 8, y = 8 }
+      , quadrantWidth = 15
+      , sceneWidth = 42
+      , sceneOrigin = { x = 21, y = 21 }
       , strokeWidth = 1
       }
     , Cmd.none
@@ -51,10 +51,13 @@ view model =
         pnt1 = Point3D 4 -2 0
     in
     basic3D model
-        [ Point pnt1 Red
-        , Plane pln1 False Red
-        , Plane pln2 False Blue
-        , Plane pln3 False Green
+        [ Point pnt1 { color = Red, hasGuides = True }
+        , Intersection pln1 pln2
+        , Intersection pln1 pln3
+        , Intersection pln2 pln3
+        , Plane pln1 { color = Red, hasHatch = False }
+        , Plane pln2 { color = Blue, hasHatch = False }
+        , Plane pln3 { color = Green, hasHatch = False }
         ]
 
 main = Browser.element

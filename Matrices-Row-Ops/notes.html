@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2024-07-22 Mon 18:16 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Matrices and Row Operations</title>
+<meta name="author" content="Nathan  Mull" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="../myStyle.css" />
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '2em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '2em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">⟨ <a href="../toc.html">back</a> ⟩</div><div id="content" class="content">
+<h1 class="title">Matrices and Row Operations</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orga9c4854">Keywords</a></li>
+<li><a href="#org940581d">Matrices and Row Operations</a></li>
+<li><a href="#orgedc991d">SymPy and Row Operations</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orga9c4854" class="outline-2">
+<h2 id="orga9c4854">Keywords</h2>
+<div class="outline-text-2" id="text-orga9c4854">
+<ul class="org-ul">
+<li><a href="#org5b03e24">Augmented matrix</a></li>
+<li><a href="#org018ef6b">Coefficient matrix</a></li>
+<li><a href="#org058d665">Elementary row operations</a></li>
+<li><a href="#org32934bf">Row Equivalence</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org940581d" class="outline-2">
+<h2 id="org940581d">Matrices and Row Operations</h2>
+<div class="outline-text-2" id="text-org940581d">
+<p>
+Matrices are very simple mathematical objects: A matrix is just a grid
+of things.  It doesn't matter terribly what those things are, but in
+this course we will be exclusively interested in the case that those
+things are real numbers.
+</p>
+
+<p>
+A matrix is like a list of lists in Python (and we will, in essence,
+represent them that way) with the restriction that
+</p>
+<ul class="org-ul">
+<li>every element is the same kind of thing</li>
+<li>the list is non-empty (there is at least one row)</li>
+<li>every list in the list is the same length (each row has the same
+length)</li>
+</ul>
+
+<p>
+Thus, a matrix is characterized by what sort of things it contains,
+how many <b>rows</b> it has, and how many <b>columns</b> it has.  We will use
+the notation \(\mathbb R^{m \times n}\) to refer to the collection of
+all possible matrices with real numbers, \(m\) rows and \(n\) columns.
+</p>
+
+<blockquote>
+<p>
+<b>Example.</b>
+</p>
+
+<p>
+\(\begin{bmatrix}
+3 & -2 & \pi \\
+0.1 & 4 & 1000
+\end{bmatrix}\)
+</p>
+
+<p>
+is a \(2 \times 3\) matrix, i.e., it is a matrix in \(\mathbb R^{2 \times
+3}\).
+</p>
+</blockquote>
+
+<p>
+I want to emphasize that <b>a matrix has no inherent meaning</b>.  They are
+just a convenient way to store data.  The "meaning" of a matrix comes
+from how we work with it, how we interpret it.
+</p>
+
+<blockquote>
+<p>
+<b>Example.</b> We can think of a piece of 2-bit pixel art as a matrix
+containing values between 0 and 3.
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+<a id="org5b03e24"></a>
+<b>Definition.</b> The <b>augmented matrix</b> of a linear system
+</p>
+
+\begin{align*}
+a_{11}x_1 + \dots + a_{1n} x_n &= b_1 \\
+a_{21}x_1 + \dots + a_{2n} x_n &= b_2 \\
+&\vdots \\
+a_{m1}x_1 + \dots + a_{mn} x_n &= b_m
+\end{align*}
+
+<p>
+with \(m\) equations and \(n\) unknowns is the \(m \times (n + 1)\) matrix
+</p>
+
+\begin{bmatrix}
+a_{11} & \dots & a_{1n} & b_1 \\
+a_{21} & \dots & a_{2n} & b_2 \\
+\vdots & \ddots & \vdots & \vdots \\
+a_{m1} & \dots & a_{mn} & b_m
+\end{bmatrix}
+
+<p>
+<a id="org018ef6b"></a>
+the <b>coefficient matrix</b> of the same system is the \(m \times n\) matrix
+</p>
+
+\begin{bmatrix}
+a_{11} & \dots & a_{1n}\\
+a_{21} & \dots & a_{2n} \\
+\vdots & \ddots & \vdots \\
+a_{m1} & \dots & a_{mn}
+\end{bmatrix}
+</blockquote>
+
+<blockquote>
+<p>
+<b>Example.</b> (TAKE FROM THE CHEMISTRY EXAMPLE)
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+<b>Definition.</b> Two systems of linear equations are <b>equivalent</b> if they
+ have the same solution set.
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+<a id="org058d665"></a>
+<b>Definition.</b> The <b>elementary row operations</b> are
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">replace(A, i, c, j)</td>
+<td class="org-left">add row j scaled by c to row j</td>
+</tr>
+
+<tr>
+<td class="org-left">scale(A, c, i)</td>
+<td class="org-left">multiply every entry in the row i c</td>
+</tr>
+
+<tr>
+<td class="org-left">swap(A, i, j)</td>
+<td class="org-left">swap row i and row j</td>
+</tr>
+</tbody>
+</table>
+<p>
+<a id="org32934bf"></a>
+Two matrices \(A\) and \(B\) are <b>row equivalent</b> (written \(A \sim B\)) if
+there is a sequence of row operations which transforms \(A\) to \(B\).
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+<b>Example.</b> (TRANFORMATION)
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+<b>Theorem.</b> Two linear systems are equivalent if and only if their augmented matrices are row equivalent.
+</p>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-orgedc991d" class="outline-2">
+<h2 id="orgedc991d">SymPy and Row Operations</h2>
+<div class="outline-text-2" id="text-orgedc991d">
+<p>
+It will be useful (particularly for exams) to practice performing row
+operations by hand.  From the CS perspective, we want a better way to
+do it.
+</p>
+
+<p>
+In the following chapter we will look at <i>Gaussian elimination</i> and
+algorithm for performing the "right" row operations to solve a given
+linear system (expressed as an augmented matrix).  For now, it would
+be nice if we could use a computer to do some tedious calculations for
+us.
+</p>
+
+<p>
+For the first part of this course, we will be using <code>sympy</code>, a Python
+library for symbolic computation.  It has module for working with
+matrices, which we can use to perform row operations.
+</p>
+
+<p>
+We can create a matrix using the <code>Matrix</code> constructor, which takes a
+list of lists of numbers.  It will only construct a matrix object if
+this list of lists satisfies the requirement mentioned above.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a020f0;">from</span> sympy <span style="color: #a020f0;">import</span> pprint
+<span style="color: #a020f0;">from</span> sympy.matrices <span style="color: #a020f0;">import</span> Matrix
+
+<span style="color: #a020f0;">try</span>:
+    <span style="color: #a0522d;">A</span> = Matrix([
+        [1, 0],
+        [0]
+    ])
+<span style="color: #a020f0;">except</span>:
+    <span style="color: #483d8b;">print</span>(<span style="color: #8b2252;">"rows aren't the same length"</span>)
+
+<span style="color: #a0522d;">A</span> = Matrix([
+    [1, 0],
+    [0, 1 / 4]
+])
+
+<span style="color: #483d8b;">print</span>()
+<span style="color: #483d8b;">print</span>(<span style="color: #8b2252;">"A:"</span>)
+pprint(A)
+</pre>
+</div>
+
+<pre class="example">
+rows aren't the same length
+
+A:
+⎡1   0  ⎤
+⎢       ⎥
+⎣0  0.25⎦
+</pre>
+
+
+<p>
+We can use array slicing to access and update rows of a given matrix,
+which means we can perform elementary row operations as simple
+assignments.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a020f0;">from</span> sympy <span style="color: #a020f0;">import</span> pprint
+<span style="color: #a020f0;">from</span> sympy.matrices <span style="color: #a020f0;">import</span> Matrix
+
+<span style="color: #a0522d;">A</span> = Matrix([
+    [-1, -2, 1],
+    [1, 1, 2]
+])
+
+<span style="color: #483d8b;">print</span>(<span style="color: #8b2252;">"A:"</span>)
+pprint(A)
+
+<span style="color: #483d8b;">print</span>()
+<span style="color: #483d8b;">print</span>(<span style="color: #8b2252;">"first row of A:"</span>)
+pprint(A[0,:])
+
+<span style="color: #483d8b;">print</span>()
+<span style="color: #483d8b;">print</span>(<span style="color: #8b2252;">"swap first and second row:"</span>)
+<span style="color: #a0522d;">A</span>[0,:], <span style="color: #a0522d;">A</span>[1,:] = A[1,:], A[0,:]
+pprint(A)
+
+<span style="color: #483d8b;">print</span>()
+<span style="color: #483d8b;">print</span>(<span style="color: #8b2252;">"replace first row with 3 times second row:"</span>)
+<span style="color: #a0522d;">A</span>[0,:] += 3 * A[1,:]
+pprint(A)
+
+<span style="color: #483d8b;">print</span>()
+<span style="color: #483d8b;">print</span>(<span style="color: #8b2252;">"scale second row by 1/5:"</span>)
+<span style="color: #a0522d;">A</span>[0,:] /= 5
+pprint(A)
+</pre>
+</div>
+
+<pre class="example" id="orgf522fde">
+A:
+⎡-1  -2  1⎤
+⎢         ⎥
+⎣1   1   2⎦
+
+first row of A:
+[-1  -2  1]
+
+swap first and second row:
+⎡1   1   2⎤
+⎢         ⎥
+⎣-1  -2  1⎦
+
+replace first row with 3 times second row:
+⎡-2  -5  5⎤
+⎢         ⎥
+⎣-1  -2  1⎦
+
+scale second row by 1/5:
+⎡-2/5  -1  1⎤
+⎢           ⎥
+⎣ -1   -2  1⎦
+</pre>
+
+<p>
+So, for example, we can determine a solution to the systems of
+equations from the previous section.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a020f0;">from</span> sympy <span style="color: #a020f0;">import</span> pprint
+<span style="color: #a020f0;">from</span> sympy.matrices <span style="color: #a020f0;">import</span> Matrix
+
+<span style="color: #a0522d;">A</span> = Matrix([
+    [-1, -2, 1],
+    [1, 1, 2]
+])
+
+                      <span style="color: #b22222;"># </span><span style="color: #b22222;">forward elimination:</span>
+<span style="color: #a0522d;">A</span>[1,:] += A[0,:]      <span style="color: #b22222;"># </span><span style="color: #b22222;">add row 0 to row 1</span>
+<span style="color: #a0522d;">A</span>[1,:] *= -1          <span style="color: #b22222;"># </span><span style="color: #b22222;">scale row 1 by -1</span>
+
+                      <span style="color: #b22222;"># </span><span style="color: #b22222;">back substitution:</span>
+<span style="color: #a0522d;">A</span>[0,:] += 2 * A[1,:]  <span style="color: #b22222;"># </span><span style="color: #b22222;">add 2 times row 1 to row 0</span>
+<span style="color: #a0522d;">A</span>[0,:] *= -1          <span style="color: #b22222;"># </span><span style="color: #b22222;">scale row 0 by -1</span>
+
+pprint(A)
+</pre>
+</div>
+
+<pre class="example">
+⎡1  0  5 ⎤
+⎢        ⎥
+⎣0  1  -3⎦
+</pre>
+
+
+<p>
+I need to know how this works before I can work out the details of the
+section.
+</p>
+
+<ul class="org-ul">
+<li>Basic outline of LAA
+<ul class="org-ul">
+<li>linear equations</li>
+<li>systems of linear equations</li>
+<li>solutions</li>
+<li>equivalent systems</li>
+<li>number of solutions</li>
+<li>consistency</li>
+<li>matrices</li>
+<li>solving systems of linear equations
+<ul class="org-ul">
+<li>elimination and back substitution</li>
+</ul></li>
+<li>elementary row operations</li>
+<li>existence and uniqueness</li>
+</ul></li>
+
+<li>Basic outline of LAGC
+<ul class="org-ul">
+<li>Same, ends with more geometric interpretation</li>
+</ul></li>
+</ul>
+
+<p>
+I want to include more about using NumPy as a solver.
+</p>
+
+<p>
+Questions we can ask about systems of linear equations
+</p>
+<ul class="org-ul">
+<li>How many solutions does it have (0, 1, or infinitely many)?</li>
+<li>Is it consistent?
+<ul class="org-ul">
+<li>Does it have a solution?</li>
+</ul></li>
+<li>Does it have a unique solution?</li>
+</ul>
+
+<p>
+Exercises
+</p>
+<ul class="org-ul">
+<li>Solve this system of linear equations</li>
+<li>Solve this system of linear equations</li>
+<li>How many solutions? 0, 1, or infinitely many?</li>
+<li>Find a value which makes this a consistent system.</li>
+<li>Write down the shortest sequence of row operations which converts this matrix to this matrix.</li>
+<li>Thing that doesn't look like system becomes system</li>
+<li>Write down all the reduced echelon forms of this matrix.</li>
+<li>Write down the augmented matrix for this system.</li>
+<li>Word problem.</li>
+</ul>
+
+
+<p>
+Programming
+</p>
+<ul class="org-ul">
+<li>Write a program that checks if a matrix is in echelon form
+<ul class="org-ul">
+<li>is a valid matrix</li>
+<li>also in reduced echelon</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+</body>
+</html>

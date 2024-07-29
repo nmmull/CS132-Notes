@@ -1,4 +1,4 @@
-module Utils exposing (..)
+module Lib.Utils exposing (..)
 
 import Html exposing (Html, div)
 import Html.Attributes as A

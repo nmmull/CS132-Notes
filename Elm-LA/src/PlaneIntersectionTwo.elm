@@ -1,7 +1,7 @@
 module PlaneIntersectionTwo exposing (..)
 
-import Utils exposing (Point3D, Plane3D, Color(..))
-import Space exposing (basic3D, Element(..))
+import Lib.Utils exposing (Point3D, Plane3D, Color(..))
+import Lib.Space exposing (basic3D, Element(..))
 import Browser
 import Time
 import Html exposing (Html)

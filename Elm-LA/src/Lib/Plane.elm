@@ -1,10 +1,10 @@
-module Plane exposing (..)
+module Lib.Plane exposing (..)
 
 import Html exposing (Html)
 import Html.Attributes as HA
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
-import Utils exposing (..)
+import Lib.Utils exposing (..)
 
 type alias Params a =
     { a

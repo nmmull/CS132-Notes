@@ -1,5 +1,6 @@
-module Space exposing (..)
-import Utils exposing (..)
+module Lib.Space exposing (..)
+
+import Lib.Utils exposing (..)
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
 import Html as H exposing (Html)

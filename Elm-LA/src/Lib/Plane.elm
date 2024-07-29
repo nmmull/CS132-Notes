@@ -214,16 +214,20 @@ drawPoint params point color =
             ]
     in guideX ++ guideY ++ dot
 
-drawElement : Params a -> Element2D -> List (Svg msg)
+type Element
+    = Point Point2D Color
+    | Line Line2D Color
+
+drawElement : Params a -> Element -> List (Svg msg)
 drawElement params e =
     case e of
         Line ln color -> drawLine params ln color
         Point pt color -> drawPoint params pt color
 
-drawScene : Params a -> List Element2D -> List (Svg msg)
+drawScene : Params a -> List Element -> List (Svg msg)
 drawScene params scene = List.concatMap (drawElement params) scene
 
-basic2D : Params a -> List Element2D -> Html msg
+basic2D : Params a -> List Element -> Html msg
 basic2D params scene =
     let w = String.fromFloat params.pixPerSide in
     Html.div

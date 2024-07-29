@@ -54,7 +54,3 @@ stringFromColor c =
         Green -> "green"
         Black -> "black"
         Grey -> "grey"
-
-type Element2D
-    = Point Point2D Color
-    | Line Line2D Color

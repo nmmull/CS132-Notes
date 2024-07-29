@@ -1,7 +1,7 @@
 module LineParallel exposing (..)
 
 import Lib.Utils exposing (..)
-import Lib.Plane exposing (basic2D)
+import Lib.Plane exposing (basic2D, Element(..))
 
 main = basic2D
     { pixPerSide = 500

@@ -6,6 +6,9 @@ import Svg.Attributes exposing (..)
 import Html as H exposing (Html)
 import Html.Attributes as HA
 
+import Browser exposing (element)
+import Time
+
 type alias Params a =
     { a
     | distance : Int
@@ -247,8 +250,8 @@ drawElement params e =
 drawScene : Params a -> List Element -> List (Svg msg)
 drawScene params scene = List.concatMap (drawElement params) scene
 
-basic3D : Params a -> List Element -> Html msg
-basic3D params scene =
+basic3DHtml : Params a -> List Element -> Html msg
+basic3DHtml params scene =
     let w = String.fromInt params.viewBoxWidth in
     H.div
         [ HA.style "margin-left" "auto"
@@ -262,3 +265,51 @@ basic3D params scene =
             ]
             (drawAxis params ++ drawScene params scene)
         ]
+
+
+type alias BasicModel =
+    { distance : Int
+    , tilt : Float
+    , rotation : Float
+    , quadrantWidth : Int
+    , viewBoxWidth : Int
+    , sceneWidth : Int
+    , strokeWidth : Float
+    }
+
+
+type BasicMsg = Tick Time.Posix
+
+basicInit : () -> ( BasicModel, Cmd BasicMsg )
+basicInit _ =
+    ( { distance = 50
+      , tilt = 0.2
+      , rotation = 0
+      , viewBoxWidth = 500
+      , quadrantWidth = 20
+      , sceneWidth = 60
+      , strokeWidth = 1
+      }
+    , Cmd.none
+    )
+
+basicUpdate : BasicMsg -> BasicModel -> ( BasicModel, Cmd BasicMsg )
+basicUpdate msg model =
+    let newRot = if model.rotation < 100 then model.rotation + 0.01 else 0 in
+    case msg of
+        Tick _ -> ( { model | rotation = newRot}, Cmd.none )
+
+basicSubs : BasicModel -> Sub BasicMsg
+basicSubs _ = Time.every 30 Tick
+
+basicView : List Element -> BasicModel -> Html BasicMsg
+basicView scene model =
+    basic3DHtml model scene
+
+basic3D : List Element -> Program () BasicModel BasicMsg
+basic3D scene = Browser.element
+    { init = basicInit
+    , update = basicUpdate
+    , subscriptions = basicSubs
+    , view = basicView scene
+    }

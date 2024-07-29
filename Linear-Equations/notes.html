@@ -3,21 +3,13 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-07-22 Mon 18:15 -->
+<!-- 2024-07-29 Mon 16:52 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Linear Equations</title>
 <meta name="author" content="Nathan  Mull" />
 <meta name="generator" content="Org Mode" />
 <link rel="stylesheet" type="text/css" href="../myStyle.css" />
-<script src="example-line.js"></script>
-<script src="example-plane.js"></script>
-<script src="line-intersection.js"></script>
-<script src="line-parallel.js"></script>
-<script src="plane-intersection.js"></script>
-<script src="plane-intersection-inconsistent.js"></script>
-<script src="plane-intersection-two.js"></script>
-<script src="plane-parallel.js"></script>
 <script>
   window.MathJax = {
     tex: {
@@ -58,36 +50,36 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org977a71f">Keywords</a></li>
-<li><a href="#orgb61351c">Basics</a></li>
-<li><a href="#org1fefa1f">Systems of Linear Equations</a></li>
-<li><a href="#org53cb728">Solving Linear Systems</a></li>
+<li><a href="#org909ea21">Keywords</a></li>
+<li><a href="#org3c0bd87">Basics</a></li>
+<li><a href="#org6ed5f65">Systems of Linear Equations</a></li>
+<li><a href="#orgb7fcdb6">Solving Linear Systems</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org977a71f" class="outline-2">
-<h2 id="org977a71f">Keywords</h2>
-<div class="outline-text-2" id="text-org977a71f">
+<div id="outline-container-org909ea21" class="outline-2">
+<h2 id="org909ea21">Keywords</h2>
+<div class="outline-text-2" id="text-org909ea21">
 <ul class="org-ul">
-<li><a href="#orge38fe06">Linear equation</a></li>
-<li><a href="#org2b3408b">Hyperplane</a></li>
-<li><a href="#org1afd329">Systems of linear equations</a></li>
-<li><a href="#org411997a">Solution set</a></li>
-<li><a href="#orga7e10f7">Consistency</a></li>
-<li><a href="#org97f47ce">Forward elimination</a></li>
-<li><a href="#org4f91a98">Back substitution</a></li>
+<li><a href="#org4077516">Linear equation</a></li>
+<li><a href="#org7257c55">Hyperplane</a></li>
+<li><a href="#org4d9d0d4">Systems of linear equations</a></li>
+<li><a href="#org9bee9f6">Solution set</a></li>
+<li><a href="#org0c38296">Consistency</a></li>
+<li><a href="#orgccdd910">Forward elimination</a></li>
+<li><a href="#org149b953">Back substitution</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgb61351c" class="outline-2">
-<h2 id="orgb61351c">Basics</h2>
-<div class="outline-text-2" id="text-orgb61351c">
+<div id="outline-container-org3c0bd87" class="outline-2">
+<h2 id="org3c0bd87">Basics</h2>
+<div class="outline-text-2" id="text-org3c0bd87">
 <p>
 Linear algebra is, at its core, the study of <i>linear equations</i>.
 </p>
 <blockquote>
 <p>
-<a id="orge38fe06"></a>
+<a id="org4077516"></a>
 <b>Definition.</b> A <b>linear equation</b> in the variables \(x_1, x_2, \dots,
 x_n\) is an equation that can expressed in the form
 </p>
@@ -153,8 +145,8 @@ is a linear equation because it can be expressed as
 
 <p>
 In your first course on algebra, you should have been introduced to a
-simple kind of linear equation: lines in the plane.  You likely first
-learned the <i>slope-intercept form</i> of a line
+simple kind of linear equation: the equation for a line in the plane.
+You likely first learned the <i>slope-intercept form</i>
 </p>
 
 <p>
@@ -164,7 +156,7 @@ y = mx + b
 </p>
 
 <p>
-where \(m\) and \(b\) are real numbers.  You then also likely learned the
+where \(m\) and \(b\) are real numbers.  You then likely learned the
 <i>general form</i>
 </p>
 
@@ -205,7 +197,7 @@ in slope-intercept form.
 A linear equation in \(n\) variables defines a set of points in
 \(\mathbb R^n\).  We write a point in \(\mathbb R^n\) as we would write a
 tuple in Python, e.g., \((3.3, 12.03, \sqrt{3}, 4)\) is a point in
-\(\mathbb R^4\).  In set notation, a linear equation
+\(\mathbb R^4\).  In set notation, a linear equation expressible as
 </p>
 
 <p>
@@ -226,7 +218,7 @@ defines the set of points
 
 <p>
 which is a subset of \(\mathbb R^n\).  This notation expresses the basic
-fact that linear equation defines the set of points that satisfy it.
+fact that a linear equation defines the set of points that satisfy it.
 </p>
 
 <p>
@@ -241,6 +233,7 @@ variables in the plane (\(\mathbb R^2\)), we get a line.
 \((a, b)\) such that \(2a + 3b = -6\), e.g., the points \((-9, 4)\), \((6,
 -6)\), and \((12, -10)\).
 </p>
+<script src="example-line.js"></script>
 <div id="example-line"></div>
 <script>
 var app = Elm.ExampleLine.init({
@@ -261,6 +254,7 @@ infinite sheet of paper floating in space.
 y + z = 1\).  The plane includes, for example, the points \((4, 3,
 -6)\), \((-3, -5, 9)\), and \((-8, 8, 1)\).
 </p>
+<script src="example-plane.js"></script>
 <div id="example-plane"></div>
 <script>
 var app = Elm.ExamplePlane.init({
@@ -270,17 +264,19 @@ var app = Elm.ExamplePlane.init({
 </blockquote>
 
 <p>
-We call the set of points described by a linear equation in more than
-three variables a <a id="org2b3408b"></a> <b>hyperplane</b>.  We can't visualize hyperplanes, but
-we can often take advantage of our intuitions about planes in \(\mathbb
-R^3\).<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>
+We call the set of points defined by a linear equation in more than
+three variables a <a id="org7257c55"></a> <b>hyperplane</b>.  We can't visualize
+hyperplanes, but we can often take advantage of our intuitions about
+lines in the plane (\(\mathbb R^2\)) or planes in space (\(\mathbb
+R^3\)).<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>
 </p>
 
 <p>
-As helpful as our geometric intuitions may be, linear equations are
-perhaps more useful when we think about them algebraically.  They
-naturally describe relations that come up in tons of application
-domains.
+But as helpful as our geometric intuitions may be, linear equations
+are perhaps more useful when we think about them <i>algebraically</i>.
+They describe relations that come up consistently in a number of
+application domains (e.g., combinatorial optimization, machine
+learning, scientific computing).
 </p>
 
 <blockquote>
@@ -356,9 +352,9 @@ represent intuitively?
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org1fefa1f" class="outline-2">
-<h2 id="org1fefa1f">Systems of Linear Equations</h2>
-<div class="outline-text-2" id="text-org1fefa1f">
+<div id="outline-container-org6ed5f65" class="outline-2">
+<h2 id="org6ed5f65">Systems of Linear Equations</h2>
+<div class="outline-text-2" id="text-org6ed5f65">
 <p>
 The situation is made more interesting by considering multiple linear
 equations <i>simultaneously</i>.
@@ -366,7 +362,7 @@ equations <i>simultaneously</i>.
 
 <blockquote>
 <p>
-<a id="org1afd329"></a>
+<a id="org4d9d0d4"></a>
 <b>Definition.</b> A <b>system of linear equations (linear system)</b> in the
  variables \(x_1, \dots, x_n\) is a collection of linear equations in
  the same variables.
@@ -393,8 +389,8 @@ the system.
 </p>
 
 \begin{align*}
--x + y = -2
--2x + y = -7
+-x + y &= -2 \\
+-2x + y &= -7
 \end{align*}
 
 <p>
@@ -431,7 +427,7 @@ then every equation is satisfied:
 
 <p>
 We call the set of all solutions to a linear system its <b>solution set</b>
-<a id="org411997a"></a> (naturally).  Geometrically, the solution set of a
+<a id="org9bee9f6"></a> (naturally).  Geometrically, the solution set of a
 linear system corresponds to the <i>intersection</i> of the point-sets of
 each linear equation in the system.  So the problem of solving a
 system of linear equations is analogous to the line-intersection
@@ -440,9 +436,10 @@ problem in the plane.
 
 <blockquote>
 <p>
-<b>Example.</b> The point \((5, 3)\) is where the lines defined by \(-x + y =
+<b>Example.</b> \((5, 3)\) is the point at which the lines defined by \(-x + y =
 -2\) and \(-2x + y = -7\) intersect.
 </p>
+<script src="line-intersection.js"></script>
 <div id="line-intersection"></div>
 <script>
 var app = Elm.LineIntersection.init({
@@ -453,10 +450,11 @@ var app = Elm.LineIntersection.init({
 
 <blockquote>
 <p>
-<b>Example.</b> The point \((4, -2, 0)\) is the point at which the <i>planes</i>
-defined by \(2x + 3y + 2z = 2\) and \(x + y + 3z = 2\) and \(x + 3y + 2z =
--2\) intersect.
+<b>Example.</b> \((4, -2, 0)\) is the point at which the <i>planes</i> defined by
+\(2x + 3y + 2z = 2\) and \(x + y + 3z = 2\) and \(x + 3y + 2z = -2\)
+intersect.
 </p>
+<script src="plane-intersection.js"></script>
 <div id="plane-intersection"></div>
 <script>
 var app = Elm.PlaneIntersection.init({
@@ -477,7 +475,7 @@ x + 2y &= 9 \\
 </blockquote>
 
 <p>
-Our high-level question moving forward will be: <b>what does the solution
+One of our primary concerns moving forward will be: <b>what does the solution
 set of a given linear system look like?</b> We will eventually be able to
 exactly describe the "shape" of a solution set, but for now we will be
 interested in two questions.
@@ -490,15 +488,15 @@ solution?</li>
 </ul>
 
 <p>
-And, as is characteristic in linear algebra, we will introduce a fair
-amount of terminology for saying the same things in different ways
-(for better or for worse).
+And, as is characteristic in linear algebra (for better or for worse),
+we will introduce new terminology for saying the same things in
+different ways.
 </p>
 
 <blockquote>
 <p>
 <b>Terminology.</b> A system of linear equations is called <b>consistent</b>
- <a id="orga7e10f7"></a> if it has a solution. Otherwise it is called
+ <a id="org0c38296"></a> if it has a solution. Otherwise it is called
  <b>inconsistent</b>.
 </p>
 </blockquote>
@@ -515,23 +513,34 @@ represents parallel lines, e.g., the system
 \end{align*}
 
 <p>
-is inconsistent, the lines defined by these equations, when graphed in
-the plane, are parallel.
+is inconsistent.  The lines defined by these equations, when graphed
+in the plane, are parallel.
 </p>
 
+<script src="line-parallel.js"></script>
 <div id="line-parallel"></div>
 <script>
 var app = Elm.LineParallel.init({
   node: document.getElementById('line-parallel')
   });
 </script>
-<hr />
+</blockquote>
+
+<blockquote>
 <p>
-It's also possible to build an inconsistent linear system in three
-variables with two equations.  This system would represent two
-parallel planes.
+<b>Exercise.</b> Give an example of a linear system in two variables with
+ more than one solution.
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+<b>Example.</b> It's also possible to build an inconsistent linear system
+in three variables with two equations.  This system would represent
+two parallel planes.
 </p>
 
+<script src="plane-parallel.js"></script>
 <div id="plane-parallel"></div>
 <script>
 var app = Elm.PlaneParallel.init({
@@ -551,26 +560,23 @@ var app = Elm.PlaneParallel.init({
 
 <blockquote>
 <p>
-<b>Example.</b> Perhaps more interesting, its possible to define a system
+<b>Exercise.</b> Perhaps more interesting, its possible to define a system
  of linear equations in three variables with three equations such that
  every pair of equations forms a consistent system.  Geometrically,
  this would represent three planes which each intersect with the
  others, but do not all three intersect at a single point.
 </p>
 
+<script src="plane-intersection-inconsistent.js"></script>
 <div id="plane-intersection-inconsistent"></div>
 <script>
 var app = Elm.PlaneIntersectionInconsistent.init({
   node: document.getElementById('plane-intersection-inconsistent')
   });
 </script>
-</blockquote>
 
-<blockquote>
 <p>
-<b>Exercise.</b> Give an example of a inconsistent system of linear
-equations in two variables with three equations in which none of the
-lines defined by the equations in the system are parallel.
+Give an explicit example of such a system.
 </p>
 </blockquote>
 
@@ -589,17 +595,18 @@ options.
 </blockquote>
 
 <p>
-So if a system <b>is</b> consistent and it <b>does not</b> have a unique
-solution, then it must have infinitely many solutions.
+In other words, <b>if a linear system is consistent and it does not have
+a unique then it must have infinitely many solutions.</b>
 </p>
 
 <blockquote>
 <p>
 <b>Example.</b> If two distinct planes in \(\mathbb R^3\) intersect, then the
- must intersect at a <i>line</i>.  This means there are infinitely many
- points at the intersection of two such planes.
+ must intersect at a <i>line</i>.  There are infinitely many points at the
+ intersection of two such planes.
 </p>
 
+<script src="plane-intersection-two.js"></script>
 <div id="plane-intersection-two"></div>
 <script>
 var app = Elm.PlaneIntersectionTwo.init({
@@ -632,9 +639,9 @@ is also a solution.
 </div>
 </div>
 
-<div id="outline-container-org53cb728" class="outline-2">
-<h2 id="org53cb728">Solving Linear Systems</h2>
-<div class="outline-text-2" id="text-org53cb728">
+<div id="outline-container-orgb7fcdb6" class="outline-2">
+<h2 id="orgb7fcdb6">Solving Linear Systems</h2>
+<div class="outline-text-2" id="text-orgb7fcdb6">
 <p>
 Solving a system of linear equations means finding a solution<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup> or showing that no such solution exists.
 </p>
@@ -645,14 +652,14 @@ variables.
 </p>
 
 <p>
-Since linear equations in two variables define lines in
-the plane, and solutions represent <i>intersections</i>, finding a solution
-to this system means determining the point of intersection two lines
-in the plane.
+Since a linear equation in two variables defines a line in the plane,
+and solutions represent <i>intersections</i>, finding a solution to a
+linear system means determining the point (or points) of intersection
+of two lines in the plane.
 </p>
 
 <p>
-It's likely we were taught to solve the line-intersection problem using
+It's likely you were taught to solve the line-intersection problem using
 the <b>substitution method</b>:
 </p>
 <ul class="org-ul">
@@ -726,18 +733,18 @@ using the substitution method.
 </blockquote>
 
 <p>
-The substitution method work perfectly well, but it doesn't scale well if we
-want to solve systems with more variables.
+The substitution method works perfectly well, but it doesn't scale
+well if we want to solve systems with <i>a lot</i> of variables.
 </p>
 
 <p>
-The method (which we hopefully were also taught) that will be useful
-for this is the <b>elimination method</b>:
+The method (which you were hopefully also taught) which will be useful
+in this setting is the <b>elimination method</b>:
 </p>
 <ul class="org-ul">
-<li>eliminate the appearance of \(x\) in the second equation by adding to
+<li><i>eliminate</i> the appearance of \(x\) in the second equation by adding to
 the second equation a multiple of the first (this solves for \(y\))</li>
-<li>substitute the value for \(y\) into the first equation (this solves
+<li><i>substitute</i> the value for \(y\) into the first equation (this solves
 for \(x\))</li>
 </ul>
 
@@ -752,7 +759,7 @@ x + y &= 2
 \end{align*}
 
 <p>
-we can eliminate the appearance of \(x\) in the second equation by
+We can eliminate the appearance of \(x\) in the second equation by
 adding the first equation to the second equation:
 </p>
 
@@ -762,12 +769,20 @@ x + y &= 2 &+ \\
 \hline
 - y &= 3
 \end{align*}
+
 <p>
-So \(y = 3\) and we can substitute this value for \(y\) into the first equation:
+So \(y = -3\) and we can substitute this value for \(y\) into the first
+equation:
+</p>
+
+<p>
 \[
 -x -2(-3) = 1
 \]
-So \(x = 5\) and \((5, 3)\) is a solution.
+</p>
+
+<p>
+So \(x = 5\) and \((5, -3)\) is a solution.
 </p>
 </blockquote>
 
@@ -787,12 +802,13 @@ using the elimination method.
 </blockquote>
 
 <p>
-The elimination method is the basis of <i>Gaussian elimination</i>, our
-next topic.  In its simplest form, the elimination method has two
-phases: <a id="org97f47ce"></a> <b>forward elimination</b> and <a id="org4f91a98"></a>
+The elimination method is the basis of <i>Gaussian elimination</i>, one of
+our next topics.  In its simplest form, the elimination method has two
+phases: <a id="orgccdd910"></a> <b>forward elimination</b> and <a id="org149b953"></a>
 <b>back substitution</b>.  Rather than dwelling on how this
-works in general (we will get to that), here is an outline for using
-the elimination method for a linear system in three variables:
+works in general (we'll get to that), let's consider a rough outline
+for using the elimination method for a linear system in three
+variables:
 </p>
 
 <ul class="org-ul">

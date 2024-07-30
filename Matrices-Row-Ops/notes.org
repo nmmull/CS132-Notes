@@ -249,6 +249,33 @@ equations from the previous section.
 : ⎢        ⎥
 : ⎣0  1  -3⎦
 
+* REST
+
+#+begin_quote
+*Example.* In chemistry, we learn about chemical reactions like the following:
+
+\[
+\mathsf{C}_6\mathsf{H}_{12}\mathsf{O}_6 \longrightarrow \mathsf{C}_2\mathsf{H}_5\mathsf{OH} + \mathsf{CO}_2
+\]
+
+This equations expresses that glucose (sugar) can be converted to
+ethanol (alcohol) and carbon-dioxide (by fermentation).  This equation
+is /unbalanced/ because the numbers of each kind of atom on each side
+of the equation don't match (e.g., there are 6 carbon atoms on the
+left-hand side and 3 on the right-hand side).  The process of
+/balancing/ this chemical equation is determinings (positive integer)
+values $x_1$, $x_2$, and $x_3$ for the equation
+
+\[
+x_1\mathsf{C}_6\mathsf{H}_{12}\mathsf{O}_6 \longrightarrow x_2\mathsf{C}_2\mathsf{H}_5\mathsf{OH} + x_3\mathsf{CO}_2
+\]
+
+so that the number of each equation...This doesn't work, it requires having multiple equations.
+
+*Example.* Suppose we're interested in ... (chemistry example)
+#+end_quote
+
+
 I need to know how this works before I can work out the details of the
 section.
 

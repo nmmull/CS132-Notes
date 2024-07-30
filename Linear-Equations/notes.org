@@ -563,8 +563,80 @@ variables:
   + solve for $x$ in the first equation.
 
 #+begin_quote
-*Example.* Suppose we're interested in ... (chemistry example)
+*Example.* Consider the system of linear equations
+
+\begin{align*}
+x + 2y &= 1 \\
+-x - y - z &= -1 \\
+2x + 6y - z &= 1
+\end{align*}
+
+We can eliminate the appearance of $x$ in the second equation by
+adding the first equation to the second equation:
+
+\begin{align*}
+x + 2y &= 1 \\
+y - z &= 0 \\
+2x + 6y - z &= 1
+\end{align*}
+
+We can eliminate the appearance of $x$ in the third equation by
+subtracting 2 times the first equation from the second equation:
+
+\begin{align*}
+x + 2y &= 1 \\
+y - z &= 0 \\
+ 2y - z &= -1
+\end{align*}
+
+We can eliminate the appearance of $y$ in the third equation by
+subtracting 2 times the second equation from the third equation:
+
+\begin{align*}
+x + 2y &= 1 \\
+y - z &= 0 \\
+z &= -1
+\end{align*}
+
+So $z = -1$ and we can substitute this value into the first and second
+equation:
+
+\begin{align*}
+x + 2y &= 1 \\
+y &= -1 \\
+z &= -1
+\end{align*}
+
+And $y = -1$ so we can substitute this into the first equation:
+
+
+\begin{align*}
+x &= 3 \\
+y &= 1 \\
+z &= -1
+\end{align*}
+
+So $(3, -1, -1)$ is a solution to the above system of linear equations,
+and we can verify this by plugging these values into the original
+equations:
+
+\begin{align*}
+3 + 2(-1) = 3 - 2 &= 1 \\
+-3 - (-1) - (-1) = -3 + 1 + 1 &= -1 \\
+2(3) + 6(-1) - (-1) = 6 - 6 + 1 &= 1
+\end{align*}
 #+end_quote
 
-Hopefully this is enough to get you thinking about how to apply this
-in the case of four variables.
+One important observation to make about this example: when we perform
+the elimination method, we are creating a bunch of intermediate
+systems of linear equations.  In fact, a solution like
+
+\begin{align*}
+x &= 3 \\
+y &= 1 \\
+z &= -1
+\end{align*}
+
+is a very simple linear equation.  We will use this observation to
+justify the use of matrices as a representation of linear equations,
+and to justify the procedure of Gaussian elimination.

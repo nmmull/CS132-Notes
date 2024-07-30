@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-07-29 Mon 16:52 -->
+<!-- 2024-07-30 Tue 15:58 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Linear Equations</title>
@@ -50,36 +50,36 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org909ea21">Keywords</a></li>
-<li><a href="#org3c0bd87">Basics</a></li>
-<li><a href="#org6ed5f65">Systems of Linear Equations</a></li>
-<li><a href="#orgb7fcdb6">Solving Linear Systems</a></li>
+<li><a href="#orgf8787d0">Keywords</a></li>
+<li><a href="#org1a08426">Basics</a></li>
+<li><a href="#orgc1d3057">Systems of Linear Equations</a></li>
+<li><a href="#orgd6c1124">Solving Linear Systems</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org909ea21" class="outline-2">
-<h2 id="org909ea21">Keywords</h2>
-<div class="outline-text-2" id="text-org909ea21">
+<div id="outline-container-orgf8787d0" class="outline-2">
+<h2 id="orgf8787d0">Keywords</h2>
+<div class="outline-text-2" id="text-orgf8787d0">
 <ul class="org-ul">
-<li><a href="#org4077516">Linear equation</a></li>
-<li><a href="#org7257c55">Hyperplane</a></li>
-<li><a href="#org4d9d0d4">Systems of linear equations</a></li>
-<li><a href="#org9bee9f6">Solution set</a></li>
-<li><a href="#org0c38296">Consistency</a></li>
-<li><a href="#orgccdd910">Forward elimination</a></li>
-<li><a href="#org149b953">Back substitution</a></li>
+<li><a href="#org542b14f">Linear equation</a></li>
+<li><a href="#org57ee038">Hyperplane</a></li>
+<li><a href="#org511a815">Systems of linear equations</a></li>
+<li><a href="#org44309a1">Solution set</a></li>
+<li><a href="#org59ab501">Consistency</a></li>
+<li><a href="#org54bf5ed">Forward elimination</a></li>
+<li><a href="#org02a1d45">Back substitution</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org3c0bd87" class="outline-2">
-<h2 id="org3c0bd87">Basics</h2>
-<div class="outline-text-2" id="text-org3c0bd87">
+<div id="outline-container-org1a08426" class="outline-2">
+<h2 id="org1a08426">Basics</h2>
+<div class="outline-text-2" id="text-org1a08426">
 <p>
 Linear algebra is, at its core, the study of <i>linear equations</i>.
 </p>
 <blockquote>
 <p>
-<a id="org4077516"></a>
+<a id="org542b14f"></a>
 <b>Definition.</b> A <b>linear equation</b> in the variables \(x_1, x_2, \dots,
 x_n\) is an equation that can expressed in the form
 </p>
@@ -265,7 +265,7 @@ var app = Elm.ExamplePlane.init({
 
 <p>
 We call the set of points defined by a linear equation in more than
-three variables a <a id="org7257c55"></a> <b>hyperplane</b>.  We can't visualize
+three variables a <a id="org57ee038"></a> <b>hyperplane</b>.  We can't visualize
 hyperplanes, but we can often take advantage of our intuitions about
 lines in the plane (\(\mathbb R^2\)) or planes in space (\(\mathbb
 R^3\)).<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>
@@ -352,9 +352,9 @@ represent intuitively?
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org6ed5f65" class="outline-2">
-<h2 id="org6ed5f65">Systems of Linear Equations</h2>
-<div class="outline-text-2" id="text-org6ed5f65">
+<div id="outline-container-orgc1d3057" class="outline-2">
+<h2 id="orgc1d3057">Systems of Linear Equations</h2>
+<div class="outline-text-2" id="text-orgc1d3057">
 <p>
 The situation is made more interesting by considering multiple linear
 equations <i>simultaneously</i>.
@@ -362,7 +362,7 @@ equations <i>simultaneously</i>.
 
 <blockquote>
 <p>
-<a id="org4d9d0d4"></a>
+<a id="org511a815"></a>
 <b>Definition.</b> A <b>system of linear equations (linear system)</b> in the
  variables \(x_1, \dots, x_n\) is a collection of linear equations in
  the same variables.
@@ -427,7 +427,7 @@ then every equation is satisfied:
 
 <p>
 We call the set of all solutions to a linear system its <b>solution set</b>
-<a id="org9bee9f6"></a> (naturally).  Geometrically, the solution set of a
+<a id="org44309a1"></a> (naturally).  Geometrically, the solution set of a
 linear system corresponds to the <i>intersection</i> of the point-sets of
 each linear equation in the system.  So the problem of solving a
 system of linear equations is analogous to the line-intersection
@@ -496,7 +496,7 @@ different ways.
 <blockquote>
 <p>
 <b>Terminology.</b> A system of linear equations is called <b>consistent</b>
- <a id="org0c38296"></a> if it has a solution. Otherwise it is called
+ <a id="org59ab501"></a> if it has a solution. Otherwise it is called
  <b>inconsistent</b>.
 </p>
 </blockquote>
@@ -639,9 +639,9 @@ is also a solution.
 </div>
 </div>
 
-<div id="outline-container-orgb7fcdb6" class="outline-2">
-<h2 id="orgb7fcdb6">Solving Linear Systems</h2>
-<div class="outline-text-2" id="text-orgb7fcdb6">
+<div id="outline-container-orgd6c1124" class="outline-2">
+<h2 id="orgd6c1124">Solving Linear Systems</h2>
+<div class="outline-text-2" id="text-orgd6c1124">
 <p>
 Solving a system of linear equations means finding a solution<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup> or showing that no such solution exists.
 </p>
@@ -804,7 +804,7 @@ using the elimination method.
 <p>
 The elimination method is the basis of <i>Gaussian elimination</i>, one of
 our next topics.  In its simplest form, the elimination method has two
-phases: <a id="orgccdd910"></a> <b>forward elimination</b> and <a id="org149b953"></a>
+phases: <a id="org54bf5ed"></a> <b>forward elimination</b> and <a id="org02a1d45"></a>
 <b>back substitution</b>.  Rather than dwelling on how this
 works in general (we'll get to that), let's consider a rough outline
 for using the elimination method for a linear system in three
@@ -829,13 +829,99 @@ variables:
 
 <blockquote>
 <p>
-<b>Example.</b> Suppose we're interested in &#x2026; (chemistry example)
+<b>Example.</b> Consider the system of linear equations
 </p>
+
+\begin{align*}
+x + 2y &= 1 \\
+-x - y - z &= -1 \\
+2x + 6y - z &= 1
+\end{align*}
+
+<p>
+We can eliminate the appearance of \(x\) in the second equation by
+adding the first equation to the second equation:
+</p>
+
+\begin{align*}
+x + 2y &= 1 \\
+y - z &= 0 \\
+2x + 6y - z &= 1
+\end{align*}
+
+<p>
+We can eliminate the appearance of \(x\) in the third equation by
+subtracting 2 times the first equation from the second equation:
+</p>
+
+\begin{align*}
+x + 2y &= 1 \\
+y - z &= 0 \\
+ 2y - z &= -1
+\end{align*}
+
+<p>
+We can eliminate the appearance of \(y\) in the third equation by
+subtracting 2 times the second equation from the third equation:
+</p>
+
+\begin{align*}
+x + 2y &= 1 \\
+y - z &= 0 \\
+z &= -1
+\end{align*}
+
+<p>
+So \(z = -1\) and we can substitute this value into the first and second
+equation:
+</p>
+
+\begin{align*}
+x + 2y &= 1 \\
+y &= -1 \\
+z &= -1
+\end{align*}
+
+<p>
+And \(y = -1\) so we can substitute this into the first equation:
+</p>
+
+
+\begin{align*}
+x &= 3 \\
+y &= 1 \\
+z &= -1
+\end{align*}
+
+<p>
+So \((3, -1, -1)\) is a solution to the above system of linear equations,
+and we can verify this by plugging these values into the original
+equations:
+</p>
+
+\begin{align*}
+3 + 2(-1) = 3 - 2 &= 1 \\
+-3 - (-1) - (-1) = -3 + 1 + 1 &= -1 \\
+2(3) + 6(-1) - (-1) = 6 - 6 + 1 &= 1
+\end{align*}
 </blockquote>
 
 <p>
-Hopefully this is enough to get you thinking about how to apply this
-in the case of four variables.
+One important observation to make about this example: when we perform
+the elimination method, we are creating a bunch of intermediate
+systems of linear equations.  In fact, a solution like
+</p>
+
+\begin{align*}
+x &= 3 \\
+y &= 1 \\
+z &= -1
+\end{align*}
+
+<p>
+is a very simple linear equation.  We will use this observation to
+justify the use of matrices as a representation of linear equations,
+and to justify the procedure of Gaussian elimination.
 </p>
 </div>
 </div>

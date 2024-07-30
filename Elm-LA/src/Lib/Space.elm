@@ -138,8 +138,57 @@ drawPoint params pt sty =
     , mycircle params pt [ fill (stringFromColor sty.color) , r rStr ]
     ]
 
-drawPlane : Params a -> Plane3D -> Plane3DStyle -> List (Svg msg)
-drawPlane params pln sty =
+error : Float
+error =  0.000000001
+
+isZero : Float -> Bool
+isZero x = abs x < error
+
+inBounds : Params a -> Float -> Bool
+inBounds params x = x > minC params / 2 - error && x < maxC params / 2 + error
+
+drawVPlane : Params a -> Plane3D -> Plane3DStyle -> List (Svg msg)
+drawVPlane params pln sty =
+    let
+        mnC = minC params / 2
+        mxC = maxC params / 2
+        yVal x = (pln.rhs - pln.xCof * x) / pln.yCof
+        xVal y = (pln.rhs - pln.yCof * y) / pln.xCof
+        ends =
+            if isZero pln.xCof then
+                [ ( mnC, pln.rhs / pln.yCof )
+                , ( mxC, pln.rhs / pln.yCof )
+                ]
+            else if isZero pln.yCof then
+                [ ( pln.rhs / pln.xCof, mnC )
+                , ( pln.rhs / pln.xCof, mxC )
+                ]
+            else
+                [ ( mnC, yVal mnC )
+                , ( mxC, yVal mxC )
+                , ( xVal mnC, mnC )
+                , ( xVal mxC, mxC )
+                ]
+        filtered_ends =
+            List.filter (\(x, y) -> inBounds params x && inBounds params y) ends
+        mkEdge (x, y) = [ Point3D x y (mnC * 2.5), Point3D x y (mxC * 2.5) ]
+        points =
+            case filtered_ends of
+                p1 :: p2 :: [] ->
+                    mkEdge p1 ++ List.reverse (mkEdge p2)
+                _ -> [] -- IMPOSSIBLE
+        poly = mypolygon
+            params
+            points
+            [ fill (stringFromColor sty.color)
+            , opacity "0.27"
+            , stroke "black"
+            ]
+    in
+        [ poly ]
+
+drawNVPlane : Params a -> Plane3D -> Plane3DStyle -> List (Svg msg)
+drawNVPlane params pln sty =
     let
         zVal x y = (pln.rhs - pln.xCof * x - pln.yCof * y) / pln.zCof
         mnC = minC params / 2
@@ -183,6 +232,12 @@ drawPlane params pln sty =
                 (List.range (ceiling mnC + 1) (floor mxC - 1))
     in [ poly ] ++ (if sty.hasHatch then xlines ++ ylines else [])
 
+drawPlane params pln sty =
+    if isZero (pln.zCof) then
+        drawVPlane params pln sty
+    else
+        drawNVPlane params pln sty
+
 getInterByX : Params a -> Plane3D -> Plane3D -> Float -> Maybe Point3D
 getInterByX params pln1 pln2 x =
     let
@@ -195,7 +250,7 @@ getInterByX params pln1 pln2 x =
         y = -(det c d + (det a c) * x)
         z = (det b d + (det a b) * x)
     in
-        if abs (det b c) > 0.000001 && abs (y / det b c) <= mxC + 0.000001
+        if not (isZero (det b c)) && abs (y / det b c) <= mxC + error
         then Just (Point3D x (y / det b c) (z / det b c))
         else Nothing
 

@@ -3,14 +3,9 @@
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../myStyle.css" />
 #+OPTIONS: html-style:nil H:2 toc:1 num:nil tasks:nil
 #+HTML_LINK_HOME: ../toc.html
-* Keywords
-+ [[linear equation][Linear equation]]
-+ [[hyperplane][Hyperplane]]
-+ [[linear systems][Systems of linear equations]]
-+ [[solution set][Solution set]]
-+ [[consistent][Consistency]]
-+ [[forward elimination][Forward elimination]]
-+ [[back substitution][Back substitution]]
+[[linear equation][Linear equation]], [[hyperplane][Hyperplane]], [[linear systems][Systems of linear equations]], [[solution
+set][Solution set]], [[consistent][Consistency]], [[forward elimination][Forward elimination]], [[back substitution][Back
+substitution]]
 * Basics
 Linear algebra is, at its core, the study of /linear equations/.
 #+begin_quote
@@ -24,7 +19,7 @@ a_1 x_1 + a_2 x_2 + \dots + a_n x_n = b
 
 where $a_1, a_2, \dots, a_n$ and $b$ are real numbers.[fn::It's also
 possible to consider the case in which these are complex numbers, but
-we will only consider real numbers in this course.]
+we'll only consider real numbers.]
 #+end_quote
 
 The numbers $a_1, \dots, a_n$ in the definition above are called
@@ -60,15 +55,15 @@ is a linear equation because it can be expressed as
 \]
 #+end_quote
 
-In your first course on algebra, you should have been introduced to a
-simple kind of linear equation: the equation for a line in the plane.
-You likely first learned the /slope-intercept form/
+In your first course on algebra, you should have been introduced to
+the equation for a line in the plane, a very simple form of linear
+equation.  You likely first learned the /slope-intercept form/
 
 \[
 y = mx + b
 \]
 
-where $m$ and $b$ are real numbers.  You then likely learned the
+where $m$ and $b$ are real numbers.  You hopefully also learned the
 /general form/
 
 \[
@@ -92,26 +87,9 @@ of the line
 in slope-intercept form.
 #+end_quote
 
-A linear equation in $n$ variables defines a set of points in
-$\mathbb R^n$.  We write a point in $\mathbb R^n$ as we would write a
-tuple in Python, e.g., $(3.3, 12.03, \sqrt{3}, 4)$ is a point in
-$\mathbb R^4$.  In set notation, a linear equation expressible as
-
-\[
-a_1x_1 + \dots + a_n x_n = b
-\]
-
-defines the set of points
-
-\[
-\{ (c_1, \dots, c_n) : a_1 c_1 + \dots + a_n c_n = b \}
-\]
-
-which is a subset of $\mathbb R^n$.  This notation expresses the basic
-fact that a linear equation defines the set of points that satisfy it.
-
-If we plot the entire set of points defined by a linear equation in two
-variables in the plane ($\mathbb R^2$), we get a line.
+A line in the plane defines a set of points in the plane ($\mathbb
+R^2$).  If we plot this set of points, we get (surprise...) a
+line.
 
 #+begin_quote
 *Example.* This is the graph of the line $y =
@@ -128,6 +106,27 @@ $(a, b)$ such that $2a + 3b = -6$, e.g., the points $(-9, 4)$, $(6,
   </script>
 #+end_export
 #+end_quote
+
+Analogously, a linear equation in $n$ variables defines a set of
+points in $\mathbb R^n$.  We can think of a point in $\mathbb R^n$ as
+something like a tuple in Python, e.g., $(3.3, 12.03, \sqrt{3}, 4)$ is
+a point in $\mathbb R^4$.
+
+In set notation, a linear equation expressible as
+
+\[
+a_1x_1 + \dots + a_n x_n = b
+\]
+
+defines the set of points
+
+\[
+\{ (c_1, \dots, c_n) : a_1 c_1 + \dots + a_n c_n = b \}
+\]
+
+which is a subset of $\mathbb R^n$.  This notation expresses the basic
+fact that a linear equation defines the set of points that satisfy it.
+
 
 If we plot the set of points defined  by a linear equation in /three/
 variables, we get a plane in $\mathbb R^3$.  We can imagine this is an
@@ -149,11 +148,11 @@ y + z = 1$.  The plane includes, for example, the points $(4, 3,
 #+end_quote
 
 We call the set of points defined by a linear equation in more than
-three variables a <<hyperplane>> *hyperplane*.  We can't visualize
-hyperplanes, but we can often take advantage of our intuitions about
-lines in the plane ($\mathbb R^2$) or planes in space ($\mathbb
-R^3$).[fn::For example (and this will be more clear as we get further
-into the material) just like a plane in $\mathbb R^3$ separates
+three variables a <<hyperplane>> *hyperplane*.  We, of course, cannot
+visualize hyperplanes, but we can often take advantage of our
+intuitions about lines in the plane ($\mathbb R^2$) or planes in
+Euclidean space ($\mathbb R^3$).[fn::For example (and this will be
+more clear as we go on) just like a plane in $\mathbb R^3$ separates
 $\mathbb R^3$ into two disjoint regions, a plane in $\mathbb R^{1934}$
 also separates $\mathbb R^{1934}$ into two disjoint regions.]
 
@@ -186,13 +185,13 @@ I will leave it to you to map this example onto a more "useful"
 domain.
 
 #+begin_quote
-*Exercise.* Find two distinct points in the point-set defined by the
+*Exercise.* Find two distinct points in the point set defined by the
 equation in the candy store example.  What do these two points
 represent intuitively?
 #+end_quote
 
 #+begin_quote
-*Exercise.* Find the point at which the plane of the equation in the
+*Exercise.* Find a point at which the plane of the equation in the
  candy store example intersects the $s$ axis.  What does this point
  represent intuitively?
 #+end_quote
@@ -232,8 +231,10 @@ equation is satisfied:
 -5 + 3 &= -2 \\
 -2(5) + 3 = -10 + 3 &= -7
 \end{align*}
+#+end_quote
 
-The point $(4, -2, 0)$ is a solution to the system
+#+begin_quote
+*Example.* The point $(4, -2, 0)$ is a solution to the system
 
 \begin{align*}
 2x + 3y + 4z &= 2 \\
@@ -253,7 +254,7 @@ then every equation is satisfied:
 
 We call the set of all solutions to a linear system its *solution set*
 <<solution set>> (naturally).  Geometrically, the solution set of a
-linear system corresponds to the /intersection/ of the point-sets of
+linear system corresponds to the /intersection/ of the point sets of
 each linear equation in the system.  So the problem of solving a
 system of linear equations is analogous to the line-intersection
 problem in the plane.
@@ -305,9 +306,8 @@ interested in two questions.
 + /(Uniqueness)/ If it does have a solution, is it the /only/
   solution?
 
-And, as is characteristic in linear algebra (for better or for worse),
-we will introduce new terminology for saying the same things in
-different ways.
+And, as is characteristic in linear algebra, we'll introduce
+terminology for restating the same thing in different language.
 
 #+begin_quote
 *Terminology.* A system of linear equations is called *consistent*
@@ -387,7 +387,7 @@ Give an explicit example of such a system.
 #+end_quote
 
 One nice thing about systems of linear equations (as opposed to say,
-the systems of general polynomials) is that, if we're just interested
+the systems of polynomials) is that, if we're just interested
 in the /number/ of solutions, it turns out there are only three
 options.
 
@@ -396,12 +396,12 @@ options.
  infinitely many solutions.
 #+end_quote
 
-In other words, *if a linear system is consistent and it does not have
-a unique then it must have infinitely many solutions.*
+*If a linear system is consistent and it does not have a unique then
+it must have infinitely many solutions.*
 
 #+begin_quote
 *Example.* If two distinct planes in $\mathbb R^3$ intersect, then the
- must intersect at a /line/.  There are infinitely many points at the
+ must intersect at a /line/.  Thus, there are infinitely many points at the
  intersection of two such planes.
 
  #+begin_export html
@@ -437,16 +437,22 @@ Solving a system of linear equations means finding a solution[fn::As
 we will see, it can also mean describing the set of all possible
 solutions.] or showing that no such solution exists.
 
+As we just mentioned, it's possible for a linear system to have no
+solutions or infinitely many solutions.  We will deal with these
+situations soon, but *in these notes, we will only consider solving
+systems of linear equations with unique solutions.*
+
 As a warm-up, let's first consider a system of linear equations in two
-variables.
+variables (with a unique solution).
 
 Since a linear equation in two variables defines a line in the plane,
-and solutions represent /intersections/, finding a solution to a
-linear system means determining the point (or points) of intersection
-of two lines in the plane.
+and solutions represent /intersections/, finding the solution to such
+a linear system means determining the point of intersection of two
+lines in the plane.
 
-It's likely you were taught to solve the line-intersection problem using
-the *substitution method*:
+Going back again to our first algebra course, you likely learned to
+solve the line-intersection problem using the *substitution method*
+which can be roughly characterized in the case of two variables as:
 + solve for $x$ in terms of $y$ in first equation
 + substitute $x$ in the second equation
 + solve for $y$
@@ -496,10 +502,10 @@ using the substitution method.
 #+end_quote
 
 The substitution method works perfectly well, but it doesn't scale
-well if we want to solve systems with /a lot/ of variables.
+well if we want to solve systems with /lots/ of variables.
 
-The method (which you were hopefully also taught) which will be useful
-in this setting is the *elimination method*:
+The method (which, again, you were hopefully also taught) that will be
+useful now is the *elimination method*:
 + /eliminate/ the appearance of $x$ in the second equation by adding to
   the second equation a multiple of the first (this solves for $y$)
 + /substitute/ the value for $y$ into the first equation (this solves
@@ -546,11 +552,12 @@ using the elimination method.
 
 The elimination method is the basis of /Gaussian elimination/, one of
 our next topics.  In its simplest form, the elimination method has two
-phases: <<forward elimination>> *forward elimination* and <<back substitution>>
-*back substitution*.  Rather than dwelling on how this
-works in general (we'll get to that), let's consider a rough outline
-for using the elimination method for a linear system in three
-variables:
+phases: <<forward elimination>> a *forward elimination* phase and a
+<<back substitution>> *back substitution* phase.
+
+Rather than dwelling on how this works in general (we'll get to that),
+let's consider a rough outline for using the elimination method for a
+linear system in three variables:
 
 + /(Forward elimination)/
   + eliminate $x$ from all but the first equation
@@ -560,7 +567,7 @@ variables:
   + substitute the value of $z$ into the first and second equation
   + solve for $y$ in the second equation
   + substitute the value of $y$ into the first equation
-  + solve for $x$ in the first equation.
+  + solve for $x$ in the first equation
 
 #+begin_quote
 *Example.* Consider the system of linear equations
@@ -609,7 +616,6 @@ z &= -1
 
 And $y = -1$ so we can substitute this into the first equation:
 
-
 \begin{align*}
 x &= 3 \\
 y &= 1 \\
@@ -625,11 +631,23 @@ equations:
 -3 - (-1) - (-1) = -3 + 1 + 1 &= -1 \\
 2(3) + 6(-1) - (-1) = 6 - 6 + 1 &= 1
 \end{align*}
+
+The following a graph of the planes in the above system.
+
+#+begin_export html
+  <script src="plane-intersection-2.js"></script>
+  <div id="plane-intersection-2"></div>
+  <script>
+  var app = Elm.PlaneIntersection2.init({
+    node: document.getElementById('plane-intersection-2')
+    });
+  </script>
+#+end_export
 #+end_quote
 
 One important observation to make about this example: when we perform
-the elimination method, we are creating a bunch of intermediate
-systems of linear equations.  In fact, a solution like
+the elimination method, we're creating a bunch of intermediate systems
+of linear equations.  Even the last system in the previous example
 
 \begin{align*}
 x &= 3 \\
@@ -637,6 +655,48 @@ y &= 1 \\
 z &= -1
 \end{align*}
 
-is a very simple linear equation.  We will use this observation to
-justify the use of matrices as a representation of linear equations,
-and to justify the procedure of Gaussian elimination.
+is a just a very simple system of linear equation.  When
+graphed in $\mathbb R^3$, this system is a collection of
+/perpendicular/ planes.
+
+ #+begin_export html
+  <script src="plane-intersection-3.js"></script>
+  <div id="plane-intersection-3"></div>
+  <script>
+  var app = Elm.PlaneIntersection3.init({
+    node: document.getElementById('plane-intersection-3')
+    });
+  </script>
+#+end_export
+
+As we will come to see, the key fact is that *all these systems of
+equations have the same solution set.*
+
+#+begin_quote
+*Exercise.* Find a solution to the following system of linear equations.
+
+\begin{align*}
+x + 2y + 4z &= 17 \\
+-x - y - z &= -8 \\
+-2x -3y - 4z &= -22
+\end{align*}
+#+end_quote
+
+#+begin_quote
+*Exercise.* Suppose that there are three companies which each pay for
+ a combination of the cloud computing platforms AWS, Google Cloud
+ Platform, and Azure.  For simplicity, also suppose that each
+ company is paying /the same amount/ per terabyte of data (on
+ something like queries).  You know how much data each company has
+ used for each service and you know how much they each spent overall.
+
+ | Company |   AWS | Google Cloud | Azure | Total    |
+ | a       | 35000 |        24000 | 10000 | $439,000 |
+ | b       | 90000 |        13000 | 21000 | $813,000 |
+ | c       | 41000 |        19000 | 34000 | $571,000 |
+
+ Is it possible to determine how much each services costs per
+ terabyte?  (/Hint./ This will be a bit of a hassle to do by
+ hand. Give it a shot, but also look ahead to the next chapter to see
+ how to do it with the help of a computer.)
+#+end_quote

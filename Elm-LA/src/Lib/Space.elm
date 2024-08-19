@@ -271,13 +271,27 @@ intersections params pln1 pln2 =
                 Just a -> [a]
         mxC = maxC params / 2
         mnC = minC params / 2
+        det = pln1.xCof * pln2.yCof - pln1.yCof * pln2.xCof
+        checkV =
+            isZero pln1.zCof
+            && isZero pln2.zCof
+            && not (isZero det)
     in
-    List.concatMap toList
-        [ getInterByX params pln1 pln2 mnC
-        , getInterByX params pln1 pln2 mxC
-        , getInterByY params pln1 pln2 mnC
-        , getInterByY params pln1 pln2 mxC
+    if checkV then
+        let
+            xInt = (pln2.yCof * pln1.rhs - pln2.xCof * pln2.rhs) / det
+            yInt = (pln1.xCof * pln2.rhs - pln2.xCof * pln1.rhs) / det
+        in
+        [ Point3D xInt yInt (mnC * 2.5)
+        , Point3D xInt yInt (mxC * 2.5)
         ]
+    else
+        List.concatMap toList
+            [ getInterByX params pln1 pln2 mnC
+            , getInterByX params pln1 pln2 mxC
+            , getInterByY params pln1 pln2 mnC
+            , getInterByY params pln1 pln2 mxC
+            ]
 
 drawIntersection : Params a -> Plane3D -> Plane3D -> List (Svg msg)
 drawIntersection params pln1 pln2 =

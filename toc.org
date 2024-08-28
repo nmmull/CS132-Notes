@@ -1,34 +1,43 @@
 #+title: Linear Algebra @BUCS
+#+subtitle: UNDER CONSTRUCTION
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="myStyle.css" />
 #+OPTIONS: html-style:nil H:1 toc:nil num:nil
-This is a (draft) set of notes for /CAS CS 132: Geometric Algorithms/
-at Boston University.  Admittedly, I was unsure if I wanted to take on
-this project (in a sense, I still am).  I'm not convinced there's a
-need for another collection of notes on linear algebra.  But it turns
-out I can't help myself.  I am of the opinion that any good course
-needs to be personal, so these are my personal notes, which follow
-my way of thinking about and organizing the material.
-* Table of Contents
-** [[file:Linear-Equations/notes.org][Linear Equations]]
-** [[file:Matrices-Row-Ops/notes.org][Matrices and Row Operations]]
-** Gaussian Elimination
-** An Aside: Numerics
-** Vector Equations
-** Matrix-Vector Equations
-** Linear Independence
-** Linear Transformations
-** Matrices of Linear Transformations
-** Matrix Algebra
-** Matrix Inverses
-** Invertible Matrix Theorem
-** Algebraic Graph Theory
-** Markov Chains
-** The Decomposition
-** Subspaces
-** Dimension and Rank
-** Eigenvalues and Eigenvectors
-** The Characteristic Equation
-** Diagonalization
-** Orthogonality
-** Least Squares
-** Advanced Topic: Linear Algebra and Machine Learning
+This is a (very early draft) set of notes for /CAS CS 132: Geometric
+Algorithms/ at Boston University.  Admittedly, I was unsure if I
+wanted to take on this project (in a sense, I still am).  I'm not
+convinced there's a need for another collection of notes on linear
+algebra.  But it turns out I can't help myself.  I am of the opinion
+that any good course needs to be personal, so these are my personal
+notes, which follow my way of thinking about and organizing the
+material.  It's also my excuse to play around with building
+visualizations (all of which are pretty much hand-spun using [[https://elm-lang.org][Elm]]).
+
+These notes are based heavily on [[http://mcrovella.github.io/CS132-Geometric-Algorithms/landing-page.html][Linear Algebra, Geometry, and
+Computation]] by Mark Crovella, which are in turn based heavily on
+/Linear Algebra and Its Applications/ by David C. Lay, Judy
+J. McDonald, and Steven R. Lay (a mainstay in undergraduate texts on
+linear algebra).
+
++ [[file:Linear-Equations/notes.org][Linear Equations]]
++ [[file:Matrices-Row-Ops/notes.org][Matrices and Row Operations]]
++ Gaussian Elimination
++ An Aside: Numerics
++ Vector Equations
++ Matrix-Vector Equations
++ Linear Independence
++ Linear Transformations
++ Matrices of Linear Transformations
++ Matrix Algebra
++ Matrix Inverses
++ Invertible Matrix Theorem
++ Algebraic Graph Theory
++ Markov Chains
++ The Decomposition
++ Subspaces
++ Dimension and Rank
++ Eigenvalues and Eigenvectors
++ The Characteristic Equation
++ Diagonalization
++ Orthogonality
++ Least Squares
++ Advanced Topic: Linear Algebra and Machine Learning

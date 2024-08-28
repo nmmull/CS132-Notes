@@ -1,0 +1,7 @@
+#+title: Gaussian Elimination
+#+HTML_MATHJAX: align: left indent: 2em
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../myStyle.css" />
+#+OPTIONS: html-style:nil H:2 toc:1 num:nil tasks:nil
+#+HTML_LINK_HOME: ../toc.html
+* Echelon Forms
+* The Algorithm

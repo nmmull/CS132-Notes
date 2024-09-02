@@ -1,0 +1,162 @@
+#+title: Echelon Forms
+#+HTML_MATHJAX: align: left indent: 2em
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../myStyle.css" />
+#+OPTIONS: html-style:nil H:2 toc:1 num:nil tasks:nil
+#+HTML_LINK_HOME: ../toc.html
+In the next chapter, we'll look at /Gaussian elimination/ an algorithm
+which can be used to solve systems of linear equations.  This is
+arguably the most important topic for the first part of the course.
+
+That said, I think the best way to understand Gaussian elimination is
+from the punchline: Gaussian elimination converts any matrix into a
+*unique row-equivalent matrix in row-reduced echelon form* (RREF).
+RREF matrices are interesting because it's very easy to "read off"
+their solutions, no matter whether there are none, one, or infinitely
+many (and since the matrix is row-equivalent, these solutions are
+exactly the solutions to the original system).  In other words, RREF
+matrices constitute the "final matrices" that "represent solutions"
+that were hinted at in the previous chapter.
+
+
+So before discussing how to solve systems of linear equations in
+general, we'll take one more scheduled detour to look at "solving"
+this particularly simple class of linear systems, i.e., those with
+RREF augmented matrices.[fn::"Solving" is in quotes because this class
+represents, in essence, "trivial" linear systems.]
+
+* Recap: Linear Systems with Unique Solutions
+
+We've already seen what the "final matrix" look like when we're trying
+to solve a linear system in $n$ variables with unique solution. It's an $n \times (n + 1)$ matrix of the form:
+
+\begin{bmatrix}
+1 & 0 & \dots & 0 & b_1 \\
+0 & 1 & \dots & 0 & b_2 \\
+\vdots & \vdots & \ddots & \vdots & \vdots \\
+0 & 0 & \dots & 1 & b_n
+\end{bmatrix}
+
+which represents the linear system
+
+\begin{align*}
+x_1 &= b_1 \\
+x_2 &= b_2 \\
+&\vdots \\
+x_n &= b_n
+\end{align*}
+
+which has a unique solution $(b_1, b_2, \dots, b_n)$.  In other words,
+it is a system whose /coefficient/ matrix has $1$ entries along the
+diagonal and $0$ entries everywhere else.[fn::This matrix, often call
+the $n \times n$ *identity matrix*, will become very familiar to us.]
+The point is that its very easy to "read off" what the solution is in
+this system, so if we can reduce a matrix to this form, then we can
+read off its unique solution easily.
+
+But not all matrices can be reduced to a form like this.  First off,
+the shape might not be right: if the augmented matrix of a system is
+$2 \times 7$, we can't somehow end up with a $2 \times 3$ or a $6
+\times 7$ matrix by row reductions.[fn::It may be obvious, but it's
+worth noting explicitly that the row operations /never/ change the
+shape of the matrix] Secondly, not all matrices have unique
+solutions.[fn::Perhaps less obvious, this implies that a system with a
+$2 \times 7$ augmented matrix cannot have a unique solution.]  This
+leaves us with the following questions:
+
++ Can we characterize the matrices for which it's easy to "read off"
+  their solutions?
++ What do these matrices look like if there are no solutions?
++ If there are infinitely many solutions, how do we characterize /all
+  possible/ solutions?
+
+* Echelon Form
+
+We'll actually introduce two kinds of matrices, echelon form matrices
+and row-reduced echelon form (RREF) matrices.  RREF matrices are also
+in echelon form, but they have additional properties.
+
+First we have to set up some machinery.
+
+#+begin_quote
+*Definition.* The *leading entry* of a row in a matrix its first nonzero entry.
+#+end_quote
+
+#+begin_quote
+*Example.* The leading entries of each row in the following matrix are
+underlined.  The third row does not have a leading entry.
+
+\begin{bmatrix}
+0 & \underline{1} & -1 & 2 \\
+\underline{1} & 0 & 1 & 0 \\
+0 & 0 & 0 & 0 \\
+0 & 0 & \underline{4} & 0
+\end{bmatrix}
+#+end_quote
+
+#+begin_quote
+*Definition.* A matrix is in *echelon form* if
++ no all-zero rows appear above a row with a leading entry
++ if a row has a leading entry and it is not the first row, then it
+  appears to the right of the leading entry in the row above it
+#+end_quote
+
+#+begin_quote
+*Example.* The matrix from the previous example is not in echelon
+form.  It has a all-zeros row which appears above a row with a leading
+entry, and the leading entry of the second row appears to the left of
+the leading entry in the first.  But it is equivalent to a matrix in
+echelon form.  Applying the transformations $R_1 \leftrightarrow R_2$
+and $R_3 \leftrightarrow R_4$ gives us the matrix
+
+\begin{bmatrix}
+\underline{1} & 0 & 1 & 0 \\
+0 & \underline{1} & -1 & 2 \\
+0 & 0 & \underline{4} & 0 \\
+0 & 0 & 0 & 0
+\end{bmatrix}
+
+which satisfies the property that the leading entries create a kind of
+"cascading triangular" shape, with the all-zero rows at the end.
+#+end_quote
+
+Echelon forms are not unique
+
+#+begin_quote
+*Definition.* The position of a leading entry in an echelon form of a
+matrix is called a *pivot position*.  A column with a pivot position
+is called a *pivot column*.
+#+end_quote
+
+Note that we're interested in also in pivot positions of the
+/original/ matrix, not just a matrix in echelon form.
+
+#+begin_quote
+*Theorem.* A system of linear equations is inconsistent if and only if
+its last column is a pivot column.
+#+end_quote
+
+* Row-Reduced Echelon Form
+
+#+begin_quote
+*Definition.* A matrix is in *row-reduced echelon form* (RREF) if
++ It's in echelon form
++ Every pivot position has the entry $1$
++ Every pivot column contains a single nonzero entry (the $1$
+  entry in its corresponding leading entry)
+#+end_quote
+
+#+begin_quote
+*Example.* TODO example with squares
+#+end_quote
+
+#+begin_quote
+*Example.* In row-reduced echelon form
+#+end_quote
+
+* General-form solutions
+
+Also called parametric form.
+
+#+begin_quote
+*Definition.* A variable is *free* if its corresponding column is a pivot column. Otherwise it is called *basic*.
+#+end_quote

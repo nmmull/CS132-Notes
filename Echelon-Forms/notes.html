@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2024-08-31 Sat 20:03 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Echelon Forms</title>
+<meta name="author" content="Nathan  Mull" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="../myStyle.css" />
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '2em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '2em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up"><a href="../toc.html">↩</a></div><div id="content" class="content">
+<h1 class="title">Echelon Forms</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org7e885ee">Recap: Linear Systems with Unique Solutions</a></li>
+<li><a href="#org5665a34">Echelon Form</a></li>
+<li><a href="#org02d8de6">Row-Reduced Echelon Form</a></li>
+<li><a href="#org9a14744">General-form solutions</a></li>
+</ul>
+</div>
+</div>
+<p>
+In the next chapter, we'll look at <i>Gaussian elimination</i> an algorithm
+which can be used to solve systems of linear equations.  This is
+arguably the most important topic for the first part of the course.
+</p>
+
+<p>
+That said, I think the best way to understand Gaussian elimination is
+from the punchline: Gaussian elimination converts any matrix into a
+<b>unique row-equivalent matrix in row-reduced echelon form</b> (RREF).
+RREF matrices are interesting because it's very easy to "read off"
+their solutions, no matter whether there are none, one, or infinitely
+many (and since the matrix is row-equivalent, these solutions are
+exactly the solutions to the original system).  In other words, RREF
+matrices constitute the "final matrices" that "represent solutions"
+that were hinted at in the previous chapter.
+</p>
+
+
+<p>
+So before discussing how to solve systems of linear equations in
+general, we'll take one more scheduled detour to look at "solving"
+this particularly simple class of linear systems, i.e., those with
+RREF augmented matrices.<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>
+</p>
+
+<div id="outline-container-org7e885ee" class="outline-2">
+<h2 id="org7e885ee">Recap: Linear Systems with Unique Solutions</h2>
+<div class="outline-text-2" id="text-org7e885ee">
+<p>
+We've already seen what the "final matrix" look like when we're trying
+to solve a linear system in \(n\) variables with unique solution. It's an \(n \times (n + 1)\) matrix of the form:
+</p>
+
+\begin{bmatrix}
+1 & 0 & \dots & 0 & b_1 \\
+0 & 1 & \dots & 0 & b_2 \\
+\vdots & \vdots & \ddots & \vdots & \vdots \\
+0 & 0 & \dots & 1 & b_n
+\end{bmatrix}
+
+<p>
+which represents the linear system
+</p>
+
+\begin{align*}
+x_1 &= b_1 \\
+x_2 &= b_2 \\
+&\vdots \\
+x_n &= b_n
+\end{align*}
+
+<p>
+which has a unique solution \((b_1, b_2, \dots, b_n)\).  In other words,
+it is a system whose <i>coefficient</i> matrix has \(1\) entries along the
+diagonal and \(0\) entries everywhere else.<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>
+The point is that its very easy to "read off" what the solution is in
+this system, so if we can reduce a matrix to this form, then we can
+read off its unique solution easily.
+</p>
+
+<p>
+But not all matrices can be reduced to a form like this.  First off,
+the shape might not be right: if the augmented matrix of a system is
+\(2 \times 7\), we can't somehow end up with a \(2 \times 3\) or a \(6
+\times 7\) matrix by row reductions.<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup> Secondly, not all matrices have unique
+solutions.<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>  This
+leaves us with the following questions:
+</p>
+
+<ul class="org-ul">
+<li>Can we characterize the matrices for which it's easy to "read off"
+their solutions?</li>
+<li>What do these matrices look like if there are no solutions?</li>
+<li>If there are infinitely many solutions, how do we characterize <i>all
+possible</i> solutions?</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org5665a34" class="outline-2">
+<h2 id="org5665a34">Echelon Form</h2>
+<div class="outline-text-2" id="text-org5665a34">
+<p>
+We'll actually introduce two kinds of matrices, echelon form matrices
+and row-reduced echelon form (RREF) matrices.  RREF matrices are also
+in echelon form, but they have additional properties.
+</p>
+
+<p>
+First we have to set up some machinery.
+</p>
+
+<blockquote>
+<p>
+<b>Definition.</b> The <b>leading entry</b> of a row in a matrix its first nonzero entry.
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+<b>Example.</b> The leading entries of each row in the following matrix are
+underlined.  The third row does not have a leading entry.
+</p>
+
+\begin{bmatrix}
+0 & \underline{1} & -1 & 2 \\
+\underline{1} & 0 & 1 & 0 \\
+0 & 0 & 0 & 0 \\
+0 & 0 & \underline{4} & 0
+\end{bmatrix}
+</blockquote>
+
+<blockquote>
+<p>
+<b>Definition.</b> A matrix is in <b>echelon form</b> if
+</p>
+<ul class="org-ul">
+<li>no all-zero rows appear above a row with a leading entry</li>
+<li>if a row has a leading entry and it is not the first row, then it
+appears to the right of the leading entry in the row above it</li>
+</ul>
+</blockquote>
+
+<blockquote>
+<p>
+<b>Example.</b> The matrix from the previous example is not in echelon
+form.  It has a all-zeros row which appears above a row with a leading
+entry, and the leading entry of the second row appears to the left of
+the leading entry in the first.  But it is equivalent to a matrix in
+echelon form.  Applying the transformations \(R_1 \leftrightarrow R_2\)
+and \(R_3 \leftrightarrow R_4\) gives us the matrix
+</p>
+
+\begin{bmatrix}
+\underline{1} & 0 & 1 & 0 \\
+0 & \underline{1} & -1 & 2 \\
+0 & 0 & \underline{4} & 0 \\
+0 & 0 & 0 & 0
+\end{bmatrix}
+
+<p>
+which satisfies the property that the leading entries create a kind of
+"cascading triangular" shape, with the all-zero rows at the end.
+</p>
+</blockquote>
+
+<p>
+Echelon forms are not unique
+</p>
+
+<blockquote>
+<p>
+<b>Definition.</b> The position of a leading entry in an echelon form of a
+matrix is called a <b>pivot position</b>.  A column with a pivot position
+is called a <b>pivot column</b>.
+</p>
+</blockquote>
+
+<p>
+Note that we're interested in also in pivot positions of the
+<i>original</i> matrix, not just a matrix in echelon form.
+</p>
+
+<blockquote>
+<p>
+<b>Theorem.</b> A system of linear equations is inconsistent if and only if
+its last column is a pivot column.
+</p>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-org02d8de6" class="outline-2">
+<h2 id="org02d8de6">Row-Reduced Echelon Form</h2>
+<div class="outline-text-2" id="text-org02d8de6">
+<blockquote>
+<p>
+<b>Definition.</b> A matrix is in <b>row-reduced echelon form</b> (RREF) if
+</p>
+<ul class="org-ul">
+<li>It's in echelon form</li>
+<li>Every pivot position has the entry \(1\)</li>
+<li>Every pivot column contains a single nonzero entry (the \(1\)
+entry in its corresponding leading entry)</li>
+</ul>
+</blockquote>
+
+<blockquote>
+<p>
+<b>Example.</b> TODO example with squares
+</p>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-org9a14744" class="outline-2">
+<h2 id="org9a14744">General-form solutions</h2>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">"Solving" is in quotes because this class
+represents, in essence, "trivial" linear systems.</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">This matrix, often call
+the \(n \times n\) <b>identity matrix</b>, will become very familiar to us.</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">It may be obvious, but it's
+worth noting explicitly that the row operations <i>never</i> change the
+shape of the matrix</p></div></div>
+
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">Perhaps less obvious, this implies that a system with a
+\(2 \times 7\) augmented matrix cannot have a unique solution.</p></div></div>
+
+
+</div>
+</div></div>
+</body>
+</html>

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-08-28 Wed 14:12 -->
+<!-- 2024-08-30 Fri 12:28 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Matrices and Row Operations</title>
@@ -50,21 +50,21 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org89940f7">Matrices in General</a></li>
-<li><a href="#org8df6096">Matrices for Linear Systems</a></li>
-<li><a href="#orge139eb2">Row Operations</a></li>
-<li><a href="#orga7b9f44">SymPy and Row Operations</a></li>
+<li><a href="#orgcbea5ca">Matrices in General</a></li>
+<li><a href="#org6975f6e">Matrices for Linear Systems</a></li>
+<li><a href="#org2b0aef9">Row Operations</a></li>
+<li><a href="#orgd534427">SymPy and Row Operations</a></li>
 </ul>
 </div>
 </div>
 <p>
-<a href="#org6cbdf2d">Augmented matrix</a>, <a href="#org8a5e3d1">Coefficient matrix</a>, <a href="#org602bc01">Elementary row operations</a>, <a href="#orga0990f2">Row
-Equivalence</a>
+<a href="#orgd38a486">Augmented matrix</a>, <a href="#orgd18f8d2">Coefficient matrix</a>, <a href="#orgf833d1b">Elementary row operations</a>, <a href="#org3a559a6">Row
+equivalence</a>, <a href="#orgfed778a">SymPy</a>
 </p>
 
-<div id="outline-container-org89940f7" class="outline-2">
-<h2 id="org89940f7">Matrices in General</h2>
-<div class="outline-text-2" id="text-org89940f7">
+<div id="outline-container-orgcbea5ca" class="outline-2">
+<h2 id="orgcbea5ca">Matrices in General</h2>
+<div class="outline-text-2" id="text-orgcbea5ca">
 <p>
 Matrices have a reputation for being a tad daunting.  They're usually
 the first things we come in contact with in a slightly more "abstract
@@ -88,7 +88,7 @@ letter is represented as matrix with 16 rows and 8 columns.<sup><a id="fnr.2" cl
 </p>
 
 
-<div id="org32014d7" class="figure">
+<div id="orgdf4428e" class="figure">
 <p><img src="terminus.gif" alt="terminus.gif" />
 </p>
 </div>
@@ -201,9 +201,9 @@ systems of linear equations as matrices.
 </div>
 </div>
 
-<div id="outline-container-org8df6096" class="outline-2">
-<h2 id="org8df6096">Matrices for Linear Systems</h2>
-<div class="outline-text-2" id="text-org8df6096">
+<div id="outline-container-org6975f6e" class="outline-2">
+<h2 id="org6975f6e">Matrices for Linear Systems</h2>
+<div class="outline-text-2" id="text-org6975f6e">
 <p>
 The benefits of representing systems of linear equations as matrices
 are twofold:
@@ -280,7 +280,7 @@ says the same thing as above, but in the correct "mathy" style.
 
 <blockquote>
 <p>
-<a id="org6cbdf2d"></a>
+<a id="orgd38a486"></a>
 <b>Definition.</b> The <b>augmented matrix</b> of a linear system
 </p>
 
@@ -303,8 +303,8 @@ a_{m1} & \dots & a_{mn} & b_m
 \end{bmatrix}
 
 <p>
-<a id="org8a5e3d1"></a>
-the <b>coefficient matrix</b> of the same system is the \(m \times n\) matrix
+<a id="orgd18f8d2"></a>and the <b>coefficient matrix</b> of the same system
+is the \(m \times n\) matrix
 </p>
 
 \begin{bmatrix}
@@ -400,16 +400,16 @@ which has the augmented matrix
 
 <p>
 We haven't yet set up the machinery to solve this linear system (it
-has more than one solution), but we will come back to it.
+has more than one solution), but we'll come back to it.
 </p>
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orge139eb2" class="outline-2">
-<h2 id="orge139eb2">Row Operations</h2>
-<div class="outline-text-2" id="text-orge139eb2">
+<div id="outline-container-org2b0aef9" class="outline-2">
+<h2 id="org2b0aef9">Row Operations</h2>
+<div class="outline-text-2" id="text-org2b0aef9">
 <p>
-One of the important observations that we made in the previous section
+One of the important observations that we made in the previous chapter
 was that, when we solve a system of linear equations using the
 elimination method, we're generating a <i>sequence</i> of linear systems
 with <i>identical solution sets</i>.  Let's create some terminology for
@@ -455,8 +455,8 @@ method, there were two operations that we needed:
 </p>
 
 <ul class="org-ul">
-<li>(<i>scaling</i>) we had to multiply an equation in a linear system by a real number</li>
-<li>(<i>replacement</i>) we had to add some multiple of an equation to another</li>
+<li><i>(scaling)</i> we had to multiply an equation in a linear system by a real number</li>
+<li><i>(replacement)</i> we had to add some multiple of an equation to another</li>
 </ul>
 
 <p>
@@ -466,8 +466,8 @@ system.
 
 <blockquote>
 <p>
-<b>Aside.</b> We should first convince ourselves that these operations
-produce equivalent linear systems.
+<b>Aside.</b> We should convince ourselves that these operations produce
+equivalent linear systems.
 </p>
 
 <p>
@@ -509,10 +509,15 @@ equivalent linear system, using a similar argument to the one above.
 </blockquote>
 
 <p>
-It turns out that these are the only these are the only operations to
+It turns out that these are the only operations we need to
 characterize the equivalence of linear systems.  And they can be
 naturally defined as <i>matrix operations</i> called <b>elementary row
 operations</b> on the augmented matrix of a system.
+</p>
+
+<p>
+Before formalizing this, let's see what this looks like in a concrete
+setting.
 </p>
 
 <blockquote>
@@ -541,7 +546,7 @@ In solving this system using the elimination method, we first
 eliminate the appearance of \(x\) in the second equation by adding the
 first equation to the second equation.  As far as how this changes the
 augmented matrix, this is an example of replacement, where we add the
-first <i>row</i> element-wise to the second row.
+first <i>row</i> element-wise to the second row.  We call this a <b>row operation</b>.
 </p>
 
 \begin{matrix}
@@ -562,7 +567,7 @@ y - z &= 0 \\
 
 <p>
 We then add <i>\(-2\) times the first equation</i> to the second equation to
-eliminate \(x\) from the thirds equation, another instance of
+eliminate \(x\) from the third equation, another instance of
 replacement in the augmented matrix:
 </p>
 
@@ -670,7 +675,8 @@ z &= 1
 
 <blockquote>
 <p>
-Verify that \((-1, 1, 1)\) is a solution to the linear system in the previous example.
+Verify that \((-1, 1, 1)\) is a solution to the linear system in the
+previous example.
 </p>
 </blockquote>
 
@@ -680,27 +686,31 @@ able to scale rows and replace rows.  Moving forward we'll stop
 thinking directly in terms of linear equations (i.e., the left-hand
 column in the previous example) and work entirely in the context of
 matrices, applying row operations to transform one matrix into another
-which "represents a solution".  In the case of a unique solution, we
-get a first hint at what this "final" matrix is, it's a square matrix
-with a diagonal of \(1\) entries, along with a column appended to the
-right which has the values assigned to each variable.  In the next
-section, when we discuss Gaussian Elimination, we'll broaden our view
-on what this "final" matrix can be so that we can account for 0
-solutions or infinitely many solutions.
+which "represents a solution".
+</p>
+
+<p>
+In the case of a unique solution, we get a first hint at what this
+"final" matrix is, it's a square matrix with a diagonal of \(1\)
+entries, along with a column appended to the right which has the
+values assigned to each variable.  In a later chapter, when we
+discuss Gaussian Elimination, we'll broaden our view on what this
+"final" matrix can be so that we can account for no solutions or
+infinitely many solutions.
 </p>
 
 <hr />
 
 <p>
 Let's formalize what we just covered with a definition.  To the
-elementary row operations, we include an additional operations called
-<i>interchange</i> which will allow us to swap rows because it will be
-convenient (see the exercise below for more details).
+elementary row operations, we add an operation called <i>interchange</i>
+which allows us to swap rows.  This is just a convenience (see the
+exercise below for more details).
 </p>
 
 <blockquote>
 <p>
-<a id="org602bc01"></a>
+<a id="orgf833d1b"></a>
 <b>Definition.</b> The <b>elementary row operations</b> are
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
@@ -724,7 +734,7 @@ convenient (see the exercise below for more details).
 <tr>
 <td class="org-left">Replacement</td>
 <td class="org-left">Rᵢ(A) ← Rᵢ(A) + c * Rⱼ(A)n</td>
-<td class="org-left">add row j scaled by c to row j</td>
+<td class="org-left">add row j scaled by c to row i elementwise</td>
 </tr>
 
 <tr>
@@ -742,7 +752,7 @@ convenient (see the exercise below for more details).
 </table>
 
 <p>
-<a id="orga0990f2"></a>
+<a id="org3a559a6"></a>
 Two matrices \(A\) and \(B\) are <b>row equivalent</b> (written \(A \sim B\)) if
 there is a sequence of row operations which transforms \(A\) to \(B\).
 </p>
@@ -941,14 +951,14 @@ x + 2y + 4z &= 17 \\
 
 <p>
 by writing down its augmented matrix and applying row
-reductions (note that this system is from the previous section, and
+reductions (note that this system is from the previous chapter, and
 has a unique solution).
 </p>
 </blockquote>
 
 <blockquote>
 <p>
-<b>Exercise</b> (Challenge) Show that the interchange rule is
+<b>Exercise</b> <i>(Challenge)</i> Show that the interchange rule is
 unnecessary. That is, show that anytime you want to use the
 interchange rule, you can instead use a sequence of replacements and
 scalings.
@@ -992,9 +1002,9 @@ making just addition and scaling necessary elementary row operations.
 </div>
 </div>
 
-<div id="outline-container-orga7b9f44" class="outline-2">
-<h2 id="orga7b9f44">SymPy and Row Operations</h2>
-<div class="outline-text-2" id="text-orga7b9f44">
+<div id="outline-container-orgd534427" class="outline-2">
+<h2 id="orgd534427">SymPy and Row Operations</h2>
+<div class="outline-text-2" id="text-orgd534427">
 <p>
 It will be in your best interest (particularly for exams) to practice
 performing row operations by hand.  But as <a href="https://thethreevirtues.com">lazy</a> computer scientist,
@@ -1002,10 +1012,11 @@ this is unsatisfying.
 </p>
 
 <p>
-In the next chapter we'll look at <i>Gaussian elimination</i>, an algorithm
-for performing the "right" row operations to solve a given linear
-system (expressed as an augmented matrix).  For now, it would be nice
-if we could use a computer to do some tedious calculations for us.
+In an upcoming chapter we'll look at <i>Gaussian elimination</i>, an
+algorithm for performing the "right" row operations to solve a given
+linear system (expressed as an augmented matrix).  For now, it would
+be nice if we could use a computer to do some tedious calculations for
+us.
 </p>
 
 <p>
@@ -1016,17 +1027,17 @@ doing these things, so we'll use those instead.
 </p>
 
 <p>
-For the first part of this course, we'll be using <code>sympy</code>, a Python
-library for symbolic computation.<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup> It's an incredibly impressive library,
-but all we'll use is its module for working with matrices, which we
-can use to perform row operations.
+For the first part of this course, we'll be using <a id="orgfed778a"></a> <code>sympy</code>, a
+Python library for symbolic computation.<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup> It's an incredibly impressive
+library, but all we'll need is its module for working with matrices,
+which we can use to perform row operations.
 </p>
 
 <p>
 We can create a matrix using the <code>Matrix</code> constructor, which takes a
 list of lists of numbers.  The inner lists represent the rows of the
 constructed matrix.  The constructor throws an error if this list of
-lists does not satisfy the requirement mentioned above (i.e., the
+lists does not satisfy the requirements mentioned above (e.g., the
 length of each inner list is the same).
 </p>
 
@@ -1091,18 +1102,18 @@ A[0,:], A[1,:] = A[1,:], A[0,:]
 pprint(A)
 
 print()
-print("replace first row with 3 times second row:")
+print("add 3 times second row to first row:")
 A[0,:] += 3 * A[1,:]
 pprint(A)
 
 print()
-print("scale second row by 1/5:")
+print("scale first row by 1/5:")
 A[0,:] /= 5
 pprint(A)
 </pre>
 </div>
 
-<pre class="example" id="orga3b84f9">
+<pre class="example" id="org62e04f8">
 A:
 ⎡-1  -2  1⎤
 ⎢         ⎥
@@ -1116,12 +1127,12 @@ swap first and second row:
 ⎢         ⎥
 ⎣-1  -2  1⎦
 
-replace first row with 3 times second row:
+add 3 times second row to first row:
 ⎡-2  -5  5⎤
 ⎢         ⎥
 ⎣-1  -2  1⎦
 
-scale second row by 1/5:
+scale first row by 1/5:
 ⎡-2/5  -1  1⎤
 ⎢           ⎥
 ⎣ -1   -2  1⎦
@@ -1129,7 +1140,7 @@ scale second row by 1/5:
 
 <p>
 So, for example, we can determine a solution to the systems of
-equations from the previous section.
+equations from the previous chapter.
 </p>
 
 <div class="org-src-container">
@@ -1198,14 +1209,14 @@ into polynomial matrices when we cover eigenvalues.</p></div></div>
 <div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">To further <i>further</i> emphasize
 this, if we were thinking about our matrices as representing images,
 we would come up with <i>different</i> operations on matrices that
-correspond to useful operations on images, e.g., blurring or
+correspond to useful transformations on images, e.g., blurring or
 rotating.</p></div></div>
 
 <div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">We will often drop the <code>(A)</code> part of the notation if the matrix is clear from context.</p></div></div>
 
-<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">In a couple chapters will switch
-to <code>numpy</code> because it is more efficient, but doesn't offer a nice
-interface for row reductions</p></div></div>
+<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">In a couple chapters will
+switch to <code>numpy</code> because it is more efficient, but doesn't offer a
+nice interface for row reductions</p></div></div>
 
 
 </div>

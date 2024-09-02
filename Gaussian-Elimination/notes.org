@@ -3,5 +3,68 @@
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../myStyle.css" />
 #+OPTIONS: html-style:nil H:2 toc:1 num:nil tasks:nil
 #+HTML_LINK_HOME: ../toc.html
+I'd like to preface what follows with a couple personal opinions about
+learning this material.
+
++ The details of Gaussian elimination are complex and may file foreign
+  at first.  What's more important is not that you understand all the
+  details, but rather that you could emulate the process.
++ We will use Gaussian elimination in some form for pretty much the
+  entire course. It might as well be the only tool we use, though we
+  will interpret the results differently, or apply it to different
+  kinds of matrices.  Point is: take the time to learn it and practice
+  it consistently.  It will make the remainder of the course much more
+  comfortable.
+
 * Echelon Forms
+
+We've been a bit loose regarding what it means to solving a system of
+linear equations.  In the last chapter we learned that, to solve a
+linear system we can row reduce the augmented matrix of a linear
+system until we get to a "final" matrix which "represents a solution".
+Our first goal is to formally define what this "final" matrix is.
+
+We've already seen what this final form is in the case that our system
+(in $n$ variables) has a unique solution. It'll look something like
+the $n \times (n + 1)$ matrix
+
+\begin{bmatrix}
+1 & 0 & \dots & 0 & b_1 \\
+0 & 1 & \dots & 0 & b_2 \\
+\vdots & \vdots & \ddots & \vdots & \vdots \\
+0 & 0 & \dots & 1 & b_n
+\end{bmatrix}
+
+which represents the linear system
+
+\begin{align*}
+x_1 &= b_1 \\
+x_2 &= b_2 \\
+&\vdots \\
+x_n &= b_n
+\end{align*}
+
+which has a unique solution $(b_1, b_2, \dots, b_n)$.  The point is
+that its very easy to "read off" what the solution is in this system,
+so if we can reduce a matrix to this form, then we can read off its
+unique solution easily.
+
+But not all matrices can be reduced to a form like this.  First of the
+shape might not be right: if start off with a $2 \times 7$ matrix, we
+can't end up with a $2 \times 3$ or a $6 \times 7$ matrix (it may be
+obvious, but it's worth noting explicitly that the row operations
+/never/ change the shape of the matrix).
+
+Secondly, not all matrices have unique solutions.[fn::Perhaps less
+obvious, this implies that a system with a $2 \times 7$ augmented
+matrix cannot have a unique solution.]  This leaves us with the
+following questions:
+
++ Can we characterize the matrices for which it's easy to "read off"
+  their solutions?
++ What do these matrices look like if there are no solutions?
++ If there are infinitely many solutions, how does I characterize /all
+  possible/ solutions?
+
+We're going to do things a bit backwards.
 * The Algorithm

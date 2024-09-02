@@ -18,26 +18,41 @@ Computation]] by Mark Crovella, which are in turn based heavily on
 J. McDonald, and Steven R. Lay (a mainstay in undergraduate texts on
 linear algebra).
 
+* Solving Linear Systems
 + [[file:Linear-Equations/notes.org][Linear Equations]]
 + [[file:Matrices-Row-Ops/notes.org][Matrices and Row Operations]]
-+ Gaussian Elimination
++ [[file:Echelon-Forms/notes.org][Echelon Forms]]
++ [[file:Gaussian-Elimination/notes.org][Gaussian Elimination]]
 + An Aside: Numerics
+
+* Vectors
 + Vector Equations
 + Matrix-Vector Equations
 + Linear Independence
+
+* Linearity
 + Linear Transformations
 + Matrices of Linear Transformations
+
+* Matrix
 + Matrix Algebra
 + Matrix Inverses
 + Invertible Matrix Theorem
+
+* Applications
 + Algebraic Graph Theory
 + Markov Chains
-+ The Decomposition
++ LU Decomposition
+
+* Vector Spaces
 + Subspaces
 + Dimension and Rank
+
+* Eigenvalues
 + Eigenvalues and Eigenvectors
 + The Characteristic Equation
 + Diagonalization
+
+* Analytic Geometry
 + Orthogonality
 + Least Squares
-+ Advanced Topic: Linear Algebra and Machine Learning

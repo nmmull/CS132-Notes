@@ -3,13 +3,45 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-08-28 Wed 14:23 -->
+<!-- 2024-08-28 Wed 15:04 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Gaussian Elimination</title>
 <meta name="author" content="Nathan  Mull" />
 <meta name="generator" content="Org Mode" />
 <link rel="stylesheet" type="text/css" href="../myStyle.css" />
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '2em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'left',
+      displayIndent: '2em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <div id="org-div-home-and-up"><a href="../toc.html">↩</a></div><div id="content" class="content">
@@ -18,17 +50,107 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org5ccd38c">Echelon Forms</a></li>
-<li><a href="#org6a86ecf">The Algorithm</a></li>
+<li><a href="#org539b4f2">Echelon Forms</a></li>
+<li><a href="#org1fbd22f">The Algorithm</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org5ccd38c" class="outline-2">
-<h2 id="org5ccd38c">Echelon Forms</h2>
+<p>
+I'd like to preface what follows with a couple personal opinions about
+learning this material.
+</p>
+
+<ul class="org-ul">
+<li>The details of Gaussian elimination are complex and may file foreign
+at first.  What's more important is not that you understand all the
+details, but rather that you could emulate the process.</li>
+<li>We will use Gaussian elimination in some form for pretty much the
+entire course. It might as well be the only tool we use, though we
+will interpret the results differently, or apply it to different
+kinds of matrices.  Point is: take the time to learn this and
+practice this early on.  It will make the remainder of the course
+much more comfortable.</li>
+</ul>
+
+<div id="outline-container-org539b4f2" class="outline-2">
+<h2 id="org539b4f2">Echelon Forms</h2>
+<div class="outline-text-2" id="text-org539b4f2">
+<p>
+We've been a bit loose regarding what it means to solving a system of
+linear equations.  In the last chapter we learned that, to solve a
+linear system we can row reduce the augmented matrix of a linear
+system until we get to a "final" matrix which "represents a solution".
+Our first goal is to formally define what this "final" matrix is.
+</p>
+
+<p>
+We've already seen what this final form is in the case that our system
+(in \(n\) variables) has a unique solution. It'll look something like
+the \(n \times (n + 1)\) matrix
+</p>
+
+\begin{bmatrix}
+1 & 0 & \dots & 0 & b_1 \\
+0 & 1 & \dots & 0 & b_2 \\
+\vdots & \vdots & \ddots & \vdots & \vdots \\
+0 & 0 & \dots & 1 & b_n
+\end{bmatrix}
+
+<p>
+which represents the linear system
+</p>
+
+\begin{align*}
+x_1 &= b_1 \\
+x_2 &= b_2 \\
+&\vdots \\
+x_n &= b_n
+\end{align*}
+
+<p>
+which has a unique solution \((b_1, b_2, \dots, b_n)\).  The point is
+that its very easy to "read off" what the solution is in this system,
+so if we can reduce a matrix to this form, then we can read off its
+unique solution easily.
+</p>
+
+<p>
+But not all matrices can be reduced to a form like this.  First of the
+shape might not be right: if start off with a \(2 \times 7\) matrix, we
+can't end up with a \(2 \times 3\) or a \(6 \times 7\) matrix (it may be
+obvious, but it's worth noting explicitly that the row operations
+<i>never</i> change the shape of the matrix).
+</p>
+
+<p>
+Secondly, not all matrices have unique solutions.<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>  This leaves us with the
+following questions:
+</p>
+
+<ul class="org-ul">
+<li>Can we characterize the matrices for which it's easy to "read off"
+their solutions?</li>
+<li>What do these matrices look like if there are no solutions?</li>
+<li>If there are infinitely many solutions, how does I characterize <i>all
+possible</i> solutions?</li>
+</ul>
 </div>
-<div id="outline-container-org6a86ecf" class="outline-2">
-<h2 id="org6a86ecf">The Algorithm</h2>
 </div>
+
+
+<div id="outline-container-org1fbd22f" class="outline-2">
+<h2 id="org1fbd22f">The Algorithm</h2>
 </div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">Perhaps less
+obvious, this implies that a system with a \(2 \times 7\) augmented
+matrix cannot have a unique solution.</p></div></div>
+
+
+</div>
+</div></div>
 </body>
 </html>

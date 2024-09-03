@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-09-02 Mon 13:51 -->
+<!-- 2024-09-03 Tue 13:35 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Echelon Forms</title>
@@ -50,10 +50,10 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgd94f975">Recap: Linear Systems with Unique Solutions</a></li>
-<li><a href="#orgad84973">Echelon Form</a></li>
-<li><a href="#orgee4ec49">Row-Reduced Echelon Form</a></li>
-<li><a href="#orgccb3718">General-form solutions</a></li>
+<li><a href="#org6ac7bcf">Recap: Linear Systems with Unique Solutions</a></li>
+<li><a href="#orga194f7f">Echelon Form</a></li>
+<li><a href="#org5ba95cd">Row-Reduced Echelon Form</a></li>
+<li><a href="#org17c4dc2">General form solutions</a></li>
 </ul>
 </div>
 </div>
@@ -71,7 +71,7 @@ RREF matrices are interesting because it's very easy to "read off"
 their solutions, no matter whether there are no solutions, one unique
 solution, or infinitely many solutions.<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>  In other
 words, RREF matrices constitute the "final matrices" that "represent
-solutions" that were hinted at in the previous chapter.
+solutions" which were hinted at in the previous chapter.
 </p>
 
 <p>
@@ -81,9 +81,9 @@ this particularly simple class of linear systems, i.e., those with
 RREF augmented matrices.<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>
 </p>
 
-<div id="outline-container-orgd94f975" class="outline-2">
-<h2 id="orgd94f975">Recap: Linear Systems with Unique Solutions</h2>
-<div class="outline-text-2" id="text-orgd94f975">
+<div id="outline-container-org6ac7bcf" class="outline-2">
+<h2 id="org6ac7bcf">Recap: Linear Systems with Unique Solutions</h2>
+<div class="outline-text-2" id="text-org6ac7bcf">
 <p>
 We've already seen what the "final matrix" look like when we're trying
 to solve a linear system in \(n\) variables with unique solution. It's
@@ -110,9 +110,9 @@ x_n &= b_n
 
 <p>
 which has a unique solution \((b_1, b_2, \dots, b_n)\).  In other words,
-it is a system whose <i>coefficient</i> matrix has \(1\) entries along the
-diagonal and \(0\) entries everywhere else.<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>  The
-point is that its very easy to "read off" what the solution is in this
+it's a system whose <i>coefficient</i> matrix has \(1\) entries along the
+diagonal and \(0\) entries everywhere else.<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>  <i>The
+point:</i> it's very easy to "read off" what the solution is in this
 system, so if we can reduce a matrix to this form, then we can read
 off its unique solution easily.
 </p>
@@ -136,9 +136,9 @@ possible</i> solutions?</li>
 </div>
 </div>
 
-<div id="outline-container-orgad84973" class="outline-2">
-<h2 id="orgad84973">Echelon Form</h2>
-<div class="outline-text-2" id="text-orgad84973">
+<div id="outline-container-orga194f7f" class="outline-2">
+<h2 id="orga194f7f">Echelon Form</h2>
+<div class="outline-text-2" id="text-orga194f7f">
 <p>
 We'll actually introduce two kinds of matrices, echelon form matrices
 and row-reduced echelon form (RREF) matrices (the reason will
@@ -160,14 +160,13 @@ it.
 <a title="Pearson Scott Foresman, Public domain, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Echelon_1_(PSF).png"><img width="512" alt="Echelon 1 (PSF)" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Echelon_1_%28PSF%29.png/512px-Echelon_1_%28PSF%29.png?20100315055206"></a>
 
 <p>
-This imagery is an incredibly useful visual pun for understanding how echelon froms work.
+This imagery is an incredibly useful visual pun for understanding how echelon forms look.
 </p>
 </blockquote>
 
 <p>
-First we have to set up some machinery.  At the end of the day, this
-is just a mathy formalization of exactly the description of the above
-aside.
+First we have to set up some machinery.  This is just a math-y
+formalization of exactly the description of the above aside.
 </p>
 
 <blockquote>
@@ -266,14 +265,14 @@ Given an echelon form, its not yet easy to "read off" a solution if
 there is one.  Take for example:
 </p>
 
-<p>
-\[
-TODO
-\]
-</p>
+\begin{bmatrix}
+1 & 4 & 3 & -3 \\
+0 & 2 & 6 & -1 \\
+0 & 0 & 3 & 1
+\end{bmatrix}
 
 <p>
-Can you tell immediately that ??? is a solution?
+Can you tell immediately that \((2, -1.5, 0.\overline{3})\) is a solution?
 </p>
 
 <p>
@@ -342,7 +341,7 @@ abuse, the <b>echelon forms of A</b>.
 <p>
 Thus, we will think of the general echelon form as a "pit-stop" we can
 make on our way to a RREF matrix (just as a reminder Gaussian
-eliminiation is about converting a matrix to an equivalent RREF
+elimination is about converting a matrix to an equivalent RREF
 matrix).
 </p>
 
@@ -353,19 +352,13 @@ here!<sup><a id="fnr.7" class="footref" href="#fn.7" role="doc-backlink">7</a></
 </div>
 </div>
 
-<div id="outline-container-orgee4ec49" class="outline-2">
-<h2 id="orgee4ec49">Row-Reduced Echelon Form</h2>
-<div class="outline-text-2" id="text-orgee4ec49">
+<div id="outline-container-org5ba95cd" class="outline-2">
+<h2 id="org5ba95cd">Row-Reduced Echelon Form</h2>
+<div class="outline-text-2" id="text-org5ba95cd">
 <p>
-Our next goal is to get further restrict the notion of echelon form to
-a form for which it is easy to "read off" solutions.  Because of the
-discussion at the end of the previous section, we can, in some sense,
-assume without loss of generality that the system we're considering
-actually has a solution.
-</p>
-
-<p>
-This time, we start with the visual pun:
+Our next goal is to further restrict the notion of echelon form to a
+form for which it is easy to "read off" solutions.  This time, we
+start with the visual pun:
 </p>
 
 \begin{bmatrix}
@@ -424,9 +417,9 @@ And that's all there is to it.
 
 <p>
 The matrix on the right is not quite in row-reduced echelon form.  The
-leading entry of the third row, for example is not \(1\), and there is a
-nonzero entry above it. But via a sequence of row operations, we can
-get to the matrix
+leading entry of the third row is not \(1\) and there is a nonzero entry
+above it. But via a sequence of row operations, we can get to the
+matrix
 </p>
 
 \begin{bmatrix}
@@ -449,11 +442,11 @@ which is an RREF matrix.
 </blockquote>
 
 <p>
-Before moving on, let's see if we can think about why RREF matrices
-are useful.  It's clear that the RREF matrix in the previous example
-does not have a form like the one at the beginning of the notes which
-represented a unique solution.  If we take this matrix and write it as
-a system of linear equations we get:
+Before moving on, let's think about why RREF matrices are useful.
+It's clear that the RREF matrix in the previous example does not have
+a form like the one at the beginning of the chapter which represented a
+unique solution.  If we take this matrix and write it as a system of
+linear equations we get:
 </p>
 
 \begin{align*}
@@ -569,9 +562,9 @@ equivalent to (a unique) one.</b>
 </div>
 </div>
 
-<div id="outline-container-orgccb3718" class="outline-2">
-<h2 id="orgccb3718">General-form solutions</h2>
-<div class="outline-text-2" id="text-orgccb3718">
+<div id="outline-container-org17c4dc2" class="outline-2">
+<h2 id="org17c4dc2">General form solutions</h2>
+<div class="outline-text-2" id="text-org17c4dc2">
 <p>
 Taking stock, solving a general system of linear equations will follow this outline:
 </p>
@@ -597,7 +590,7 @@ is called a <b>pivot column</b>.
 <p>
 We won't worry too much about <i>why</i> they're called pivot positions,
 suffices to say for now that it has to do with some of the
-nitty-gritty details of Gaussian eliminiation.
+nitty-gritty details of Gaussian elimination.
 </p>
 
 <p>
@@ -631,18 +624,26 @@ underlined.
 <p>
 We want to have a uniform way of writing down the solution sets of a
 given linear system.  There are a couple ways to do this, we'll use
-what's called <b>general-form</b> also sometimes called <b>parametric form</b>.
+what's called <b>general form</b> also sometimes called <b>parametric form</b>.
 </p>
 
+<blockquote>
 <p>
-This form is about isolating a collection of variables (called <b>basic</b>
-variables) and writing them in terms of the remaining variables
-(called <b>free</b> variables, becuase we're "free" to choose their values
-when we want to find a specific solution to a system).  It's a way of
-describing not just single solutions, but solution sets "paramatrized"
-by choices of values for a collection of varaibles.  With the
-terminology we have, we can formalize this a bit (and introduce more
-terminology).
+<b>Warning.</b> In what follows, we assume we're working with an augmented
+ matrix.  If the matrix is not the augmented matrix of a system, then
+ the terminology doesn't make sense.
+</p>
+</blockquote>
+
+<p>
+Writing a general form solution is about isolating a collection of
+variables (called <b>basic</b> variables) and writing them in terms of the
+remaining variables (called <b>free</b> variables, becuase we're "free" to
+choose their values when we want to find a specific solution to a
+system).  It's a way of describing not just single solutions, but
+solution sets "paramatrized" by choices of values for a collection of
+varaibles.  With the terminology we have, we can formalize this a bit
+(and introduce more terminology).
 </p>
 
 <blockquote>
@@ -662,7 +663,7 @@ pivot column. Otherwise it is called <b>free</b>.
 </blockquote>
 
 <p>
-At this point, there is much left to do but state everything we've
+At this point, there isn't much left to do but state everything we've
 said up to now in a concise way (and get lots of practice with the
 concepts).
 </p>
@@ -744,8 +745,8 @@ basic variables.
 <b>Example.</b> If we take \(x_3 = 1\) and \(x_4 = 1\), then we get the solution:
 </p>
 \begin{align*}
-x_1 &= -0.5 + 1 + 2 = -3.5 \\
-x_2 &= 1 - 2 - 3 = -2 \\
+x_1 &= -0.5 + 1 + 2 = 2.5 \\
+x_2 &= 1 - 2 - 3 = -4 \\
 x_3 &= 1 \\
 x_4 &= 1 \\
 x_5 &= 0.5
@@ -757,7 +758,7 @@ or \((-3.5, -2, 1, 1, 0.5)\) written as a point in \(\mathbb R^5\).
 
 <blockquote>
 <p>
-<b>Exercise.</b> Write the general-form solution for the follow RREF matrix (and convince yourself that it is, in fact, RREF)
+<b>Exercise.</b> Write the general-form solution for the following RREF matrix (and convince yourself that it is, in fact, RREF)
 </p>
 
 \begin{bmatrix}
@@ -801,7 +802,7 @@ represents an inconsistent system, it depends on the application.</p></div></div
 
 <div class="footdef"><sup><a id="fn.8" class="footnum" href="#fnr.8" role="doc-backlink">8</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">Again, in the case of inconsistent systems, Gaussian elimination, depending on the implementation, may stop at just echelon form because inconsistency can already be determined.</p></div></div>
 
-<div class="footdef"><sup><a id="fn.9" class="footnum" href="#fnr.9" role="doc-backlink">9</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">Typically we maintain the of variables in a general-form solutions, so we would usually write <b>\(x_2\) is free</b> on the second line of a general-form solution.</p></div></div>
+<div class="footdef"><sup><a id="fn.9" class="footnum" href="#fnr.9" role="doc-backlink">9</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">Typically we maintain the order of variables in a general-form solutions, so we would usually write <b>\(x_2\) is free</b> on the second line of a general-form solution.</p></div></div>
 
 
 </div>

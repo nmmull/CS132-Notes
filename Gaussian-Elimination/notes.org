@@ -10,10 +10,10 @@ material.
 
 + The details of Gaussian elimination are fairly complex, especially
   if you haven't taken a course on algorithms.[fn::This is a
-  presumption for students at BU taking this course.] What's more
-  important is not that you understand all the details, but rather
-  that you could emulate the process in the case you have to determine
-  an RREF matrix by hand.[fn::I like to of Gaussian elimination as an
+  presumption for students at BU taking this course.] What's important
+  is not that you understand all the details, but rather that you
+  could emulate the process in the case you have to determine an RREF
+  matrix by hand.[fn::I like to think of Gaussian elimination as an
   informal process that I can imagine in my minds eye, the way one
   might imagine a web-crawler traversing page links, or an knitting
   machine constructing a fabric, without knowing how it works
@@ -23,7 +23,7 @@ material.
   the /only/ tool we use (though we will interpret the results
   differently, or apply it to different kinds of matrices).  /The
   point:/ take the time to learn it and practice it consistently.  It
-  will make the remainder of the course much more comfortable.
+  will make the remainder of the course much more bearable.
 
 So, as they say, without further ado...
 
@@ -83,7 +83,7 @@ we used to solve systems of linear equations in our first chapter.
     RETURN back_sub(fwd_elim(A))
 #+end_src
 
-If we want to short circuit before back substitution in the case of
+If we want to short-circuit before back substitution in the case of
 inconsistent systems (if all we care about is consistency, we can
 determine that from any echelon form), we can rewrite Gaussian
 elimination to include this.
@@ -100,8 +100,8 @@ elimination to include this.
       RETURN back_sub(A)
 #+end_src
 
-We'll stick with the first version here. Most of the remaining work is
-dealing with these two phases.
+We'll stick with the first version here. Most of the remaining work
+then is dealing with these two phases.
 
 ** Forward Elimination
 
@@ -117,11 +117,12 @@ The only detail we need to be weary about for now is the fact that
 *variable $i$ may not appear in the equation $i$*.  So we may
 need to swap rows in order to make sure equation $i$ has variable $i$.
 
-But that's a bit of a lie too. *Variable $i$ may not
-appear in /any/ of the remaining equations*.  Then we need to make
-sure that the equation $i$ has a /leftmost/ leading entry.  This is
-so, as we eliminate variables, we maintain the requirements of echelon
-form.
+But that's a bit of a lie too. *Variable $i$ may not appear in /any/
+of the remaining equations*.  Then we need to make sure that the
+equation $i$ has a /leftmost/ leading entry.  This is so, as we
+eliminate variables, we maintain the requirements of echelon form
+(i.e., that the new leading entry of every row is to the right of the
+one above it).
 
 We can write this as the following psuedocode.  Do your best to
 understand what's going on here, how this maps onto the rough

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-09-02 Mon 22:41 -->
+<!-- 2024-09-03 Tue 15:05 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Gaussian Elimination</title>
@@ -50,13 +50,13 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org235f8c0">The Algorithm</a>
+<li><a href="#org85ff7ff">The Algorithm</a>
 <ul>
-<li><a href="#org46df14d">Forward Elimination</a></li>
-<li><a href="#orgb38ea6d">Back Substitution</a></li>
+<li><a href="#org7b29746">Forward Elimination</a></li>
+<li><a href="#orge34010d">Back Substitution</a></li>
 </ul>
 </li>
-<li><a href="#orgd10322b">Using Sympy</a></li>
+<li><a href="#org984a5e7">Using Sympy</a></li>
 </ul>
 </div>
 </div>
@@ -69,16 +69,16 @@ material.
 
 <ul class="org-ul">
 <li>The details of Gaussian elimination are fairly complex, especially
-if you haven't taken a course on algorithms.<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> What's more
-important is not that you understand all the details, but rather
-that you could emulate the process in the case you have to determine
-an RREF matrix by hand.<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup></li>
+if you haven't taken a course on algorithms.<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> What's important
+is not that you understand all the details, but rather that you
+could emulate the process in the case you have to determine an RREF
+matrix by hand.<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup></li>
 <li>We will use Gaussian elimination in some form for pretty much the
 entire course.  For all intents and purposes, it might as well be
 the <i>only</i> tool we use (though we will interpret the results
 differently, or apply it to different kinds of matrices).  <i>The
 point:</i> take the time to learn it and practice it consistently.  It
-will make the remainder of the course much more comfortable.</li>
+will make the remainder of the course much more bearable.</li>
 </ul>
 
 <p>
@@ -103,9 +103,9 @@ var app = Elm.StepExample2.init({
 </script>
 </blockquote>
 
-<div id="outline-container-org235f8c0" class="outline-2">
-<h2 id="org235f8c0">The Algorithm</h2>
-<div class="outline-text-2" id="text-org235f8c0">
+<div id="outline-container-org85ff7ff" class="outline-2">
+<h2 id="org85ff7ff">The Algorithm</h2>
+<div class="outline-text-2" id="text-org85ff7ff">
 <p>
 As a reminder, the goal of Gaussian elimination is, given <i>any</i>
 matrix, convert it to its <i>unique</i> equivalent reduced-echelon form.  A
@@ -153,7 +153,7 @@ FUNCTION GE(A):
 </div>
 
 <p>
-If we want to short circuit before back substitution in the case of
+If we want to short-circuit before back substitution in the case of
 inconsistent systems (if all we care about is consistency, we can
 determine that from any echelon form), we can rewrite Gaussian
 elimination to include this.
@@ -173,14 +173,14 @@ elimination to include this.
 </div>
 
 <p>
-We'll stick with the first version here. Most of the remaining work is
-dealing with these two phases.
+We'll stick with the first version here. Most of the remaining work
+then is dealing with these two phases.
 </p>
 </div>
 
-<div id="outline-container-org46df14d" class="outline-3">
-<h3 id="org46df14d">Forward Elimination</h3>
-<div class="outline-text-3" id="text-org46df14d">
+<div id="outline-container-org7b29746" class="outline-3">
+<h3 id="org7b29746">Forward Elimination</h3>
+<div class="outline-text-3" id="text-org7b29746">
 <p>
 This phase, in rough terms, follows what we did for small systems. We
 incrementally eliminate leading variables from all the equations <i>below</i>
@@ -200,11 +200,12 @@ need to swap rows in order to make sure equation \(i\) has variable \(i\).
 </p>
 
 <p>
-But that's a bit of a lie too. <b>Variable \(i\) may not
-appear in <i>any</i> of the remaining equations</b>.  Then we need to make
-sure that the equation \(i\) has a <i>leftmost</i> leading entry.  This is
-so, as we eliminate variables, we maintain the requirements of echelon
-form.
+But that's a bit of a lie too. <b>Variable \(i\) may not appear in <i>any</i>
+of the remaining equations</b>.  Then we need to make sure that the
+equation \(i\) has a <i>leftmost</i> leading entry.  This is so, as we
+eliminate variables, we maintain the requirements of echelon form
+(i.e., that the new leading entry of every row is to the right of the
+one above it).
 </p>
 
 <p>
@@ -303,9 +304,9 @@ pprint(A)
 </div>
 </div>
 
-<div id="outline-container-orgb38ea6d" class="outline-3">
-<h3 id="orgb38ea6d">Back Substitution</h3>
-<div class="outline-text-3" id="text-orgb38ea6d">
+<div id="outline-container-orge34010d" class="outline-3">
+<h3 id="orge34010d">Back Substitution</h3>
+<div class="outline-text-3" id="text-orge34010d">
 <p>
 You've probably guessed it by now, but back substitution also goes
 essentially how it went when we solved small linear systems by hand.
@@ -402,9 +403,9 @@ var app = Elm.StepExample.init({
 </div>
 </div>
 
-<div id="outline-container-orgd10322b" class="outline-2">
-<h2 id="orgd10322b">Using Sympy</h2>
-<div class="outline-text-2" id="text-orgd10322b">
+<div id="outline-container-org984a5e7" class="outline-2">
+<h2 id="org984a5e7">Using Sympy</h2>
+<div class="outline-text-2" id="text-org984a5e7">
 <p>
 But, outside of exams, the <i>real computer-science-y</i> way to get the
 RREF of a matrix is to use SymPy:<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>
@@ -424,7 +425,7 @@ pprint(A.rref()[0])
 </pre>
 </div>
 
-<pre class="example" id="org34250a5">
+<pre class="example" id="org1c29ee0">
 ⎛⎡1  0  0  5/7 ⎤           ⎞
 ⎜⎢             ⎥           ⎟
 ⎜⎢0  1  0  3/7 ⎥, (0, 1, 2)⎟
@@ -453,7 +454,7 @@ to <b>grab the first element</b> as in <code>a.rref()[0]</code>.
 <div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">This is a
 presumption for students at BU taking this course.</p></div></div>
 
-<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">I like to of Gaussian elimination as an
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">I like to think of Gaussian elimination as an
 informal process that I can imagine in my minds eye, the way one
 might imagine a web-crawler traversing page links, or an knitting
 machine constructing a fabric, without knowing how it works

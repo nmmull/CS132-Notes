@@ -9,7 +9,7 @@ equivalence]], [[sympy][SymPy]]
 * Matrices in General
 
 Matrices have a reputation for being a tad daunting.  They're usually
-the first things we come in contact with in a slightly more "abstract
+the first things we come into contact with in a slightly more "abstract
 math" setting and after years in the familiar domain of differential
 and integral calculus.
 
@@ -758,8 +758,7 @@ lists does not satisfy the requirements mentioned above (e.g., the
 length of each inner list is the same).
 
 #+begin_src python :results output :exports both
-  from sympy import pprint
-  from sympy.matrices import Matrix
+  from sympy import *
 
   try:
       A = Matrix([
@@ -792,8 +791,7 @@ which means we can perform elementary row operations as simple
 assignments.
 
 #+begin_src python :results output :exports both
-  from sympy import pprint
-  from sympy.matrices import Matrix
+  from sympy import *
 
   A = Matrix([
       [-1, -2, 1],
@@ -853,8 +851,7 @@ So, for example, we can determine a solution to the systems of
 equations from the previous chapter.
 
 #+begin_src python :results output :exports both
-  from sympy import pprint
-  from sympy.matrices import Matrix
+  from sympy import *
 
   A = Matrix([
       [-1, -2, 1],

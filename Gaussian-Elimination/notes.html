@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-08-28 Wed 15:04 -->
+<!-- 2024-09-02 Mon 22:41 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Gaussian Elimination</title>
@@ -50,104 +50,417 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org539b4f2">Echelon Forms</a></li>
-<li><a href="#org1fbd22f">The Algorithm</a></li>
+<li><a href="#org235f8c0">The Algorithm</a>
+<ul>
+<li><a href="#org46df14d">Forward Elimination</a></li>
+<li><a href="#orgb38ea6d">Back Substitution</a></li>
+</ul>
+</li>
+<li><a href="#orgd10322b">Using Sympy</a></li>
 </ul>
 </div>
 </div>
 <p>
-I'd like to preface what follows with a couple personal opinions about
-learning this material.
+We arrive at the proverbial main event that we've been so
+unapologetically forward referencing up to now.  I'd like to preface
+what follows with a couple personal opinions about learning this
+material.
 </p>
 
 <ul class="org-ul">
-<li>The details of Gaussian elimination are complex and may file foreign
-at first.  What's more important is not that you understand all the
-details, but rather that you could emulate the process.</li>
+<li>The details of Gaussian elimination are fairly complex, especially
+if you haven't taken a course on algorithms.<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> What's more
+important is not that you understand all the details, but rather
+that you could emulate the process in the case you have to determine
+an RREF matrix by hand.<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup></li>
 <li>We will use Gaussian elimination in some form for pretty much the
-entire course. It might as well be the only tool we use, though we
-will interpret the results differently, or apply it to different
-kinds of matrices.  Point is: take the time to learn this and
-practice this early on.  It will make the remainder of the course
-much more comfortable.</li>
+entire course.  For all intents and purposes, it might as well be
+the <i>only</i> tool we use (though we will interpret the results
+differently, or apply it to different kinds of matrices).  <i>The
+point:</i> take the time to learn it and practice it consistently.  It
+will make the remainder of the course much more comfortable.</li>
 </ul>
 
-<div id="outline-container-org539b4f2" class="outline-2">
-<h2 id="org539b4f2">Echelon Forms</h2>
-<div class="outline-text-2" id="text-org539b4f2">
 <p>
-We've been a bit loose regarding what it means to solving a system of
-linear equations.  In the last chapter we learned that, to solve a
-linear system we can row reduce the augmented matrix of a linear
-system until we get to a "final" matrix which "represents a solution".
-Our first goal is to formally define what this "final" matrix is.
+So, as they say, without further ado&#x2026;
+</p>
+
+<blockquote>
+<p>
+<b>Example.</b> One more interruption. Let's start with a visualization.
+Gaussian elimination is one of those algorithms which is simpler in
+how it looks when it runs than when it's written down in code. Step
+through this a couple times, see if you can anticipate where we're
+going.
+</p>
+
+<script src="step-example-2.js"></script>
+<div id="step-example-2"></div>
+<script>
+var app = Elm.StepExample2.init({
+  node: document.getElementById('step-example-2')
+  });
+</script>
+</blockquote>
+
+<div id="outline-container-org235f8c0" class="outline-2">
+<h2 id="org235f8c0">The Algorithm</h2>
+<div class="outline-text-2" id="text-org235f8c0">
+<p>
+As a reminder, the goal of Gaussian elimination is, given <i>any</i>
+matrix, convert it to its <i>unique</i> equivalent reduced-echelon form.  A
+bit more pseudocode-y, we're defining a function with the following
+input/output behavior.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-pcode">FUNCTION GE(A):
+  # INPUT: m × n matrix A
+  # OUTPUT: equivalent m × n RREF matrix
+  ...
+</pre>
+</div>
+
+<p>
+We've already set the groundwork for defining Gaussian elimination. It
+has two phases:
+</p>
+
+<ul class="org-ul">
+<li>a <b>forward eliminiation</b> phase which converts a matrix to (just) echelon form</li>
+<li>a <b>backwards substitution</b> phase which converts a (just) echelon form matrix to a RREF</li>
+</ul>
+
+<p>
+In essence, all we're doing is codifying and generalizing the process
+we used to solve systems of linear equations in our first chapter.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-pcode">FUNCTION fwd_elim(A):
+  # INPUT: m × n matrix A
+  # OUTPUT: equivalent m × n echelon form matrix
+  ...
+
+FUNCTION back_sub(A):
+  # INPUT: m × n echelon form matrix A
+  # OUTPUT: equivalent m × n RREF matrix
+  ...
+
+FUNCTION GE(A):
+  RETURN back_sub(fwd_elim(A))
+</pre>
+</div>
+
+<p>
+If we want to short circuit before back substitution in the case of
+inconsistent systems (if all we care about is consistency, we can
+determine that from any echelon form), we can rewrite Gaussian
+elimination to include this.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-pcode">FUNCTION GE'(A):
+  # INPUT: m × n matrix A
+  # OUTPUT: equivalent m × n echelon form matrix A,
+  #         which is RREF if A represents a consistent system
+  A ← fwd_elim(A)
+  if [A has a leading entry in its last column]:
+    RETURN A
+  else:
+    RETURN back_sub(A)
+</pre>
+</div>
+
+<p>
+We'll stick with the first version here. Most of the remaining work is
+dealing with these two phases.
+</p>
+</div>
+
+<div id="outline-container-org46df14d" class="outline-3">
+<h3 id="org46df14d">Forward Elimination</h3>
+<div class="outline-text-3" id="text-org46df14d">
+<p>
+This phase, in rough terms, follows what we did for small systems. We
+incrementally eliminate leading variables from all the equations <i>below</i>
+a given equation, going from top to bottom.
 </p>
 
 <p>
-We've already seen what this final form is in the case that our system
-(in \(n\) variables) has a unique solution. It'll look something like
-the \(n \times (n + 1)\) matrix
+That is, we eliminate the first variable from all but the first
+equation, then the second variable from all but the first and second,
+then the third from all but the first, second and third, etc. etc.
+</p>
+
+<p>
+The only detail we need to be weary about for now is the fact that
+<b>variable \(i\) may not appear in the equation \(i\)</b>.  So we may
+need to swap rows in order to make sure equation \(i\) has variable \(i\).
+</p>
+
+<p>
+But that's a bit of a lie too. <b>Variable \(i\) may not
+appear in <i>any</i> of the remaining equations</b>.  Then we need to make
+sure that the equation \(i\) has a <i>leftmost</i> leading entry.  This is
+so, as we eliminate variables, we maintain the requirements of echelon
+form.
+</p>
+
+<p>
+We can write this as the following psuedocode.  Do your best to
+understand what's going on here, how this maps onto the rough
+description above.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-pcode">FUNCTION fwd_elim(A):
+  # INPUT: m × n matrix A
+  # OUTPUT: equivalent m × n echelon form matrix
+  FOR [i from 1 to m]:
+    IF [rows i...m are all-zeros]:
+      RETURN A
+    ELSE:
+      (j, k) ← [position of leftmost entry in the rows i...m]
+      [swap row i and row j]
+      FOR [l from i + 1 to m]:
+        [zero out A[l, k] using a replacement operation]
+  RETURN A
+</pre>
+</div>
+
+<blockquote>
+<p>
+<b>Example.</b> Coming back to the matrix from the top of this chapter, we
+can split the process given and isolate the forward elimination part.
+</p>
+
+<script src="step-example-3.js"></script>
+<div id="step-example-3"></div>
+<script>
+var app = Elm.StepExample3.init({
+  node: document.getElementById('step-example-3')
+  });
+</script>
+</blockquote>
+
+<p>
+This pseudocode can then be pretty readily converted into Python code
+which works on SymPy matrices.  Note that this code differs from the
+psuedocode in that it <i>mutates</i> the matrix \(A\) and does not return it.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a020f0;">from</span> sympy <span style="color: #a020f0;">import</span> *
+
+<span style="color: #a020f0;">def</span> <span style="color: #0000ff;">leftmost_nonzero</span>(A, curr_row):
+    <span style="color: #a020f0;">for</span> j <span style="color: #a020f0;">in</span> <span style="color: #483d8b;">range</span>(A.cols):
+        <span style="color: #a020f0;">for</span> i <span style="color: #a020f0;">in</span> <span style="color: #483d8b;">range</span>(A.rows):
+            <span style="color: #a020f0;">if</span> <span style="color: #a020f0;">not</span> A[i, j].is_zero:
+                <span style="color: #a020f0;">return</span> (i + curr_row, j)
+    <span style="color: #a020f0;">return</span>
+
+<span style="color: #a020f0;">def</span> <span style="color: #0000ff;">fwd_elim</span>(A):
+    <span style="color: #a020f0;">for</span> i <span style="color: #a020f0;">in</span> <span style="color: #483d8b;">range</span>(A.rows):
+        <span style="color: #a020f0;">if</span> A[i:,:].is_zero_matrix:
+            <span style="color: #a020f0;">return</span>
+        (<span style="color: #a0522d;">j</span>, <span style="color: #a0522d;">k</span>) = leftmost_nonzero(A[i:,:], i)
+        <span style="color: #a0522d;">A</span>[<span style="color: #a0522d;">i</span>,:], <span style="color: #a0522d;">A</span>[j,:] = A[j,:], A[i,:] <span style="color: #b22222;"># </span><span style="color: #b22222;">SWAP ROWS</span>
+        <span style="color: #a020f0;">for</span> l <span style="color: #a020f0;">in</span> <span style="color: #483d8b;">range</span>(i + 1, A.rows):
+            <span style="color: #a0522d;">A</span>[l,:] -= A[l, k] / A[i, k] * A[i,:] <span style="color: #b22222;"># </span><span style="color: #b22222;">ZERO OUT A[l, k]</span>
+    <span style="color: #a020f0;">return</span>
+
+<span style="color: #a0522d;">A</span> = Matrix([
+    [1, 1, 1, 1],
+    [2, 0, 3, -1],
+    [3, 1, -3, 3]
+])
+fwd_elim(A)
+pprint(A)
+</pre>
+</div>
+
+<pre class="example">
+⎡1  1   1   1 ⎤
+⎢             ⎥
+⎢0  -2  1   -3⎥
+⎢             ⎥
+⎣0  0   -7  3 ⎦
+</pre>
+
+
+<blockquote>
+<p>
+<b>Exercise.</b> Find an echelon form of the following matrix.
 </p>
 
 \begin{bmatrix}
-1 & 0 & \dots & 0 & b_1 \\
-0 & 1 & \dots & 0 & b_2 \\
-\vdots & \vdots & \ddots & \vdots & \vdots \\
-0 & 0 & \dots & 1 & b_n
+0 & 1 & 2 & 2 \\
+1 & 3 & 7 & 8 \\
+1 & -2 & -3 & 2
 \end{bmatrix}
+</blockquote>
+</div>
+</div>
 
+<div id="outline-container-orgb38ea6d" class="outline-3">
+<h3 id="orgb38ea6d">Back Substitution</h3>
+<div class="outline-text-3" id="text-orgb38ea6d">
 <p>
-which represents the linear system
-</p>
-
-\begin{align*}
-x_1 &= b_1 \\
-x_2 &= b_2 \\
-&\vdots \\
-x_n &= b_n
-\end{align*}
-
-<p>
-which has a unique solution \((b_1, b_2, \dots, b_n)\).  The point is
-that its very easy to "read off" what the solution is in this system,
-so if we can reduce a matrix to this form, then we can read off its
-unique solution easily.
+You've probably guessed it by now, but back substitution also goes
+essentially how it went when we solved small linear systems by hand.
 </p>
 
 <p>
-But not all matrices can be reduced to a form like this.  First of the
-shape might not be right: if start off with a \(2 \times 7\) matrix, we
-can't end up with a \(2 \times 3\) or a \(6 \times 7\) matrix (it may be
-obvious, but it's worth noting explicitly that the row operations
-<i>never</i> change the shape of the matrix).
+Once we have a matrix in echelon form, the only thing we need to do to
+make it RREF is:
 </p>
-
-<p>
-Secondly, not all matrices have unique solutions.<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>  This leaves us with the
-following questions:
-</p>
-
 <ul class="org-ul">
-<li>Can we characterize the matrices for which it's easy to "read off"
-their solutions?</li>
-<li>What do these matrices look like if there are no solutions?</li>
-<li>If there are infinitely many solutions, how does I characterize <i>all
-possible</i> solutions?</li>
+<li>divide every row by its leading entry (so that the leading entry becomes 1)</li>
+<li>zero out the entries above leading entries</li>
 </ul>
+
+<p>
+This phase is a fair amount simpler than the elimination phase (both
+conceptually and in terms of running time).  In psuedocode it looks
+something like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-pcode">FUNCTION back_sub(A):
+  # INPUT: m × n echelon form matrix
+  # OUTPUT: equivalent m × n RREF matrix
+  FOR [i from 1 to m]:
+    IF [row i has a leading entry]:
+      j ← index of leading entry of row i
+      R_i(A) ← R_i(A) / A[i, j]            # DIVIDE BY THE LEADING ENTRY
+      FOR [k from 1 to i - 1]:
+        R_k(A) ← R_k(A) - R[k, j] * R_i(A) # ZERO OUT R[k, j] ABOVE THE LEADING ENTRY
+  RETURN A
+</pre>
+</div>
+
+<blockquote>
+<p>
+<b>Example.</b> Coming again back to our matrix from the top, we can take a
+look second part of the process, which is the back substitution phase.
+</p>
+
+<script src="step-example-4.js"></script>
+<div id="step-example-4"></div>
+<script>
+var app = Elm.StepExample4.init({
+  node: document.getElementById('step-example-4')
+  });
+</script>
+</blockquote>
+
+<blockquote>
+<p>
+<b>Exercise.</b> Find the RREF of the following matrix (the same one as in
+ the previous exercise).
+</p>
+
+ \begin{bmatrix}
+0 & 1 & 2 & 2 \\
+1 & 3 & 7 & 8 \\
+1 & -2 & -3 & 2
+\end{bmatrix}
+</blockquote>
+
+<blockquote>
+<p>
+<b>Exercise.</b> Implement <code>back_sub</code> as a function in Python which mutates
+ SymPy matrices.
+</p>
+</blockquote>
+
+<p>
+And that's it.  If this were an algorithms class we'd dwell much more
+on this.  Instead we'll use this as the basis of an intuition that we
+will build over time for solving systems of linear equations by hand.
+We'll also come back to all this when we talk about NumPy and
+floating-point error.
+</p>
+
+<blockquote>
+<p>
+<b>Example.</b> Here is a "typical" run of Gaussian elimination.  Try to
+ follow along and internalize the rough order of operations.  I
+ recommend just stepping through this a couple times, getting a sense
+ for it.
+</p>
+<script src="step-example.js"></script>
+<div id="step-example"></div>
+<script>
+var app = Elm.StepExample.init({
+  node: document.getElementById('step-example')
+  });
+</script>
+</blockquote>
+</div>
 </div>
 </div>
 
+<div id="outline-container-orgd10322b" class="outline-2">
+<h2 id="orgd10322b">Using Sympy</h2>
+<div class="outline-text-2" id="text-orgd10322b">
+<p>
+But, outside of exams, the <i>real computer-science-y</i> way to get the
+RREF of a matrix is to use SymPy:<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>
+</p>
 
-<div id="outline-container-org1fbd22f" class="outline-2">
-<h2 id="org1fbd22f">The Algorithm</h2>
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a020f0;">from</span> sympy <span style="color: #a020f0;">import</span> *
+<span style="color: #a0522d;">A</span> = Matrix([
+    [1, 1, 1, 1],
+    [0, -2, 1, -1],
+    [3, 1, -3, 3]
+])
+
+pprint(A.rref())
+<span style="color: #483d8b;">print</span>()
+pprint(A.rref()[0])
+</pre>
+</div>
+
+<pre class="example" id="org34250a5">
+⎛⎡1  0  0  5/7 ⎤           ⎞
+⎜⎢             ⎥           ⎟
+⎜⎢0  1  0  3/7 ⎥, (0, 1, 2)⎟
+⎜⎢             ⎥           ⎟
+⎝⎣0  0  1  -1/7⎦           ⎠
+
+⎡1  0  0  5/7 ⎤
+⎢             ⎥
+⎢0  1  0  3/7 ⎥
+⎢             ⎥
+⎣0  0  1  -1/7⎦
+</pre>
+
+<p>
+The second argument argument holds the indices of the pivot columns of
+the matrix.  We won't use these for now, but they may be useful to
+have in the future.  Just remember that if you want to use <code>a.rref()</code>
+to <b>grab the first element</b> as in <code>a.rref()[0]</code>.
+</p>
+</div>
 </div>
 <div id="footnotes">
 <h2 class="footnotes">Footnotes: </h2>
 <div id="text-footnotes">
 
-<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">Perhaps less
-obvious, this implies that a system with a \(2 \times 7\) augmented
-matrix cannot have a unique solution.</p></div></div>
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">This is a
+presumption for students at BU taking this course.</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">I like to of Gaussian elimination as an
+informal process that I can imagine in my minds eye, the way one
+might imagine a web-crawler traversing page links, or an knitting
+machine constructing a fabric, without knowing how it works
+<i>exactly</i>.</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">Of course, on assignments, you may be asked to show your work, and
+this won't be much help, but you <i>can</i> use it to check your answer.</p></div></div>
 
 
 </div>

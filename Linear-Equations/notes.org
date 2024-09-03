@@ -6,6 +6,9 @@
 [[linear equation][Linear equation]], [[hyperplane][Hyperplane]], [[linear systems][Systems of linear equations]], [[solution
 set][Solution set]], [[consistent][Consistency]], [[forward elimination][Forward elimination]], [[back substitution][Back
 substitution]]
+
+And so we begin from the top.  Not much we can do until we've defined some basic constructs (another text might regale you with some remarks on the beauty of linear algebra, but partly out of laziness (as most things go for me), I'll let the beauty of linear algebra speak for itself here.[fn::See the lovely [[http://mcrovella.github.io/CS132-Geometric-Algorithms/landing-page.html][notes]] by Mark Crovella we'll also be using for some exposition along these lines.]
+
 * Basics
 Linear algebra is, at its core, the study of /linear equations/.
 #+begin_quote

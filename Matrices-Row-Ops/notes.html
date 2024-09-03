@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-08-30 Fri 12:28 -->
+<!-- 2024-09-02 Mon 13:22 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Matrices and Row Operations</title>
@@ -50,24 +50,24 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgcbea5ca">Matrices in General</a></li>
-<li><a href="#org6975f6e">Matrices for Linear Systems</a></li>
-<li><a href="#org2b0aef9">Row Operations</a></li>
-<li><a href="#orgd534427">SymPy and Row Operations</a></li>
+<li><a href="#orgf189f17">Matrices in General</a></li>
+<li><a href="#org752aa87">Matrices for Linear Systems</a></li>
+<li><a href="#orga9c01cd">Row Operations</a></li>
+<li><a href="#orgcfc0003">SymPy and Row Operations</a></li>
 </ul>
 </div>
 </div>
 <p>
-<a href="#orgd38a486">Augmented matrix</a>, <a href="#orgd18f8d2">Coefficient matrix</a>, <a href="#orgf833d1b">Elementary row operations</a>, <a href="#org3a559a6">Row
-equivalence</a>, <a href="#orgfed778a">SymPy</a>
+<a href="#org81c10f0">Augmented matrix</a>, <a href="#orgda1fa59">Coefficient matrix</a>, <a href="#org5146872">Elementary row operations</a>, <a href="#org660cd0b">Row
+equivalence</a>, <a href="#org2296d8c">SymPy</a>
 </p>
 
-<div id="outline-container-orgcbea5ca" class="outline-2">
-<h2 id="orgcbea5ca">Matrices in General</h2>
-<div class="outline-text-2" id="text-orgcbea5ca">
+<div id="outline-container-orgf189f17" class="outline-2">
+<h2 id="orgf189f17">Matrices in General</h2>
+<div class="outline-text-2" id="text-orgf189f17">
 <p>
 Matrices have a reputation for being a tad daunting.  They're usually
-the first things we come in contact with in a slightly more "abstract
+the first things we come into contact with in a slightly more "abstract
 math" setting and after years in the familiar domain of differential
 and integral calculus.
 </p>
@@ -88,7 +88,7 @@ letter is represented as matrix with 16 rows and 8 columns.<sup><a id="fnr.2" cl
 </p>
 
 
-<div id="orgdf4428e" class="figure">
+<div id="org9d07dac" class="figure">
 <p><img src="terminus.gif" alt="terminus.gif" />
 </p>
 </div>
@@ -201,9 +201,9 @@ systems of linear equations as matrices.
 </div>
 </div>
 
-<div id="outline-container-org6975f6e" class="outline-2">
-<h2 id="org6975f6e">Matrices for Linear Systems</h2>
-<div class="outline-text-2" id="text-org6975f6e">
+<div id="outline-container-org752aa87" class="outline-2">
+<h2 id="org752aa87">Matrices for Linear Systems</h2>
+<div class="outline-text-2" id="text-org752aa87">
 <p>
 The benefits of representing systems of linear equations as matrices
 are twofold:
@@ -280,7 +280,7 @@ says the same thing as above, but in the correct "mathy" style.
 
 <blockquote>
 <p>
-<a id="orgd38a486"></a>
+<a id="org81c10f0"></a>
 <b>Definition.</b> The <b>augmented matrix</b> of a linear system
 </p>
 
@@ -303,7 +303,7 @@ a_{m1} & \dots & a_{mn} & b_m
 \end{bmatrix}
 
 <p>
-<a id="orgd18f8d2"></a>and the <b>coefficient matrix</b> of the same system
+<a id="orgda1fa59"></a>and the <b>coefficient matrix</b> of the same system
 is the \(m \times n\) matrix
 </p>
 
@@ -405,9 +405,9 @@ has more than one solution), but we'll come back to it.
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org2b0aef9" class="outline-2">
-<h2 id="org2b0aef9">Row Operations</h2>
-<div class="outline-text-2" id="text-org2b0aef9">
+<div id="outline-container-orga9c01cd" class="outline-2">
+<h2 id="orga9c01cd">Row Operations</h2>
+<div class="outline-text-2" id="text-orga9c01cd">
 <p>
 One of the important observations that we made in the previous chapter
 was that, when we solve a system of linear equations using the
@@ -710,7 +710,7 @@ exercise below for more details).
 
 <blockquote>
 <p>
-<a id="orgf833d1b"></a>
+<a id="org5146872"></a>
 <b>Definition.</b> The <b>elementary row operations</b> are
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
@@ -752,7 +752,7 @@ exercise below for more details).
 </table>
 
 <p>
-<a id="org3a559a6"></a>
+<a id="org660cd0b"></a>
 Two matrices \(A\) and \(B\) are <b>row equivalent</b> (written \(A \sim B\)) if
 there is a sequence of row operations which transforms \(A\) to \(B\).
 </p>
@@ -1002,9 +1002,9 @@ making just addition and scaling necessary elementary row operations.
 </div>
 </div>
 
-<div id="outline-container-orgd534427" class="outline-2">
-<h2 id="orgd534427">SymPy and Row Operations</h2>
-<div class="outline-text-2" id="text-orgd534427">
+<div id="outline-container-orgcfc0003" class="outline-2">
+<h2 id="orgcfc0003">SymPy and Row Operations</h2>
+<div class="outline-text-2" id="text-orgcfc0003">
 <p>
 It will be in your best interest (particularly for exams) to practice
 performing row operations by hand.  But as <a href="https://thethreevirtues.com">lazy</a> computer scientist,
@@ -1027,7 +1027,7 @@ doing these things, so we'll use those instead.
 </p>
 
 <p>
-For the first part of this course, we'll be using <a id="orgfed778a"></a> <code>sympy</code>, a
+For the first part of this course, we'll be using <a id="org2296d8c"></a> <code>sympy</code>, a
 Python library for symbolic computation.<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup> It's an incredibly impressive
 library, but all we'll need is its module for working with matrices,
 which we can use to perform row operations.
@@ -1042,8 +1042,7 @@ length of each inner list is the same).
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python">from sympy import pprint
-from sympy.matrices import Matrix
+<pre class="src src-python">from sympy import *
 
 try:
     A = Matrix([
@@ -1081,8 +1080,7 @@ assignments.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python">from sympy import pprint
-from sympy.matrices import Matrix
+<pre class="src src-python">from sympy import *
 
 A = Matrix([
     [-1, -2, 1],
@@ -1113,7 +1111,7 @@ pprint(A)
 </pre>
 </div>
 
-<pre class="example" id="org62e04f8">
+<pre class="example" id="org8adaeea">
 A:
 ⎡-1  -2  1⎤
 ⎢         ⎥
@@ -1144,8 +1142,7 @@ equations from the previous chapter.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python">from sympy import pprint
-from sympy.matrices import Matrix
+<pre class="src src-python">from sympy import *
 
 A = Matrix([
     [-1, -2, 1],

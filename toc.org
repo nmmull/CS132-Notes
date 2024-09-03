@@ -2,6 +2,7 @@
 #+subtitle: UNDER CONSTRUCTION
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="myStyle.css" />
 #+OPTIONS: html-style:nil H:1 toc:nil num:nil
+#+HTML_LINK_HOME: https://nmmull.github.io
 This is a (very early draft) set of notes for /CAS CS 132: Geometric
 Algorithms/ at Boston University.  Admittedly, I was unsure if I
 wanted to take on this project (in a sense, I still am).  I'm not
@@ -23,7 +24,6 @@ linear algebra).
 + [[file:Matrices-Row-Ops/notes.org][Matrices and Row Operations]]
 + [[file:Echelon-Forms/notes.org][Echelon Forms]]
 + [[file:Gaussian-Elimination/notes.org][Gaussian Elimination]]
-+ An Aside: Numerics
 
 * Vectors
 + Vector Equations
@@ -34,7 +34,7 @@ linear algebra).
 + Linear Transformations
 + Matrices of Linear Transformations
 
-* Matrix
+* More on Matrices
 + Matrix Algebra
 + Matrix Inverses
 + Invertible Matrix Theorem

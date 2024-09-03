@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-08-31 Sat 20:03 -->
+<!-- 2024-09-02 Mon 13:51 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Echelon Forms</title>
@@ -50,15 +50,15 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org7e885ee">Recap: Linear Systems with Unique Solutions</a></li>
-<li><a href="#org5665a34">Echelon Form</a></li>
-<li><a href="#org02d8de6">Row-Reduced Echelon Form</a></li>
-<li><a href="#org9a14744">General-form solutions</a></li>
+<li><a href="#orgd94f975">Recap: Linear Systems with Unique Solutions</a></li>
+<li><a href="#orgad84973">Echelon Form</a></li>
+<li><a href="#orgee4ec49">Row-Reduced Echelon Form</a></li>
+<li><a href="#orgccb3718">General-form solutions</a></li>
 </ul>
 </div>
 </div>
 <p>
-In the next chapter, we'll look at <i>Gaussian elimination</i> an algorithm
+In the next chapter, we'll look at <i>Gaussian elimination</i>, an algorithm
 which can be used to solve systems of linear equations.  This is
 arguably the most important topic for the first part of the course.
 </p>
@@ -68,27 +68,26 @@ That said, I think the best way to understand Gaussian elimination is
 from the punchline: Gaussian elimination converts any matrix into a
 <b>unique row-equivalent matrix in row-reduced echelon form</b> (RREF).
 RREF matrices are interesting because it's very easy to "read off"
-their solutions, no matter whether there are none, one, or infinitely
-many (and since the matrix is row-equivalent, these solutions are
-exactly the solutions to the original system).  In other words, RREF
-matrices constitute the "final matrices" that "represent solutions"
-that were hinted at in the previous chapter.
+their solutions, no matter whether there are no solutions, one unique
+solution, or infinitely many solutions.<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>  In other
+words, RREF matrices constitute the "final matrices" that "represent
+solutions" that were hinted at in the previous chapter.
 </p>
-
 
 <p>
 So before discussing how to solve systems of linear equations in
 general, we'll take one more scheduled detour to look at "solving"
 this particularly simple class of linear systems, i.e., those with
-RREF augmented matrices.<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>
+RREF augmented matrices.<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>
 </p>
 
-<div id="outline-container-org7e885ee" class="outline-2">
-<h2 id="org7e885ee">Recap: Linear Systems with Unique Solutions</h2>
-<div class="outline-text-2" id="text-org7e885ee">
+<div id="outline-container-orgd94f975" class="outline-2">
+<h2 id="orgd94f975">Recap: Linear Systems with Unique Solutions</h2>
+<div class="outline-text-2" id="text-orgd94f975">
 <p>
 We've already seen what the "final matrix" look like when we're trying
-to solve a linear system in \(n\) variables with unique solution. It's an \(n \times (n + 1)\) matrix of the form:
+to solve a linear system in \(n\) variables with unique solution. It's
+an \(n \times (n + 1)\) matrix of the form:
 </p>
 
 \begin{bmatrix}
@@ -112,18 +111,18 @@ x_n &= b_n
 <p>
 which has a unique solution \((b_1, b_2, \dots, b_n)\).  In other words,
 it is a system whose <i>coefficient</i> matrix has \(1\) entries along the
-diagonal and \(0\) entries everywhere else.<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>
-The point is that its very easy to "read off" what the solution is in
-this system, so if we can reduce a matrix to this form, then we can
-read off its unique solution easily.
+diagonal and \(0\) entries everywhere else.<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>  The
+point is that its very easy to "read off" what the solution is in this
+system, so if we can reduce a matrix to this form, then we can read
+off its unique solution easily.
 </p>
 
 <p>
 But not all matrices can be reduced to a form like this.  First off,
 the shape might not be right: if the augmented matrix of a system is
 \(2 \times 7\), we can't somehow end up with a \(2 \times 3\) or a \(6
-\times 7\) matrix by row reductions.<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup> Secondly, not all matrices have unique
-solutions.<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>  This
+\times 7\) matrix by row reductions.<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup> Secondly, not all matrices have unique
+solutions.<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup>  This
 leaves us with the following questions:
 </p>
 
@@ -137,22 +136,43 @@ possible</i> solutions?</li>
 </div>
 </div>
 
-<div id="outline-container-org5665a34" class="outline-2">
-<h2 id="org5665a34">Echelon Form</h2>
-<div class="outline-text-2" id="text-org5665a34">
+<div id="outline-container-orgad84973" class="outline-2">
+<h2 id="orgad84973">Echelon Form</h2>
+<div class="outline-text-2" id="text-orgad84973">
 <p>
 We'll actually introduce two kinds of matrices, echelon form matrices
-and row-reduced echelon form (RREF) matrices.  RREF matrices are also
-in echelon form, but they have additional properties.
-</p>
-
-<p>
-First we have to set up some machinery.
+and row-reduced echelon form (RREF) matrices (the reason will
+hopefully become clear, but I ask that you suspend your disbelief for
+now).  Row-reduced echelon form is <i>more restrictive</i> than just
+echelon form; RREF matrices are also in echelon form, but not all
+matrices in echelon form are RREF matrices.<sup><a id="fnr.6" class="footref" href="#fn.6" role="doc-backlink">6</a></sup>
 </p>
 
 <blockquote>
 <p>
-<b>Definition.</b> The <b>leading entry</b> of a row in a matrix its first nonzero entry.
+<b>Aside.</b> Echelon is not a name (as many people, including myself,
+think when they first encounter this topic), it's a <a href="https://en.wikipedia.org/wiki/Echelon_formation">military term</a>
+which describes a formation in which each successive unit in the
+formation is behind and to one side of the unit in front of
+it.
+</p>
+
+<a title="Pearson Scott Foresman, Public domain, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Echelon_1_(PSF).png"><img width="512" alt="Echelon 1 (PSF)" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Echelon_1_%28PSF%29.png/512px-Echelon_1_%28PSF%29.png?20100315055206"></a>
+
+<p>
+This imagery is an incredibly useful visual pun for understanding how echelon froms work.
+</p>
+</blockquote>
+
+<p>
+First we have to set up some machinery.  At the end of the day, this
+is just a mathy formalization of exactly the description of the above
+aside.
+</p>
+
+<blockquote>
+<p>
+<b>Terminology.</b> The <b>leading entry</b> of a row in a matrix its first nonzero entry.
 </p>
 </blockquote>
 
@@ -205,73 +225,583 @@ which satisfies the property that the leading entries create a kind of
 </blockquote>
 
 <p>
-Echelon forms are not unique
+The other visual pun that tends to be used to understand echelon form
+is something like the following:
+</p>
+
+\begin{bmatrix}
+0&\blacksquare&*&*&*&*&*&*&*&*\\
+0&0&0&\blacksquare&*&*&*&*&*&*\\
+0&0&0&0&\blacksquare&*&*&*&*&*\\
+0&0&0&0&0&\blacksquare&*&*&*&*\\
+0&0&0&0&0&0&0&0&\blacksquare&*\\
+0&0&0&0&0&0&0&0&0&0\\
+0&0&0&0&0&0&0&0&0&0\\
+\end{bmatrix}
+
+<p>
+Here the \(\blacksquare\) entries represent nonzero entries and the \(*\)
+entries represent any number whatsoever.  All the black squares appear
+to the right and below the black squares above it (where applicable)
+and the all-zero rows are at the bottom.  If a matrix has this general
+"shape" then it is in echelon form.
 </p>
 
 <blockquote>
 <p>
-<b>Definition.</b> The position of a leading entry in an echelon form of a
+<b>Exercise.</b> Convert the following matrix into echlon form by a short
+sequence of row reductions.
+</p>
+
+\begin{bmatrix}
+0 & 0 & 0 & 0 & 2 & 1 \\
+0 & 1 & 2 & 3 & 0 & 1 \\
+1 & 1 & 1 & 1 & 1 & 1 \\
+2 & 2 & 2 & 2 & 2 & 2
+\end{bmatrix}
+</blockquote>
+
+<p>
+Given an echelon form, its not yet easy to "read off" a solution if
+there is one.  Take for example:
+</p>
+
+<p>
+\[
+TODO
+\]
+</p>
+
+<p>
+Can you tell immediately that ??? is a solution?
+</p>
+
+<p>
+Where echelon forms are interesting is in the case of <i>inconsistent</i> systems.  Consider the simple 2D system
+</p>
+
+\begin{align*}
+2x + 3y = 5 \\
+-4x - 6y = 0 \\
+\end{align*}
+
+<p>
+which has the augmented matrix
+</p>
+
+\begin{bmatrix}
+2 & 3 & 5 \\
+-4 & -6 & 0
+\end{bmatrix}
+
+<p>
+which is row-equivalent to the matrix (by the operation \(R_2 \gets R_2 + 2R_1\))
+</p>
+
+\begin{bmatrix}
+2 & 3 & 5 \\
+0 & 0 & 10
+\end{bmatrix}
+
+<p>
+which is in echelon-form (!), and which is represents the system
+</p>
+
+\begin{align*}
+2x + 3y &= 5 \\
+0 &= 5
+\end{align*}
+
+<p>
+which is obviously inconsistent (\(0\) will never be equal to \(5\),
+ever), which means we now know we no longer have to do any reductions
+(which is great).
+</p>
+
+<p>
+This turns out to be a general feature of echelon forms.
+</p>
+
+<blockquote>
+<p>
+<b>Theorem.</b> Let \(A\) be the augmented matrix of an inconsistent linear
+system. If \(A \sim B\) and \(B\) is in echelon form, then the rightmost
+column of \(B\) contains a leading entry.
+</p>
+</blockquote>
+
+<p>
+This leading entry represents the "obviously inconsistent" linear
+equations which equates \(0\) to an nonzero value (like 5).  And its
+important to read this correctly: <i>every</i> echelon form to which \(A\) is
+equivalent has this property.  Since we're often interested in these
+equivalent matrices, we'll call them, in a bit of terminological
+abuse, the <b>echelon forms of A</b>.
+</p>
+
+<p>
+Thus, we will think of the general echelon form as a "pit-stop" we can
+make on our way to a RREF matrix (just as a reminder Gaussian
+eliminiation is about converting a matrix to an equivalent RREF
+matrix).
+</p>
+
+<p>
+And if all we care about is characterizing the solutions, we can stop
+here!<sup><a id="fnr.7" class="footref" href="#fn.7" role="doc-backlink">7</a></sup>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgee4ec49" class="outline-2">
+<h2 id="orgee4ec49">Row-Reduced Echelon Form</h2>
+<div class="outline-text-2" id="text-orgee4ec49">
+<p>
+Our next goal is to get further restrict the notion of echelon form to
+a form for which it is easy to "read off" solutions.  Because of the
+discussion at the end of the previous section, we can, in some sense,
+assume without loss of generality that the system we're considering
+actually has a solution.
+</p>
+
+<p>
+This time, we start with the visual pun:
+</p>
+
+\begin{bmatrix}
+0&1&*&0&0&0&*&*&0&*\\
+0&0&0&1&0&0&*&*&0&*\\
+0&0&0&0&1&0&*&*&0&*\\
+0&0&0&0&0&1&*&*&0&*\\
+0&0&0&0&0&0&0&0&1&*\\
+0&0&0&0&0&0&0&0&0&0\\
+0&0&0&0&0&0&0&0&0&0\\
+\end{bmatrix}
+
+<p>
+Again, \(*\) entries can be any number whatsoever, so this form differs in that
+</p>
+<ul class="org-ul">
+<li>leading entries are \(1\)</li>
+<li>there are \(0\) entries <i>above</i> every leading entry (not just below)</li>
+</ul>
+
+<p>
+And that's all there is to it.
+</p>
+
+<blockquote>
+<p>
+<b>Definition.</b> A matrix is in <b>row-reduced echelon form</b> (RREF) if
+</p>
+<ul class="org-ul">
+<li>it is in echelon form</li>
+<li>every leading entry is \(1\)</li>
+<li>every column containing a leading entry has \(0\) entries everywhere else</li>
+</ul>
+</blockquote>
+
+<blockquote>
+<p>
+<b>Example.</b> One answer to the exercise above is
+</p>
+
+\begin{align*}
+\begin{bmatrix}
+0 & 0 & 0 & 0 & 2 & 1 \\
+0 & 1 & 2 & 3 & 0 & 1 \\
+1 & 1 & 1 & 1 & 1 & 1 \\
+2 & 2 & 2 & 2 & 2 & 2
+\end{bmatrix}
+\sim
+\begin{bmatrix}
+1 & 1 & 1 & 1 & 1 & 1 \\
+0 & 1 & 2 & 3 & 0 & 1 \\
+0 & 0 & 0 & 0 & 2 & 1 \\
+0 & 0 & 0 & 0 & 0 & 0
+\end{bmatrix}
+\end{align*}
+
+<p>
+The matrix on the right is not quite in row-reduced echelon form.  The
+leading entry of the third row, for example is not \(1\), and there is a
+nonzero entry above it. But via a sequence of row operations, we can
+get to the matrix
+</p>
+
+\begin{bmatrix}
+1 & 0 & -1 & -2 & 0 & -0.5 \\
+0 & 1 & 2 & 3 & 0 & 1 \\
+0 & 0 & 0 & 0 & 1 & 0.5 \\
+0 & 0 & 0 & 0 & 0 & 0
+\end{bmatrix}
+
+<p>
+which is an RREF matrix.
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+<b>Exercise.</b> Determine a sequence of row operations for the previous
+ example.
+</p>
+</blockquote>
+
+<p>
+Before moving on, let's see if we can think about why RREF matrices
+are useful.  It's clear that the RREF matrix in the previous example
+does not have a form like the one at the beginning of the notes which
+represented a unique solution.  If we take this matrix and write it as
+a system of linear equations we get:
+</p>
+
+\begin{align*}
+x_1 - x_3 - 2x_4 &= -0.5 \\
+x_2 + 2x_3 + 3x_4 &= 1 \\
+x_5 &= 0.5 \\
+0 &= 0
+\end{align*}
+
+<p>
+The third row has a familiar form, we get a value for \(x_5\) in any
+solution to this system.  But in the case of the other variables,
+we're not able to completely isolate them.  For example, \(x_1\) is not
+a fixed value in any solution but has a relationship with \(x_3\) and
+\(x_4\).  Same with \(x_2\).
+</p>
+
+<p>
+<i>The (kind of magical) point:</i> All the leading entries in each row
+<i>are</i> in fact isolated, in the sense that <b>they can be written in
+terms of all the variables which are not in leading positions.</b>
+</p>
+
+<p>
+In this example, if we isolate \(x_1\) and \(x_2\) (and ignore the
+extraneous \(0 = 0\)) we get:
+</p>
+
+\begin{align*}
+x_1 &= -0.5 + x_3 + 2x_4 \\
+x_2 &= 1 - 2x_3 - 3x_4 \\
+x_5 &= 0.5
+\end{align*}
+
+<p>
+We interpret this as meaning that <b>no matter what values we give to
+\(x_3\) and \(x_4\)</b>, once we fix those values, we can derive a solution
+to the above system.
+</p>
+
+<p>
+So \((-0.5, 1, 0, 0, 0.5)\) is a solution, but so is \((0, 0, 0.5, 0,
+0.5)\).  In the first case, we've set \(x_3 = x_4 = 0\) and in the second
+we've set \(x_3 = 0.5\) and \(x_4 = 0\).
+</p>
+
+<blockquote>
+<p>
+<b>Exercise.</b> Write down the system whose augmented matrix is
+</p>
+
+\begin{bmatrix}
+0 & 0 & 0 & 0 & 2 & 1 \\
+0 & 1 & 2 & 3 & 0 & 1 \\
+1 & 1 & 1 & 1 & 1 & 1 \\
+2 & 2 & 2 & 2 & 2 & 2
+\end{bmatrix}
+
+<p>
+and verify that the above two solutions are, in fact, solutions to
+this system.
+</p>
+</blockquote>
+
+<p>
+Again, I want to emphasize that this is a special feature of RREF
+matrices.  If we instead had the matrix (which is not RREF)
+</p>
+
+\begin{bmatrix}
+1 & 1 & -1 & -2 & 0 & -0.5 \\
+0 & 1 & 2 & 3 & 0 & 1 \\
+0 & 0 & 0 & 0 & 1 & 0.5 \\
+0 & 0 & 0 & 0 & 0 & 0
+\end{bmatrix}
+
+<p>
+then trying to isolate the leading terms as above would yield:
+</p>
+
+\begin{align*}
+x_1 &= -0.5 - \underline{x_2} + x_3 + 2x_4 \\
+\underline{x_2} &= 1 - 2x_3 - 3x_4 \\
+x_5 &= 0.5
+\end{align*}
+
+<p>
+and now there's a more complex relationship between \(x_1\) and \(x_2\)
+because \(x_2\) appears on the LHS and RHS of equals signs.
+</p>
+
+<p>
+The other important fact of RREF matrices is that <b>every matrix is
+equivalent to (a unique) one.</b>
+</p>
+
+<blockquote>
+<p>
+<b>Theorem.</b>
+</p>
+<ul class="org-ul">
+<li>No two distinct RREF matrix are equivalent.</li>
+<li>Every matrix is equivalent to an RREF matrix.</li>
+</ul>
+</blockquote>
+
+<blockquote>
+<p>
+<b>Exercise.</b> Convince yourself that this implies every matrix is
+ equivalent to exactly one RREF matrix.
+</p>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-orgccb3718" class="outline-2">
+<h2 id="orgccb3718">General-form solutions</h2>
+<div class="outline-text-2" id="text-orgccb3718">
+<p>
+Taking stock, solving a general system of linear equations will follow this outline:
+</p>
+<ul class="org-ul">
+<li>Write your system as an augmented matrix</li>
+<li>Use Gaussian elimination to convert this matrix into an equivalent RREF matrix</li>
+<li><i>Read off the solution from the RREF matrix</i><sup><a id="fnr.8" class="footref" href="#fn.8" role="doc-backlink">8</a></sup></li>
+</ul>
+
+<p>
+Our goal now is to deal with this last step, formalizing the process
+from the end of the last section.  We begin with some terminology.
+</p>
+
+<blockquote>
+<p>
+<b>Terminology.</b> The position of a leading entry in an echelon form of a
 matrix is called a <b>pivot position</b>.  A column with a pivot position
 is called a <b>pivot column</b>.
 </p>
 </blockquote>
 
 <p>
-Note that we're interested in also in pivot positions of the
+We won't worry too much about <i>why</i> they're called pivot positions,
+suffices to say for now that it has to do with some of the
+nitty-gritty details of Gaussian eliminiation.
+</p>
+
+<p>
+Note also that we're interested in the pivot positions/columns of the
 <i>original</i> matrix, not just a matrix in echelon form.
 </p>
 
 <blockquote>
 <p>
-<b>Theorem.</b> A system of linear equations is inconsistent if and only if
-its last column is a pivot column.
+<b>Example.</b> The pivot positions of both equivalent matrices are
+underlined.
 </p>
-</blockquote>
-</div>
-</div>
 
-<div id="outline-container-org02d8de6" class="outline-2">
-<h2 id="org02d8de6">Row-Reduced Echelon Form</h2>
-<div class="outline-text-2" id="text-org02d8de6">
+\begin{align*}
+\begin{bmatrix}
+\underline{0} & 0 & 0 & 0 & 2 & 1 \\
+0 & \underline{1} & 2 & 3 & 0 & 1 \\
+1 & 1 & 1 & 1 & \underline{1} & 1 \\
+2 & 2 & 2 & 2 & 2 & 2
+\end{bmatrix}
+\sim
+\begin{bmatrix}
+\underline{1} & 1 & 1 & 1 & 1 & 1 \\
+0 & \underline{1} & 2 & 3 & 0 & 1 \\
+0 & 0 & 0 & 0 & \underline{2} & 1 \\
+0 & 0 & 0 & 0 & 0 & 0
+\end{bmatrix}
+\end{align*}
+</blockquote>
+
+<p>
+We want to have a uniform way of writing down the solution sets of a
+given linear system.  There are a couple ways to do this, we'll use
+what's called <b>general-form</b> also sometimes called <b>parametric form</b>.
+</p>
+
+<p>
+This form is about isolating a collection of variables (called <b>basic</b>
+variables) and writing them in terms of the remaining variables
+(called <b>free</b> variables, becuase we're "free" to choose their values
+when we want to find a specific solution to a system).  It's a way of
+describing not just single solutions, but solution sets "paramatrized"
+by choices of values for a collection of varaibles.  With the
+terminology we have, we can formalize this a bit (and introduce more
+terminology).
+</p>
+
 <blockquote>
 <p>
-<b>Definition.</b> A matrix is in <b>row-reduced echelon form</b> (RREF) if
+<b>Terminology.</b> A variable is <b>basic</b> if its corresponding column is a
+pivot column. Otherwise it is called <b>free</b>.
 </p>
-<ul class="org-ul">
-<li>It's in echelon form</li>
-<li>Every pivot position has the entry \(1\)</li>
-<li>Every pivot column contains a single nonzero entry (the \(1\)
-entry in its corresponding leading entry)</li>
-</ul>
 </blockquote>
 
 <blockquote>
 <p>
-<b>Example.</b> TODO example with squares
+<b>Example.</b> In the previous example, the basic variables are \(x_1\),
+ \(x_2\), and \(x_5\) since the first, third, and fifth columns have
+ leading entries. The remaining variables (\(x_3\) and \(x_4\)) are free
+ variables.
+</p>
+</blockquote>
+
+<p>
+At this point, there is much left to do but state everything we've
+said up to now in a concise way (and get lots of practice with the
+concepts).
+</p>
+
+<blockquote>
+<p>
+<b>HOW-TO.</b> <i>Writing a general-form solution from an RREF matrix</i>
+</p>
+<ol class="org-ol">
+<li>Write the RREF as a system of linear equations.</li>
+<li>Drop any extraneous \(0 = 0\) equations. If the system includes the
+equation \(0 = 1\), then just write <b>no solution</b>. Otherwise
+continue.</li>
+<li>Isolate the leading terms of each equation, writing each leading term
+as an equation of the free variables.</li>
+<li>Write <b>\(x_i\) is free</b> for the remaining variables.<sup><a id="fnr.9" class="footref" href="#fn.9" role="doc-backlink">9</a></sup></li>
+</ol>
+</blockquote>
+
+<blockquote>
+<p>
+<b>Example.</b> We come back to this RREF matrix:
+</p>
+
+\begin{bmatrix}
+1 & 1 & -1 & -2 & 0 & -0.5 \\
+0 & 1 & 2 & 3 & 0 & 1 \\
+0 & 0 & 0 & 0 & 1 & 0.5 \\
+0 & 0 & 0 & 0 & 0 & 0
+\end{bmatrix}
+
+<ol class="org-ol">
+<li><p>
+We write this as the system:
+</p>
+\begin{align*}
+x_1 - x_3 - 2x_4 &= -0.5 \\
+x_2 + 2x_3 + 3x_4 &= 1 \\
+x_5 &= 0.5 \\
+0 &= 0
+\end{align*}</li>
+<li><p>
+We drop the extranous \(0 = 0\) equation:
+</p>
+\begin{align*}
+x_1 - x_3 - 2x_4 &= -0.5 \\
+x_2 + 2x_3 + 3x_4 &= 1 \\
+x_5 &= 0.5 \\
+\end{align*}</li>
+<li><p>
+We isolate the leading terms in each row:
+</p>
+\begin{align*}
+x_1 &= -0.5 + x_3 + 2x_4 \\
+x_2 &= 1 - 2x_3 - 3x_4 \\
+x_5 &= 0.5
+\end{align*}</li>
+<li><p>
+We add lines which tell us which variables are free (which variables on which \(x_1\), \(x_2\), and \(x_5\) depend:
+</p>
+\begin{align*}
+x_1 &= -0.5 + x_3 + 2x_4 \\
+x_2 &= 1 - 2x_3 - 3x_4 \\
+x_3 &\quad \text{is free} \\
+x_4 &\quad \text{is free} \\
+x_5 &= 0.5
+\end{align*}</li>
+</ol>
+</blockquote>
+
+<p>
+Again, we can get a <i>specific</i> solution by choosing values for the
+free variables (\(x_3\) and \(x_4\)) and calculating the values of the
+basic variables.
+</p>
+
+<blockquote>
+<p>
+<b>Example.</b> If we take \(x_3 = 1\) and \(x_4 = 1\), then we get the solution:
+</p>
+\begin{align*}
+x_1 &= -0.5 + 1 + 2 = -3.5 \\
+x_2 &= 1 - 2 - 3 = -2 \\
+x_3 &= 1 \\
+x_4 &= 1 \\
+x_5 &= 0.5
+\end{align*}
+<p>
+or \((-3.5, -2, 1, 1, 0.5)\) written as a point in \(\mathbb R^5\).
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+<b>Exercise.</b> Write the general-form solution for the follow RREF matrix (and convince yourself that it is, in fact, RREF)
+</p>
+
+\begin{bmatrix}
+1 & 2 & 0 & -2 & 4 \\
+0 & 0 & 1 & 3 & 5 \\
+0 & 0 & 0 & 0 & 0
+\end{bmatrix}
+
+<p>
+Then write three distinct solutions to this system by choosing particular values for the free variables.
 </p>
 </blockquote>
 </div>
-</div>
-
-<div id="outline-container-org9a14744" class="outline-2">
-<h2 id="org9a14744">General-form solutions</h2>
 </div>
 <div id="footnotes">
 <h2 class="footnotes">Footnotes: </h2>
 <div id="text-footnotes">
 
-<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">"Solving" is in quotes because this class
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">And since the resultant matrix
+is row-equivalent to the starting matrix, these solutions are
+<i>exactly</i> the solutions to the starting linear system.</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">"Solving" is in quotes because this class
 represents, in essence, "trivial" linear systems.</p></div></div>
 
-<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">This matrix, often call
-the \(n \times n\) <b>identity matrix</b>, will become very familiar to us.</p></div></div>
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">This matrix, call the \(n
+\times n\) <b>identity matrix</b>, will become very familiar to us.</p></div></div>
 
-<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">It may be obvious, but it's
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">It may be obvious, but it's
 worth noting explicitly that the row operations <i>never</i> change the
 shape of the matrix</p></div></div>
 
-<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">Perhaps less obvious, this implies that a system with a
+<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">Perhaps less obvious, this implies that a system with a
 \(2 \times 7\) augmented matrix cannot have a unique solution.</p></div></div>
+
+<div class="footdef"><sup><a id="fn.6" class="footnum" href="#fnr.6" role="doc-backlink">6</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">We'll also often write
+"reduced echelon form" (dropping the "row-" part).</p></div></div>
+
+<div class="footdef"><sup><a id="fn.7" class="footnum" href="#fnr.7" role="doc-backlink">7</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">We often still want an RREF matrix, even if the matrix
+represents an inconsistent system, it depends on the application.</p></div></div>
+
+<div class="footdef"><sup><a id="fn.8" class="footnum" href="#fnr.8" role="doc-backlink">8</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">Again, in the case of inconsistent systems, Gaussian elimination, depending on the implementation, may stop at just echelon form because inconsistency can already be determined.</p></div></div>
+
+<div class="footdef"><sup><a id="fn.9" class="footnum" href="#fnr.9" role="doc-backlink">9</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">Typically we maintain the of variables in a general-form solutions, so we would usually write <b>\(x_2\) is free</b> on the second line of a general-form solution.</p></div></div>
 
 
 </div>

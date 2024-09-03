@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-08-27 Tue 14:04 -->
+<!-- 2024-09-02 Mon 22:13 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Linear Equations</title>
@@ -50,25 +50,30 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org26aa8d8">Basics</a></li>
-<li><a href="#org1216a79">Systems of Linear Equations</a></li>
-<li><a href="#orgad1f9b1">Solving Linear Systems</a></li>
+<li><a href="#org0bebb5b">Basics</a></li>
+<li><a href="#org604dc76">Systems of Linear Equations</a></li>
+<li><a href="#orgb7b91f4">Solving Linear Systems</a></li>
 </ul>
 </div>
 </div>
 <p>
-<a href="#orgbec80f8">Linear equation</a>, <a href="#orgdedb135">Hyperplane</a>, <a href="#org9164abb">Systems of linear equations</a>, <a href="#org48e0895">Solution set</a>, <a href="#org6fedd0a">Consistency</a>, <a href="#orgad2f8f1">Forward elimination</a>, <a href="#orgc3212f9">Back
+<a href="#orgacdaf6e">Linear equation</a>, <a href="#orgf73541e">Hyperplane</a>, <a href="#org54327c0">Systems of linear equations</a>, <a href="#orgc2d8298">Solution set</a>, <a href="#org0a65ffd">Consistency</a>, <a href="#org151e90f">Forward elimination</a>, <a href="#org417036c">Back
 substitution</a>
 </p>
-<div id="outline-container-org26aa8d8" class="outline-2">
-<h2 id="org26aa8d8">Basics</h2>
-<div class="outline-text-2" id="text-org26aa8d8">
+
+<p>
+And so we begin from the top.  Not much we can do until we've defined some basic constructs (another text might regale you with some remarks on the beauty of linear algebra, but partly out of laziness (as most things go for me), I'll let the beauty of linear algebra speak for itself here.<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>
+</p>
+
+<div id="outline-container-org0bebb5b" class="outline-2">
+<h2 id="org0bebb5b">Basics</h2>
+<div class="outline-text-2" id="text-org0bebb5b">
 <p>
 Linear algebra is, at its core, the study of <i>linear equations</i>.
 </p>
 <blockquote>
 <p>
-<a id="orgbec80f8"></a>
+<a id="orgacdaf6e"></a>
 <b>Definition.</b> A <b>linear equation</b> in the variables \(x_1, x_2, \dots,
 x_n\) is an equation that can expressed in the form
 </p>
@@ -80,7 +85,7 @@ a_1 x_1 + a_2 x_2 + \dots + a_n x_n = b
 </p>
 
 <p>
-where \(a_1, a_2, \dots, a_n\) and \(b\) are real numbers.<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>
+where \(a_1, a_2, \dots, a_n\) and \(b\) are real numbers.<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>
 </p>
 </blockquote>
 
@@ -101,7 +106,7 @@ The numbers \(a_1, \dots, a_n\) in the definition above are called
 </p>
 
 <p>
-is a linear equation<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>
+is a linear equation<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>
 whereas
 </p>
 
@@ -260,10 +265,10 @@ var app = Elm.ExamplePlane.init({
 
 <p>
 We call the set of points defined by a linear equation in more than
-three variables a <a id="orgdedb135"></a> <b>hyperplane</b>.  We, of course, cannot
+three variables a <a id="orgf73541e"></a> <b>hyperplane</b>.  We, of course, cannot
 visualize hyperplanes, but we can often take advantage of our
 intuitions about lines in the plane (\(\mathbb R^2\)) or planes in
-Euclidean space (\(\mathbb R^3\)).<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>
+Euclidean space (\(\mathbb R^3\)).<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>
 </p>
 
 <p>
@@ -347,9 +352,9 @@ represent intuitively?
 </blockquote>
 </div>
 </div>
-<div id="outline-container-org1216a79" class="outline-2">
-<h2 id="org1216a79">Systems of Linear Equations</h2>
-<div class="outline-text-2" id="text-org1216a79">
+<div id="outline-container-org604dc76" class="outline-2">
+<h2 id="org604dc76">Systems of Linear Equations</h2>
+<div class="outline-text-2" id="text-org604dc76">
 <p>
 The situation is made more interesting by considering multiple linear
 equations <i>simultaneously</i>.
@@ -357,7 +362,7 @@ equations <i>simultaneously</i>.
 
 <blockquote>
 <p>
-<a id="org9164abb"></a>
+<a id="org54327c0"></a>
 <b>Definition.</b> A <b>system of linear equations (linear system)</b> in the
  variables \(x_1, \dots, x_n\) is a collection of linear equations in
  the same variables.
@@ -424,7 +429,7 @@ then every equation is satisfied:
 
 <p>
 We call the set of all solutions to a linear system its <b>solution set</b>
-<a id="org48e0895"></a> (naturally).  Geometrically, the solution set of a
+<a id="orgc2d8298"></a> (naturally).  Geometrically, the solution set of a
 linear system corresponds to the <i>intersection</i> of the point sets of
 each linear equation in the system.  So the problem of solving a
 system of linear equations is analogous to the line-intersection
@@ -492,7 +497,7 @@ terminology for restating the same thing in different language.
 <blockquote>
 <p>
 <b>Terminology.</b> A system of linear equations is called <b>consistent</b>
- <a id="org6fedd0a"></a> if it has a solution. Otherwise it is called
+ <a id="org0a65ffd"></a> if it has a solution. Otherwise it is called
  <b>inconsistent</b>.
 </p>
 </blockquote>
@@ -635,11 +640,11 @@ is also a solution.
 </div>
 </div>
 
-<div id="outline-container-orgad1f9b1" class="outline-2">
-<h2 id="orgad1f9b1">Solving Linear Systems</h2>
-<div class="outline-text-2" id="text-orgad1f9b1">
+<div id="outline-container-orgb7b91f4" class="outline-2">
+<h2 id="orgb7b91f4">Solving Linear Systems</h2>
+<div class="outline-text-2" id="text-orgb7b91f4">
 <p>
-Solving a system of linear equations means finding a solution<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup> or showing that no such solution exists.
+Solving a system of linear equations means finding a solution<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup> or showing that no such solution exists.
 </p>
 
 <p>
@@ -808,8 +813,8 @@ using the elimination method.
 <p>
 The elimination method is the basis of <i>Gaussian elimination</i>, one of
 our next topics.  In its simplest form, the elimination method has two
-phases: <a id="orgad2f8f1"></a> a <b>forward elimination</b> phase and a
-<a id="orgc3212f9"></a> <b>back substitution</b> phase.
+phases: <a id="org151e90f"></a> a <b>forward elimination</b> phase and a
+<a id="org417036c"></a> <b>back substitution</b> phase.
 </p>
 
 <p>
@@ -1039,21 +1044,23 @@ how to do it with the help of a computer.)
 <h2 class="footnotes">Footnotes: </h2>
 <div id="text-footnotes">
 
-<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">It's also
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">See the lovely <a href="http://mcrovella.github.io/CS132-Geometric-Algorithms/landing-page.html">notes</a> by Mark Crovella we'll also be using for some exposition along these lines.</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">It's also
 possible to consider the case in which these are complex numbers, but
 we'll only consider real numbers.</p></div></div>
 
-<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">When it comes to unknowns in algebraic
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">When it comes to unknowns in algebraic
 equations, it doesn't matter what symbols we use. Sometimes we'll use
 \(x\), \(y\) and \(z\), other times we'll use \(x_1\), \(x_2\), and \(x_3\).  It
 will always be clear from context which symbols are variables.</p></div></div>
 
-<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">For example (and this will be
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">For example (and this will be
 more clear as we go on) just like a plane in \(\mathbb R^3\) separates
 \(\mathbb R^3\) into two disjoint regions, a plane in \(\mathbb R^{1934}\)
 also separates \(\mathbb R^{1934}\) into two disjoint regions.</p></div></div>
 
-<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4" role="doc-backlink">4</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">As
+<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5" role="doc-backlink">5</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">As
 we will see, it can also mean describing the set of all possible
 solutions.</p></div></div>
 

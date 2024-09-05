@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-09-03 Tue 15:05 -->
+<!-- 2024-09-05 Thu 10:57 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Gaussian Elimination</title>
@@ -50,13 +50,13 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org85ff7ff">The Algorithm</a>
+<li><a href="#org9cc84c0">The Algorithm</a>
 <ul>
-<li><a href="#org7b29746">Forward Elimination</a></li>
-<li><a href="#orge34010d">Back Substitution</a></li>
+<li><a href="#orgad11101">Forward Elimination</a></li>
+<li><a href="#org982d6cd">Back Substitution</a></li>
 </ul>
 </li>
-<li><a href="#org984a5e7">Using Sympy</a></li>
+<li><a href="#org4ec0bea">Using Sympy</a></li>
 </ul>
 </div>
 </div>
@@ -103,9 +103,9 @@ var app = Elm.StepExample2.init({
 </script>
 </blockquote>
 
-<div id="outline-container-org85ff7ff" class="outline-2">
-<h2 id="org85ff7ff">The Algorithm</h2>
-<div class="outline-text-2" id="text-org85ff7ff">
+<div id="outline-container-org9cc84c0" class="outline-2">
+<h2 id="org9cc84c0">The Algorithm</h2>
+<div class="outline-text-2" id="text-org9cc84c0">
 <p>
 As a reminder, the goal of Gaussian elimination is, given <i>any</i>
 matrix, convert it to its <i>unique</i> equivalent reduced-echelon form.  A
@@ -178,9 +178,9 @@ then is dealing with these two phases.
 </p>
 </div>
 
-<div id="outline-container-org7b29746" class="outline-3">
-<h3 id="org7b29746">Forward Elimination</h3>
-<div class="outline-text-3" id="text-org7b29746">
+<div id="outline-container-orgad11101" class="outline-3">
+<h3 id="orgad11101">Forward Elimination</h3>
+<div class="outline-text-3" id="text-orgad11101">
 <p>
 This phase, in rough terms, follows what we did for small systems. We
 incrementally eliminate leading variables from all the equations <i>below</i>
@@ -304,9 +304,9 @@ pprint(A)
 </div>
 </div>
 
-<div id="outline-container-orge34010d" class="outline-3">
-<h3 id="orge34010d">Back Substitution</h3>
-<div class="outline-text-3" id="text-orge34010d">
+<div id="outline-container-org982d6cd" class="outline-3">
+<h3 id="org982d6cd">Back Substitution</h3>
+<div class="outline-text-3" id="text-org982d6cd">
 <p>
 You've probably guessed it by now, but back substitution also goes
 essentially how it went when we solved small linear systems by hand.
@@ -403,11 +403,11 @@ var app = Elm.StepExample.init({
 </div>
 </div>
 
-<div id="outline-container-org984a5e7" class="outline-2">
-<h2 id="org984a5e7">Using Sympy</h2>
-<div class="outline-text-2" id="text-org984a5e7">
+<div id="outline-container-org4ec0bea" class="outline-2">
+<h2 id="org4ec0bea">Using Sympy</h2>
+<div class="outline-text-2" id="text-org4ec0bea">
 <p>
-But, outside of exams, the <i>real computer-science-y</i> way to get the
+As a reminder, outside of exams, the <i>real computer-science-y</i> way to get the
 RREF of a matrix is to use SymPy:<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>
 </p>
 
@@ -425,7 +425,7 @@ pprint(A.rref()[0])
 </pre>
 </div>
 
-<pre class="example" id="org1c29ee0">
+<pre class="example" id="org36882fc">
 ⎛⎡1  0  0  5/7 ⎤           ⎞
 ⎜⎢             ⎥           ⎟
 ⎜⎢0  1  0  3/7 ⎥, (0, 1, 2)⎟
@@ -440,10 +440,9 @@ pprint(A.rref()[0])
 </pre>
 
 <p>
-The second argument argument holds the indices of the pivot columns of
-the matrix.  We won't use these for now, but they may be useful to
-have in the future.  Just remember that if you want to use <code>a.rref()</code>
-to <b>grab the first element</b> as in <code>a.rref()[0]</code>.
+Again, the second argument argument holds the indices of the pivot
+columns of the matrix.  Just remember that if you want to use
+<code>a.rref()</code> to <b>grab the first element</b> as in <code>a.rref()[0]</code>.
 </p>
 </div>
 </div>

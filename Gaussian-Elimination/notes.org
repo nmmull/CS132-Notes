@@ -291,7 +291,7 @@ floating-point error.
 
 * Using Sympy
 
-But, outside of exams, the /real computer-science-y/ way to get the
+As a reminder, outside of exams, the /real computer-science-y/ way to get the
 RREF of a matrix is to use SymPy:[fn::Of course, on assignments, you may be asked to show your work, and
 this won't be much help, but you /can/ use it to check your answer.]
 
@@ -323,7 +323,6 @@ this won't be much help, but you /can/ use it to check your answer.]
 ⎣0  0  1  -1/7⎦
 #+end_example
 
-The second argument argument holds the indices of the pivot columns of
-the matrix.  We won't use these for now, but they may be useful to
-have in the future.  Just remember that if you want to use ~a.rref()~
-to *grab the first element* as in ~a.rref()[0]~.
+Again, the second argument argument holds the indices of the pivot
+columns of the matrix.  Just remember that if you want to use
+~a.rref()~ to *grab the first element* as in ~a.rref()[0]~.

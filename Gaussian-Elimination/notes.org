@@ -289,6 +289,22 @@ floating-point error.
 #+end_export
 #+end_quote
 
+#+begin_quote
+*Example.* It may also help to see Gaussian elimination in the
+ simplest case, when a matrix is row equivalent to the identity
+ matrix, and the order of row operations follows a very regular
+ pattern.
+#+begin_export html
+  <script src="step-id.js"></script>
+  <div id="step-id"></div>
+  <script>
+  var app = Elm.Lecture03.StepId.init({
+    node: document.getElementById('step-id')
+    });
+  </script>
+#+end_export
+#+end_quote
+
 * Using Sympy
 
 As a reminder, outside of exams, the /real computer-science-y/ way to get the

@@ -1,4 +1,4 @@
-from scipy import *
+from sympy import *
 
 A = Matrix([
     [1, -2, 0, 7, 3, 0, 0, 4],
@@ -81,12 +81,18 @@ def back_sub(a):
 # fwd_elim(A)
 # back_sub(A)
 
-B = Matrix([
-    [0, 3, -6, 6, 4, -5],
-    [3, -9, 12, -9, 6, 15],
-    [3, -7, 8, -5, 8, 9]
-])
+# B = Matrix([
+#     [0, 3, -6, 6, 4, -5],
+#     [3, -9, 12, -9, 6, 15],
+#     [3, -7, 8, -5, 8, 9]
+# ])
 
-pprint(B)
-fwd_elim(B)
-back_sub(B)
+# pprint(B)
+# fwd_elim(B)
+# back_sub(B)
+
+C = randMatrix(5)
+
+pprint(C)
+fwd_elim(C)
+back_sub(C)

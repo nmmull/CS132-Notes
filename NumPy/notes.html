@@ -1,0 +1,656 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2024-09-13 Fri 16:44 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>(Supplementary) NumPy Tutorial</title>
+<meta name="author" content="Nathan  Mull" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="../myStyle.css" />
+</head>
+<body>
+<div id="org-div-home-and-up"><a href="../toc.html">↩</a></div><div id="content" class="content">
+<h1 class="title">(Supplementary) NumPy Tutorial</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org9832c1f">Importing the Library</a></li>
+<li><a href="#orgc7c4402">NumPy Arrays</a>
+<ul>
+<li><a href="#org6868a48">Shape</a></li>
+<li><a href="#org6d07dac">Operations</a></li>
+<li><a href="#org556045f">Indexing</a></li>
+<li><a href="#org4077b67">Stacking</a></li>
+<li><a href="#orgc5e256b">Closing Remarks on Arrays</a></li>
+</ul>
+</li>
+<li><a href="#org4573224">Cheat Sheet</a></li>
+</ul>
+</div>
+</div>
+<p>
+NumPy is a Python library for scientific computing. This means
+different things to different people, but in the context of CS132,
+NumPy is a library for doing linear algebra in Python.
+</p>
+
+<p>
+One thing I want to emphasize: for the things we do in CS132, we don't
+<i>have</i> to use NumPy. We could in principle implement everything that
+we need in vanilla Python using 2D Python lists (i.e., lists of
+lists). There isn't much to learn about NumPy except the names of
+functions and a couple conventions. That is to say: if you know how to
+program in Python using 2D lists, then the jump to using NumPy is a
+small one.
+</p>
+
+<p>
+Why, then, do we use NumPy?
+</p>
+<ul class="org-ul">
+<li>Even though we <i>could</i> write all the functions we need ourselves,
+it's nice when we don't have to.</li>
+<li>Even if we <i>did</i> write all the functions we need ourselves, our
+implementations would almost certainly not be as fast as the ones in
+the NumPy library.</li>
+<li>Its a useful skill to have since its a widely used library.</li>
+</ul>
+<div id="outline-container-org9832c1f" class="outline-2">
+<h2 id="org9832c1f">Importing the Library</h2>
+<div class="outline-text-2" id="text-org9832c1f">
+<p>
+Regardless, let's start from the beginning. As with any Python
+library, we access the functions in it using an <code>import</code> statement.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a020f0;">import</span> numpy
+</pre>
+</div>
+
+<p>
+It's generally good practice to only import the functions you need,
+but NumPy is quite large (and has some cases of name clashes) so it's
+typical to bind the name <code>numpy</code> to something shorter:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a020f0;">import</span> numpy <span style="color: #a020f0;">as</span> np
+</pre>
+</div>
+
+<p>
+We can then refer to any function from the NumPy library in our own
+code via dot notation: <code>np.useful_lin_alg_function()</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-orgc7c4402" class="outline-2">
+<h2 id="orgc7c4402">NumPy Arrays</h2>
+<div class="outline-text-2" id="text-orgc7c4402">
+<p>
+The fundamental object of NumPy is the <code>ndarray</code>. The <code>nd</code> part refers
+to "n-dimensional." We will only ever consider 1D or 2D arrays, but
+NumPy can support any number of dimensions (e.g., if a matrix is a
+rectangle of numbers, a 3D array is a rectangular prism of
+numbers).
+</p>
+
+<p>
+<code>ndarray</code> objects are similar to Python lists, and it's common to
+construct <code>ndarray</code> objects from Python lists using the constructor
+<code>array</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">np.array([1, 2, 3, 4, 5])
+</pre>
+</div>
+
+<p>
+They differ quite a bit from Python lists <i>internally</i>, but as we will
+use them, they really only differ in some of their properties and
+operations, which we will cover throughout this tutorial.
+</p>
+
+<p>
+We will be constructing almost exclusively 1D and 2D <code>ndarray</code> objects
+(which I will call NumPy arrays moving forward). A 1D NumPy array can
+be constructed from a 1D Python list as above. A 2D NumPy array can be
+constructed from a 2D Python list (i.e., a list of lists).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a020f0;">import</span> numpy <span style="color: #a020f0;">as</span> np
+
+<span style="color: #a0522d;">a</span> = np.array([[1, 2], [3, 4], [5, 6]])
+<span style="color: #483d8b;">print</span>(a)
+</pre>
+</div>
+
+<pre class="example">
+[[1 2]
+ [3 4]
+ [5 6]]
+</pre>
+
+
+<p>
+Since NumPy arrays are optimized for use in linear algebra, it's not
+possible to construct a NumPy array from a Python list that cannot be
+interpreted as a matrix, i.e., when one of it's elements is not a
+list, or not the same length as the others.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a020f0;">import</span> numpy <span style="color: #a020f0;">as</span> np
+<span style="color: #a020f0;">try</span>:
+    <span style="color: #a0522d;">a</span> = np.array([1, [2, 3], [4, 5]])
+<span style="color: #a020f0;">except</span>:
+    <span style="color: #483d8b;">print</span>(<span style="color: #8b2252;">"No dice"</span>)
+<span style="color: #a020f0;">try</span>:
+    <span style="color: #a0522d;">a</span> = np.array([[1, 2], [3, 4], [5, 6, 7]])
+<span style="color: #a020f0;">except</span>:
+    <span style="color: #483d8b;">print</span>(<span style="color: #8b2252;">"No dice"</span>)
+</pre>
+</div>
+
+<pre class="example">
+No dice
+No dice
+</pre>
+
+
+<p>
+We can use the <code>ndim</code> property to determine the dimension an NumPy array.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a0522d;">a</span> = np.array([1, 2, 3, 4, 5, 6])
+<span style="color: #a0522d;">b</span> = np.array([[1, 2], [3, 4], [5, 6]])
+
+<span style="color: #a020f0;">assert</span>(a.ndim == 1)
+<span style="color: #a020f0;">assert</span>(b.ndim == 2)
+</pre>
+</div>
+
+<p>
+Roughly speaking, we will use 1D numpy arrays to represent (column)
+vectors and 2D numpy arrays to represent matrices.
+</p>
+
+<blockquote>
+<p>
+<b>Important.</b> This is often confusing at first because we get used to
+thinking of column vectors as a special kind of matrix, and because 1D
+numpy arrays are displayed horizontally (as a row) instead of
+vertically (as a column). This is something we have to come to terms
+with.
+</p>
+</blockquote>
+</div>
+
+<div id="outline-container-org6868a48" class="outline-3">
+<h3 id="org6868a48">Shape</h3>
+<div class="outline-text-3" id="text-org6868a48">
+<p>
+NumPy arrays have a property called <code>shape</code> which tells us the number
+of entries of an array, in the case of a 1D arrays, and the number of
+rows and columns (presented as a tuple) in the case of 2D arrays.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a0522d;">a</span> = np.array([1, 2, 3, 4, 5, 6])
+<span style="color: #a0522d;">b</span> = np.array([[1, 2], [3, 4], [5, 6]])
+
+<span style="color: #a020f0;">assert</span>(a.shape == (6,))
+<span style="color: #a020f0;">assert</span>(b.shape == (3, 2))
+</pre>
+</div>
+
+<p>
+So if we want to represent an <code>m x n</code> matrix, then we need to
+construct a 2D numpy array with the shame <code>(m, n)</code>. Note that the
+shape of a 1D array is a 1-element tuple, so if we interpret
+<code>a.shape[0]</code> to be the number of its rows, as is the case for 2D
+arrays, then really a 1D array represents a <i>column</i>.
+</p>
+
+<p>
+I find it useful to keep around functions for the number of rows and
+columns of NumPy arrays; it can help quite a bit with readability.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a020f0;">import</span> numpy <span style="color: #a020f0;">as</span> np
+
+<span style="color: #a0522d;">a</span> = np.array([[1, 2], [3, 4], [5, 6]])
+<span style="color: #a0522d;">num_of_rows</span> = <span style="color: #a020f0;">lambda</span> a: a.shape[0]
+<span style="color: #a0522d;">num_of_cols</span> = <span style="color: #a020f0;">lambda</span> a: a.shape[1]
+
+<span style="color: #a020f0;">assert</span>(num_of_rows(a) == 3)
+<span style="color: #a020f0;">assert</span>(num_of_cols(a) == 2)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6d07dac" class="outline-3">
+<h3 id="org6d07dac">Operations</h3>
+<div class="outline-text-3" id="text-org6d07dac">
+<p>
+Many of the operations on vectors and matrices that we discuss in this
+course are built into the NumPy library. For example, addition and
+scaling for vectors and matrices are done via the usual binary
+operators.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a020f0;">import</span> numpy <span style="color: #a020f0;">as</span> np
+
+<span style="color: #a0522d;">a</span> = np.array([[1, 2], [3, 4], [5, 6]])
+<span style="color: #a0522d;">b</span> = np.array([[1, 1], [1, 1], [1, 1]])
+
+<span style="color: #a020f0;">assert</span>(np.array_equal(a + b, np.array([[2, 3], [4, 5], [6, 7]])))
+<span style="color: #a020f0;">assert</span>(np.array_equal(2 * b, np.array([[2, 2], [2, 2], [2, 2]])))
+</pre>
+</div>
+
+<p>
+In particular, these operations are different than addition and
+multiplication of Python lists.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a0522d;">a</span> = [[1, 2], [3, 4], [5, 6]]
+<span style="color: #a0522d;">b</span> = [[1, 1], [1, 1], [1, 1]]
+
+<span style="color: #a020f0;">assert</span>(a + b == [[1, 2], [3, 4], [5, 6], [1, 1], [1, 1], [1, 1]])
+<span style="color: #a020f0;">assert</span>(2 * b == [[1, 1], [1, 1], [1, 1], [1, 1], [1, 1], [1, 1]])
+</pre>
+</div>
+
+<p>
+<i>An Aside.</i> Note the use of <code>np.array_equal</code> above for comparing two
+arrays for equality. This should be used cautiously; we often are not
+interested if two arrays are equal, but if they are sufficently close
+to each other. For this we can use <code>np.allclose</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a020f0;">import</span> numpy <span style="color: #a020f0;">as</span> np
+
+<span style="color: #a0522d;">x</span> = 0.3
+<span style="color: #a0522d;">y</span> = 0.1 + 0.1 + 0.1
+<span style="color: #a0522d;">a</span> = np.array([x, x, x])
+<span style="color: #a0522d;">b</span> = np.array([y, y, y])
+
+<span style="color: #a020f0;">assert</span>(<span style="color: #a020f0;">not</span> np.array_equal(a, b))
+<span style="color: #a020f0;">assert</span>(np.allclose(a, b))
+</pre>
+</div>
+
+<p>
+Another important thing to note here is the <code>*</code> operator does <b>not</b>
+implement matrix multiplication as we have discussed it. Rather, it
+implements entry-wise multiplication, similar to addition. Standard
+matrix multiplication is done via operator <code>@</code>. And when applied to 1D
+arrays, it is the standard dot product.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a020f0;">import</span> numpy <span style="color: #a020f0;">as</span> np
+
+<span style="color: #a0522d;">a</span> = np.array([[1, 2], [3, 4]])
+<span style="color: #a0522d;">b</span> = np.array([1, 1, 1, 1])
+
+<span style="color: #a020f0;">assert</span>(np.array_equal(a * a, np.array([[1, 4], [9, 16]])))
+<span style="color: #a020f0;">assert</span>(np.array_equal(a @ a, np.array([[7, 10], [15, 22]])))
+<span style="color: #a020f0;">assert</span>(b @ b == 4)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org556045f" class="outline-3">
+<h3 id="org556045f">Indexing</h3>
+<div class="outline-text-3" id="text-org556045f">
+<p>
+The simplest and most common operation on NumPy arrays is accessing
+their elements. We can index them in the same way we index Python
+lists. In particular, we access entries in a 1D array in exactly the
+same way we would Python lists, but there are a couple special
+indexing tricks for 2D arrays that we will use frequently.
+</p>
+<ul class="org-ul">
+<li><p>
+We can access an individual row of a 2D array by indexing it as we
+normally would if it were a 2D Python list. The caveat is that a row
+is represented as a 1D array, which we have already noted represents
+a <i>column</i>. This is a feature, not a bug, because we often want to
+use a row as a column vector in later calculations.
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a020f0;">import</span> numpy <span style="color: #a020f0;">as</span> np
+
+<span style="color: #a0522d;">a</span> = np.array([[1, 2], [3, 4]])
+<span style="color: #a0522d;">r1</span> = a[0] <span style="color: #b22222;"># </span><span style="color: #b22222;">note the zero-indexing!</span>
+<span style="color: #a020f0;">assert</span>(np.array_equal(r1, np.array([1, 2])))
+</pre>
+</div></li>
+
+<li><p>
+We can index with tuples to access individual entries, as opposed to
+double indexing (though both work).
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a020f0;">import</span> numpy <span style="color: #a020f0;">as</span> np
+
+<span style="color: #a0522d;">a</span> = np.array([[1, 2], [3, 4]])
+
+<span style="color: #a020f0;">assert</span>(a[1, 1] == 4)
+<span style="color: #a020f0;">assert</span>(a[1][1] == 4)
+</pre>
+</div></li>
+
+<li><p>
+We can access columns using <i>slicing</i>, a commonly used tool for
+Python lists. The trick is that we can include a slice <i>in a tuple</i>
+that we use for indexing. So to get a column, we use the slide <code>:</code>
+as the first entry of the tuple we use for indexing. This says that we
+want the first entry of the tuple to range over all possible elements.
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a020f0;">import</span> numpy <span style="color: #a020f0;">as</span> np
+
+<span style="color: #a0522d;">a</span> = np.array([[1, 2], [3, 4]])
+
+<span style="color: #a020f0;">assert</span>(np.array_equal(a[:,0], np.array([1, 3])))
+</pre>
+</div></li>
+
+<li><p>
+We can access multiple columns or multiple rows at a time either by
+indexing on <i>lists</i> or by slicing as above. The first is useful if
+we want to rearrange rows or columns. The second is useful if we
+want to grab a chunk of an array.
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a020f0;">import</span> numpy <span style="color: #a020f0;">as</span> np
+
+<span style="color: #a0522d;">a</span> = np.array([[1, 2, 3], [4, 5, 6]])
+<span style="color: #a0522d;">b</span> = np.array([[4, 5, 6], [1, 2, 3]])
+<span style="color: #a0522d;">c</span> = np.array([[4, 5], [1, 2]])
+
+a[[0, 1]] = a[[1, 0]] <span style="color: #b22222;"># </span><span style="color: #b22222;">row swap</span>
+
+<span style="color: #a020f0;">assert</span>(np.array_equal(a, b))
+<span style="color: #a020f0;">assert</span>(np.array_equal(b[:,:-1], c))
+</pre>
+</div>
+
+<p>
+In the second example, we're indexing b at a tuple of slices which
+says "all possible first values and all but the last possible
+second value." This will give you all of the <i>columns</i> except the
+last one.
+</p></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org4077b67" class="outline-3">
+<h3 id="org4077b67">Stacking</h3>
+<div class="outline-text-3" id="text-org4077b67">
+<p>
+A technique we have used several times, but which has been hidden from
+you behind helper functions, is stacking. We commonly need to add a row
+or a column to a matrix or combine to matrices into a single
+matrix. We can do this via <code>np.hstack</code> and <code>np.vstack</code>, which take
+tuples of arrays and stacks them either <i>horizontally</i> or <i>vertically</i>
+(per the name of the function). One important thing to keep in mind,
+and which will be a challenge in becoming comfortable with these
+functions, is that they must be applied to arrays of the same
+dimension, and the sides along which we are stacking must coincide. In
+particular, we cannot stack a 1D array on a 2D array, but we <i>can</i>
+make a 1D array into a 2D array and then stack it. Here is an example
+in which we horizontally stack a vector to the right of a matrix,
+something we often do if we want to create an augmented matrix out of
+a matrix equation.
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a020f0;">import</span> numpy <span style="color: #a020f0;">as</span> np
+
+<span style="color: #a0522d;">a</span> = np.array([[1, 2], [3, 4]])
+<span style="color: #a0522d;">b</span> = np.array([5, 6])
+<span style="color: #a0522d;">c</span> = np.array([[1, 2, 5], [3, 4, 6]])
+
+b.<span style="color: #a0522d;">shape</span> = (2, 1) <span style="color: #b22222;"># </span><span style="color: #b22222;">we can change the shape to make it 2D</span>
+
+<span style="color: #a020f0;">assert</span>(np.array_equal(np.hstack((a, b)), c))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc5e256b" class="outline-3">
+<h3 id="orgc5e256b">Closing Remarks on Arrays</h3>
+<div class="outline-text-3" id="text-orgc5e256b">
+<ul class="org-ul">
+<li><p>
+NumPy arrays are not copied on reassignment. This is something we
+just have to remember. If we want a copy of an array, we can use the
+function <code>np.copy</code>. There are other more efficient ways to manage
+array copying, but this will be sufficient for now.
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a020f0;">import</span> numpy <span style="color: #a020f0;">as</span> np
+
+<span style="color: #a0522d;">a</span> = np.array([1, 2, 3, 4, 5])
+<span style="color: #a0522d;">b</span> = a
+<span style="color: #a0522d;">c</span> = np.copy(a)
+
+<span style="color: #a0522d;">a</span>[0] = -1
+
+<span style="color: #a020f0;">assert</span>(b[0] == -1)
+<span style="color: #a020f0;">assert</span>(c[0] == 1)
+</pre>
+</div></li>
+
+<li>NumPy arrays require that all of their entries are the same
+type. When you construct a NumPy array, it will perform conversions
+in order to make this the case. We've seen this in passing when
+we've set one of the entries of a matrix to a <code>float</code> so that every
+entry is converted to a float. We can use the property <code>dtype</code> to
+determine the type of entries in an array. Except in a few
+outstanding circumstances, we will be using arrays with floating
+point entries.</li>
+<li>NumPy array can be iterated over just like Python lists. If we want
+to iterate over the rows of a matrix, we just have to iterative over
+the elements of the array (a matrix is represented as an array of
+its rows). If we want to iterative over its columns we can iterative
+over the rows of its transpose (see below).</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org4573224" class="outline-2">
+<h2 id="org4573224">Cheat Sheet</h2>
+<div class="outline-text-2" id="text-org4573224">
+<p>
+There many useful functions in NumPy that cannot be put into a single
+short tutorial. As we close this out, here is a list of functions that
+may be worth frequently referring to. It's not exhaustive, but
+hopefully is a starting point. Eventually, you will have to <a href="https://numpy.org/doc/stable/reference/index.html">read the
+docs</a> yourself to learn more.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Function/Property</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>np.array(l)</code></td>
+<td class="org-left">NumPy array constructor</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>a.ndim</code></td>
+<td class="org-left">property for dimension of an array</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>a.shape</code></td>
+<td class="org-left">property for rows and column of an array</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>a.dtype</code></td>
+<td class="org-left">property for type of entries of an array</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>np.copy(a)</code></td>
+<td class="org-left">array copying</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>a + b</code></td>
+<td class="org-left">matrix/vector addition</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>a * b</code></td>
+<td class="org-left">matrix/vector scaling and entry-wise multiplication</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>a @ b</code></td>
+<td class="org-left">matrix/vector multiplication and dot product</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>a.T</code></td>
+<td class="org-left">transpose</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>np.array_equals(a, b)</code></td>
+<td class="org-left">array equality (use cautiously)</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>np.allclose(a, b)</code></td>
+<td class="org-left">array equality up to default tolerance</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>a[i]</code></td>
+<td class="org-left">row indexing</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>a[:,j]</code></td>
+<td class="org-left">column indexing</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>a[i, j]</code></td>
+<td class="org-left">entry indexing</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>a[[i1, i2, i3]]</code></td>
+<td class="org-left">multi-row indexing</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>a[:,slice]</code></td>
+<td class="org-left">column sequence indexing</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>np.hstack((a, b, c))</code></td>
+<td class="org-left">horizontal matrix stacking</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>np.vstack((a, b, c))</code></td>
+<td class="org-left">vertical matrix stacking</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>np.zeros(shape)</code></td>
+<td class="org-left">zero array</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>np.ones(shape)</code></td>
+<td class="org-left">all ones array</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>np.eye(n)</code></td>
+<td class="org-left"><code>n x n</code> identity matrix</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>np.linalg.solve(a, b)</code></td>
+<td class="org-left">solve a square system with a unique solution</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>np.linalg.inv(a)</code></td>
+<td class="org-left">matrix inverse</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</body>
+</html>

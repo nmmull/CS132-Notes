@@ -24,6 +24,7 @@ linear algebra).
 + [[file:Matrices-Row-Ops/notes.org][Matrices and Row Operations]]
 + [[file:Echelon-Forms/notes.org][Echelon Forms]]
 + [[file:Gaussian-Elimination/notes.org][Gaussian Elimination]]
++ [[file:NumPy/notes.org][(Supplementary) NumPy Tutorial]]
 
 * Vectors
 + Vector Equations

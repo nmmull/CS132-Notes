@@ -3,21 +3,12 @@
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="myStyle.css" />
 #+OPTIONS: html-style:nil H:1 toc:nil num:nil
 #+HTML_LINK_HOME: https://nmmull.github.io
-This is a (very early draft) set of notes for /CAS CS 132: Geometric
-Algorithms/ at Boston University.  Admittedly, I was unsure if I
-wanted to take on this project (in a sense, I still am).  I'm not
-convinced there's a need for another collection of notes on linear
-algebra.  But it turns out I can't help myself.  I am of the opinion
-that any good course needs to be personal, so these are my personal
-notes, which follow my way of thinking about and organizing the
-material.  It's also my excuse to play around with building
-visualizations (all of which are pretty much hand-spun using [[https://elm-lang.org][Elm]]).
-
-These notes are based heavily on [[http://mcrovella.github.io/CS132-Geometric-Algorithms/landing-page.html][Linear Algebra, Geometry, and
-Computation]] by Mark Crovella, which are in turn based heavily on
-/Linear Algebra and Its Applications/ by David C. Lay, Judy
-J. McDonald, and Steven R. Lay (a mainstay in undergraduate texts on
-linear algebra).
+The following is a supplementary set of notes for /CAS CS 132:
+Geometric Algorithms/ at Boston University.  These notes are based
+heavily on [[http://mcrovella.github.io/CS132-Geometric-Algorithms/landing-page.html][Linear Algebra, Geometry, and Computation]] by Mark Crovella,
+which are in turn based heavily on /Linear Algebra and Its
+Applications/ by David C. Lay, Judy J. McDonald, and Steven R. Lay (a
+mainstay in undergraduate texts on linear algebra).
 
 * Solving Linear Systems
 + [[file:Linear-Equations/notes.org][Linear Equations]]
@@ -26,34 +17,34 @@ linear algebra).
 + [[file:Gaussian-Elimination/notes.org][Gaussian Elimination]]
 + [[file:NumPy/notes.org][(Supplementary) NumPy Tutorial]]
 
-* Vectors
-+ Vector Equations
-+ Matrix-Vector Equations
-+ Linear Independence
+# * Vectors
+# + Vector Equations
+# + Matrix-Vector Equations
+# + Linear Independence
 
-* Linearity
-+ Linear Transformations
-+ Matrices of Linear Transformations
+# * Linearity
+# + Linear Transformations
+# + Matrices of Linear Transformations
 
-* More on Matrices
-+ Matrix Algebra
-+ Matrix Inverses
-+ Invertible Matrix Theorem
+# * More on Matrices
+# + Matrix Algebra
+# + Matrix Inverses
+# + Invertible Matrix Theorem
 
-* Applications
-+ Algebraic Graph Theory
-+ Markov Chains
-+ LU Decomposition
+# * Applications
+# + Algebraic Graph Theory
+# + Markov Chains
+# + LU Decomposition
 
-* Vector Spaces
-+ Subspaces
-+ Dimension and Rank
+# * Vector Spaces
+# + Subspaces
+# + Dimension and Rank
 
-* Eigenvalues
-+ Eigenvalues and Eigenvectors
-+ The Characteristic Equation
-+ Diagonalization
+# * Eigenvalues
+# + Eigenvalues and Eigenvectors
+# + The Characteristic Equation
+# + Diagonalization
 
-* Analytic Geometry
-+ Orthogonality
-+ Least Squares
+# * Analytic Geometry
+# + Orthogonality
+# + Least Squares

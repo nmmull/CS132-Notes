@@ -125,12 +125,12 @@ ol{
     overflow: auto;
 }
 
-#org-div-home-and-up {
-    position: absolute;
-    font-size: 2em;
-    left: 0.6em;
-    top:1.6em;
-}
+/* #org-div-home-and-up { */
+/*     position: absolute; */
+/*     font-size: 2em; */
+/*     left: 0.6em; */
+/*     top:1.6em; */
+/* } */
 
 #org-div-home-and-up a {
     text-decoration: none;

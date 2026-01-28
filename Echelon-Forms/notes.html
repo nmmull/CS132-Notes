@@ -3,11 +3,11 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-09-05 Thu 10:56 -->
+<!-- 2026-01-28 Wed 17:10 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Echelon Forms</title>
-<meta name="author" content="Nathan  Mull" />
+<meta name="author" content="Nathan" />
 <meta name="generator" content="Org Mode" />
 <link rel="stylesheet" type="text/css" href="../myStyle.css" />
 <script>
@@ -44,16 +44,16 @@
 </script>
 </head>
 <body>
-<div id="org-div-home-and-up"><a href="../toc.html">↩</a></div><div id="content" class="content">
+<div id="org-div-home-and-up">[<a href="../toc.html">back</a>]</div><div id="content" class="content">
 <h1 class="title">Echelon Forms</h1>
 <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org04f3ca4">Recap: Linear Systems with Unique Solutions</a></li>
-<li><a href="#orgce02c93">Echelon Form</a></li>
-<li><a href="#orgfe6185c">Row-Reduced Echelon Form</a></li>
-<li><a href="#orge3dcedd">General form solutions</a></li>
+<li><a href="#org5a2a56d">Recap: Linear Systems with Unique Solutions</a></li>
+<li><a href="#org7aaaa92">Echelon Form</a></li>
+<li><a href="#orga498316">Row-Reduced Echelon Form</a></li>
+<li><a href="#org8484320">General form solutions</a></li>
 </ul>
 </div>
 </div>
@@ -80,10 +80,9 @@ general, we'll take one more scheduled detour to look at "solving"
 this particularly simple class of linear systems, i.e., those with
 RREF augmented matrices.<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>
 </p>
-
-<div id="outline-container-org04f3ca4" class="outline-2">
-<h2 id="org04f3ca4">Recap: Linear Systems with Unique Solutions</h2>
-<div class="outline-text-2" id="text-org04f3ca4">
+<div id="outline-container-org5a2a56d" class="outline-2">
+<h2 id="org5a2a56d">Recap: Linear Systems with Unique Solutions</h2>
+<div class="outline-text-2" id="text-org5a2a56d">
 <p>
 We've already seen what the "final matrix" look like when we're trying
 to solve a linear system in \(n\) variables with unique solution. It's
@@ -135,10 +134,9 @@ possible</i> solutions?</li>
 </ul>
 </div>
 </div>
-
-<div id="outline-container-orgce02c93" class="outline-2">
-<h2 id="orgce02c93">Echelon Form</h2>
-<div class="outline-text-2" id="text-orgce02c93">
+<div id="outline-container-org7aaaa92" class="outline-2">
+<h2 id="org7aaaa92">Echelon Form</h2>
+<div class="outline-text-2" id="text-org7aaaa92">
 <p>
 We'll actually introduce two kinds of matrices, echelon form matrices
 and row-reduced echelon form (RREF) matrices (the reason will
@@ -351,10 +349,9 @@ here!<sup><a id="fnr.7" class="footref" href="#fn.7" role="doc-backlink">7</a></
 </p>
 </div>
 </div>
-
-<div id="outline-container-orgfe6185c" class="outline-2">
-<h2 id="orgfe6185c">Row-Reduced Echelon Form</h2>
-<div class="outline-text-2" id="text-orgfe6185c">
+<div id="outline-container-orga498316" class="outline-2">
+<h2 id="orga498316">Row-Reduced Echelon Form</h2>
+<div class="outline-text-2" id="text-orga498316">
 <p>
 Our next goal is to further restrict the notion of echelon form to a
 form for which it is easy to "read off" solutions.  This time, we
@@ -578,20 +575,6 @@ pprint(A.rref()[0])
 </pre>
 </div>
 
-<pre class="example" id="orgfd43aac">
-⎛⎡1  0  0  5/7 ⎤           ⎞
-⎜⎢             ⎥           ⎟
-⎜⎢0  1  0  3/7 ⎥, (0, 1, 2)⎟
-⎜⎢             ⎥           ⎟
-⎝⎣0  0  1  -1/7⎦           ⎠
-
-⎡1  0  0  5/7 ⎤
-⎢             ⎥
-⎢0  1  0  3/7 ⎥
-⎢             ⎥
-⎣0  0  1  -1/7⎦
-</pre>
-
 <p>
 The second argument argument holds the indices of the pivot columns of
 the matrix.  We won't use these for now, but they may be useful to
@@ -600,10 +583,9 @@ to <b>grab the first element</b> as in <code>a.rref()[0]</code>.
 </p>
 </div>
 </div>
-
-<div id="outline-container-orge3dcedd" class="outline-2">
-<h2 id="orge3dcedd">General form solutions</h2>
-<div class="outline-text-2" id="text-orge3dcedd">
+<div id="outline-container-org8484320" class="outline-2">
+<h2 id="org8484320">General form solutions</h2>
+<div class="outline-text-2" id="text-org8484320">
 <p>
 Taking stock, solving a general system of linear equations will follow this outline:
 </p>
@@ -739,7 +721,7 @@ as an equation of the free variables.</li>
 We write this as the system:
 </p>
 \begin{align*}
-x_1 - x_3 - 2x_4 &= -0.5 \\
+x_1 + x_2 - x_3 - 2x_4 &= -0.5 \\
 x_2 + 2x_3 + 3x_4 &= 1 \\
 x_5 &= 0.5 \\
 0 &= 0

@@ -532,7 +532,7 @@ concepts).
 
 1. We write this as the system:
    \begin{align*}
-   x_1 - x_3 - 2x_4 &= -0.5 \\
+   x_1 + x_2 - x_3 - 2x_4 &= -0.5 \\
    x_2 + 2x_3 + 3x_4 &= 1 \\
    x_5 &= 0.5 \\
    0 &= 0
